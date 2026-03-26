@@ -19,8 +19,10 @@ Mouvement :
     
 Communication :
   electronique :
-    - implementer une connection SPI ou le pi est maitre et pico executant.                 (obj: controle de la position) 
-  code :
-    - ecrire une api sur le pico utilisable par le pi. 
+    - implementer une connection SPI ou le pi est maitre et pico executant.                 (obj: controle de la position)
+    - (optionnel) connection SPI ou le pico qui gere les lumieres est aussi controller par le pi. (obj : controle lumiere)
+  code : 
+    - transmettres data a un ordinateur en wifi                                             (obj: delivrer photo)
+    
     
 - prendre une photo avec raspberry pi 
