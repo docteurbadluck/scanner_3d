@@ -6,7 +6,7 @@ differentes taches :
 
 Mouvement :
   electronique :
-    - faire tourner un moteur pas a pas avec un raspberry pico,                              (obj : tourner l'object central)
+    - faire tourner un moteur pas a pas avec un raspberry pico,                             (obj : tourner l'object central)
     - faire tourner un moteur dc avec un raspberry pico avec un system de boutons stopper.  (obj : change la position de la camera)
     - faire tourner un servo moteur avec un raspbery pico.                                  (obj : change l'orientation de la camera)
     remarque : les moteurs n'ont pas a fonctionner en parrallele.
@@ -20,7 +20,7 @@ Mouvement :
 Communication :
   electronique :
     - implementer une connection SPI ou le pi est maitre et pico executant.                 (obj : controle de la position)
-    - connection SPI ou le pico qui gere les lumieres est aussi controller par le pi.       (obj : controle lumiere (optionnell)
+    - connection SPI ou le pico qui gere les lumieres est aussi controller par le pi.       (obj : controle lumiere (optionnel)
    code : 
     - transmettres data a un ordinateur en wifi                                             (obj : delivrer photo)
     - retransmission de l'object 3d sur un server.                                          (obj : delivrer 3d)
@@ -49,3 +49,7 @@ list materielle :
 - rasbperry pi 3b 
 - alimentation 24 volt,
 - limiteur LM2596 dc-dc
+
+j'ai besoin d'un code pour le pico, un code pour le pi, un code pour l'ordinateur. tout vas etre ecrit en c++. 
+
+le pico controle les moteur, le pi controle les prises de photo et command le pico, l'ordinateur produit les images 3d et les places sur un server. 
