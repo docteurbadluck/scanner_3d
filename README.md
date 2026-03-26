@@ -11,6 +11,16 @@ Mouvement :
     - faire tourner un servo moteur avec un raspbery pico.                                  (obj : change l'orientation de la camera)
     remarque : les moteurs n'ont pas a fonctionner en parrallele.
   mecanique :
-    - modeliser bras qui tiens la camera et le servo moteur.
-
+    - modeliser bras qui tiens la camera et le servo moteur.                                (obj : change la position et orientation de la camera)
+    - modeliser le support pour le bras et les boutons stoppeur.                            (obj : change la position)
+    - modeliser le support de l'objet.                                                      (obj : tourner l'object central)
+  code : 
+    - écrire une api sur le pico utilisable par le pi (en spi)
+    
+Communication :
+  electronique :
+    - implementer une connection SPI ou le pi est maitre et pico executant.                 (obj: controle de la position) 
+  code :
+    - ecrire une api sur le pico utilisable par le pi. 
+    
 - prendre une photo avec raspberry pi 
