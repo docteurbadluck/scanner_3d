@@ -25,9 +25,14 @@ Communication :
     - transmettres data a un ordinateur en wifi                                             (obj : delivrer photo)
     - retransmission de l'object 3d sur un server.                                          (obj : delivrer 3d)
     - nettoyage des datas. en cas de succees.                                               (obj : delivrer 3d)
+    
 Data : 
   electronique : 
     - prendre les photos depuis le raspberry pi                                            (obj : prise de donnée)
   code : 
     - utiliser un logiciel de reconstitution 3d.                                           (obj : produire 3d)
-    
+
+Productivité : 
+  - trouver pour chaque objectif des valeurs refletant la qualité de l'objectif atteint. exemple : prise de donné : temps necessaire, qualité de l'image 
+  - implementer une note sur les quatres facteurs de accelerate : lead time, nombre de deploiement  time to recover, TX d'echec (total deploiement / breaking one )
+  - 
