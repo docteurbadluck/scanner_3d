@@ -6,7 +6,7 @@ differentes taches :
 
 Mouvement :
   electronique :
-    - faire tourner un servo pas a pas avec un raspberry pico,                              (obj : tourner l'object central)
+    - faire tourner un moteur pas a pas avec un raspberry pico,                              (obj : tourner l'object central)
     - faire tourner un moteur dc avec un raspberry pico avec un system de boutons stopper.  (obj : change la position de la camera)
     - faire tourner un servo moteur avec un raspbery pico.                                  (obj : change l'orientation de la camera)
     remarque : les moteurs n'ont pas a fonctionner en parrallele.
@@ -34,5 +34,18 @@ Data :
 
 Productivité : 
   - trouver pour chaque objectif des valeurs refletant la qualité de l'objectif atteint. exemple : prise de donné : temps necessaire, qualité de l'image 
-  - implementer une note sur les quatres facteurs de accelerate : lead time, nombre de deploiement  time to recover, TX d'echec (total deploiement / breaking one )
-  - 
+  - implementer une note sur les quatres facteurs de accelerate : lead time, nombre de deploiement  time to recover, TX d'echec (total deploiement / breaking one)
+  - utiliser une architecture logiciel en quatre couche (architecture decouplée) 
+  - imposer une couverture de test d'au moins 80 % pour les units tests. écrire integration test, et  end to end test. (test automatisée) 
+  - ecrire une CI et CD. (intégration et déploiement continus)
+  - monitoring
+
+list materielle :
+- moteur dc JGB37 24v 45 rpm.
+- servo motor  MG995
+- stepper motor nema 23 + dm556 20-50 v
+- camera OV5647
+- raspberry pico
+- rasbperry pi 3b 
+- alimentation 24 volt,
+- limiteur LM2596 dc-dc 
