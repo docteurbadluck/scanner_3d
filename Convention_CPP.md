@@ -34,6 +34,7 @@ These conventions are inspired by **Clean Code** and **Clean Architecture** (Rob
 - Limit the number of public methods; hide implementation details.
 - Constructors should leave the object in a valid, ready-to-use state.
 - Avoid default constructors when meaningful initialisation is required.
+- public method should be extremely clear and abstract.
 
 ---
 
@@ -102,26 +103,6 @@ public:
 
 ### 7.1 Single Level of Abstraction in Entry-Point Functions
 
-C++ Coding Conventions (Short Version)
-1. Naming
-Classes: PascalCase
-Interfaces: IInterfaceName
-Functions: camelCase
-Members: m_variable
-Constants: UPPER_SNAKE_CASE
-Files: snake_case
-Private/internal functions: _likeThis()
-2. Class Design
-1 classe = 1 responsabilité
-Préférer composition > héritage
-Constructeur → objet immédiatement valide
-API publique claire, explicite, intentionnelle
-3. Public API (important)
-Les méthodes publiques doivent être :
-très abstraites
-lisibles comme une intention
-sans logique bas niveau
-
 Exemple :
 
 void execute()
@@ -130,54 +111,13 @@ void execute()
     evaluateLightingConditions();
     applyLightDecision();
 }
-4. Private / Internal
-Toutes les fonctions internes :
-préfixées _
-1 responsabilité
-utilisées pour cacher la complexité
-void _updateMotion();
-bool _isMotionRecent();
-void _applyLightDecision();
-5. Architecture
-Domain / Use case → dépend uniquement d’interfaces
-Hardware → implémentation concrète séparée
-Injection via constructeur
-6. Testabilité
-Aucun appel hardware direct dans domain/use case
-Interfaces mockables
-logique = pur C++
-7. Functions
-1 fonction = 1 rôle
-max ~15 lignes
-const si possible
-[[nodiscard]] si critique
-8. File Structure
-ClassName/
-    ClassName.hpp
-    ClassName.cpp
 
-    execute.cpp
-    turnOn.cpp
-    turnOff.cpp
-
-    accessors/
-        getters.cpp
-        setters.cpp
-
-    internal/
-        _helper1.cpp
-        _helper2.cpp
-9. File Rules
-~100 lignes max par fichier (très bonne limite)
-
-150 → découper
-
-1 fichier = 1 niveau d’abstraction
-10. Formatting
+## 8. Formatting
 Tabs (4 spaces)
 max 100 chars / ligne
 toujours {}
-11. Key Principle
+
+## 9. Key Principle
 
 👉 Lire une méthode publique = comprendre le comportement sans lire les détails
 
