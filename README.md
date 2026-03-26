@@ -51,5 +51,5 @@ list materielle :
 - limiteur LM2596 dc-dc
 
 j'ai besoin d'un code pour le pico, un code pour le pi, un code pour l'ordinateur. tout vas etre ecrit en c++. 
-
+l'utilisation de bibliotheque pour simplifier le code est aussi de mise. 
 le pico controle les moteur, le pi controle les prises de photo et command le pico, l'ordinateur produit les images 3d et les places sur un server. 
