@@ -10,6 +10,7 @@ These conventions are inspired by **Clean Code** and **Clean Architecture** (Rob
 |---------|-----------|---------|
 | Files | `snake_case` | `motion_sensor.hpp` |
 | Classes / Structs | `PascalCase` | `MotionSensor` |
+| usecase|  `PascalCase` + '_UC' | `TurnOnLight_UC` 
 | Interfaces (pure abstract) | `I` prefix + `PascalCase` | `IMotionSensor` |
 | Functions | `snake_case` | `orchestration_of_the_element()` |
 | Methods  | `camelCase` | `isMotionDetected()` |
@@ -17,12 +18,12 @@ These conventions are inspired by **Clean Code** and **Clean Architecture** (Rob
 | Member variables | `_` prefix + `camelCase` | `_lastTriggerTime` |
 | Constants / `constexpr` | `UPPER_SNAKE_CASE` | `DEBOUNCE_DELAY_MS` |
 | Namespaces | `snake_case` | `domain`, `use_cases` |
-| Template parameters | Single uppercase letter or `PascalCase` | `T`, `SensorType` |
 
 **Rules:**
 - Names must be **self-explanatory** – avoid abbreviations (`motionDetected`, not `md`).
 - Boolean names should read as a question: `isOn()`, `hasExpired()`, `isNightTime()`.
 - Avoid generic names like `data`, `value`, `temp` unless the scope is trivially small.
+- Avoid comment as much as possible. Clean code does not need it.
 
 ---
 
