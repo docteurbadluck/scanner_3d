@@ -9,6 +9,6 @@ Mouvement :
     - faire tourner un servo pas a pas avec un raspberry pico,
     - faire tourner un moteur dc avec un raspberry pico avec un system de boutons stopper.
     - faire tourner un servo moteur avec un raspbery pico.
-    remarque, les moteurs n'ont pas a fonctionner en parrallele.
+    remarque : les moteurs n'ont pas a fonctionner en parrallele.
 
 - prendre une photo avec raspberry pi 
