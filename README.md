@@ -19,10 +19,15 @@ Mouvement :
     
 Communication :
   electronique :
-    - implementer une connection SPI ou le pi est maitre et pico executant.                 (obj: controle de la position)
-    - (optionnel) connection SPI ou le pico qui gere les lumieres est aussi controller par le pi. (obj : controle lumiere)
+    - implementer une connection SPI ou le pi est maitre et pico executant.                 (obj : controle de la position)
+    - connection SPI ou le pico qui gere les lumieres est aussi controller par le pi.       (obj : controle lumiere (optionnell)
+   code : 
+    - transmettres data a un ordinateur en wifi                                             (obj : delivrer photo)
+    - retransmission de l'object 3d sur un server.                                          (obj : delivrer 3d)
+    - nettoyage des datas. en cas de succees.                                               (obj : delivrer 3d)
+Data : 
+  electronique : 
+    - prendre les photos depuis le raspberry pi                                            (obj : prise de donnée)
   code : 
-    - transmettres data a un ordinateur en wifi                                             (obj: delivrer photo)
+    - utiliser un logiciel de reconstitution 3d.                                           (obj : produire 3d)
     
-    
-- prendre une photo avec raspberry pi 
