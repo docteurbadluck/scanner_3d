@@ -30,7 +30,7 @@ Data :
   electronique : 
     - prendre les photos depuis le raspberry pi                                            (obj : prise de donnée)
   code : 
-    - utiliser un logiciel de reconstitution 3d.                                           (obj : produire 3d)
+    - utiliser du logiciel Meshroom pour reconstitution 3d.                                 (obj : produire 3d)
 
 Productivité : 
   - trouver pour chaque objectif des valeurs refletant la qualité de l'objectif atteint. exemple : prise de donné : temps necessaire, qualité de l'image 
@@ -48,4 +48,4 @@ list materielle :
 - raspberry pico
 - rasbperry pi 3b 
 - alimentation 24 volt,
-- limiteur LM2596 dc-dc 
+- limiteur LM2596 dc-dc
