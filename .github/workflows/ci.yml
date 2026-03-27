@@ -24,11 +24,10 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y g++ make
 
       - name: build the webserv
-        run: make -C computer/webserver/webserv
+        run: make server-background
       
-      - name: run webserv background
+      - name: wait for server
         run: |
-          ./computer/webserver/webserv/run.sh &
           for i in $(seq 1 10); do
             nc -z localhost 8080 && exit 0
             sleep 1
@@ -36,7 +35,7 @@ jobs:
           echo "Server failed to start" && exit 1
 
       - name: test webserver 
-        run: make -C computer/webserver/testeur_webserver && ./computer/webserver/testeur_webserver/testeur_webserver
+        run: make server-test
 
       # ── Collect Accelerate metrics ─────────────────────────────────────
 
