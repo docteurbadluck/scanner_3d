@@ -41,7 +41,7 @@ Metrics :
 	Processing time
 
 
-connection : reuse webserver from 42 implement webSocket (text, ping and pong)
+connection : use a python webserver
 		the websocket connection is used for get metrics and send order,
 		http protocol for upload
 

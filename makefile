@@ -1,13 +1,11 @@
 server:
-		make -C ./computer/webserver/webserv && ./computer/webserver/webserv/run.sh
+	cd computer/webserver/www && python3 -m http.server 8080
 
 server-background:
-		make -C ./computer/webserver/webserv && ./computer/webserver/webserv/run.sh &
-
-server-test:
-		make -C ./computer/webserver/testeur_webserver && ./computer/webserver/testeur_webserver/testeur_webserver
+	cd computer/webserver/www && python3 -m http.server 8080 &
 
 server-kill:
-	@pkill -f "webserv" || true
+	# Trouve le PID du serveur Python et le tue
+	kill $(shell pgrep -f 'python3 -m http.server 8080')
 
 .PHONY: server server-background server-test server-kill
