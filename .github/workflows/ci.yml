@@ -9,6 +9,9 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
 
     steps:
       - name: Checkout
@@ -22,6 +25,8 @@ jobs:
 
       - name: Install dependencies
         run: sudo apt-get update -qq && sudo apt-get install -y g++ make
+
+      # ── server ─────────────────────────────────────
 
       - name: run server
         run: make server-background
