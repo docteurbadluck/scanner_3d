@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrics</title>
+  <style>
+    html, body { height: 100%; margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif; }
+    body { display: grid; place-items: center; background: #0f172a; color: #e2e8f0; }
+    .card {
+      padding: 2.5rem 3rem;
+      border-radius: 1.25rem;
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      text-align: center;
+      min-width: 340px;
+    }
+    h1 { margin: 0 0 0.5rem; font-size: 2.25rem; line-height: 1.1; }
+    nav { margin-bottom: 1.5rem; }
+    nav a { color: #ffd700; text-decoration: none; margin: 0 0.5rem; font-size: 0.85rem; opacity: 0.8; }
+    nav a:hover { opacity: 1; }
+    #status { margin: 0 0 1rem; font-size: 0.85rem; opacity: 0.6; min-height: 1.2em; }
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .metric { background: rgba(255,255,255,0.05); border-radius: 0.75rem; padding: 1rem; }
+    .metric .label { font-size: 0.75rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+    .metric .value { font-size: 1.6rem; font-weight: bold; color: #ffd700; }
+    .meta { margin-top: 1.2rem; font-size: 0.72rem; opacity: 0.4; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Metrics</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="productivity.html">Productivity</a>
+      <a href="status.html">Status</a>
+    </nav>
+    <p id="status"></p>
+    <div class="metrics-grid">
+      <div class="metric">
+        <div class="label">Reconstruction Success</div>
+        <div class="value" id="success-rate">—</div>
+      </div>
+      <div class="metric">
+        <div class="label">Scan Time</div>
+        <div class="value" id="scan-time">—</div>
+      </div>
+      <div class="metric">
+        <div class="label">Processing Time</div>
+        <div class="value" id="proc-time">—</div>
+      </div>
+      <div class="metric">
+        <div class="label">Last Scan</div>
+        <div class="value" id="last-scan" style="font-size:0.9rem;">—</div>
+      </div>
+    </div>
+    <div class="meta">Refreshes every 30 s</div>
+  </div>
+
+  <script>
+    function init() {
+      fetchData('./data/hardware_metrics.json').then(render).catch(showError);
+      scheduleRefresh();
+    }
+
+    function fetchData(url) { return fetch(url).then(r => r.json()); }
+
+    function render(data) {
+      setValue('success-rate', pct(data.reconstruction_success_rate));
+      setValue('scan-time',    fmt(data.scan_completion_time_seconds, 's'));
+      setValue('proc-time',    fmt(data.processing_time_seconds,      's'));
+      setValue('last-scan',    data.last_scan ?? 'n/a');
+      setValue('status', '');
+    }
+
+    function pct(val)          { return val != null ? (val * 100).toFixed(1) + '\u00a0%' : 'n/a'; }
+    function fmt(val, unit)    { return val != null ? val + '\u00a0' + unit : 'n/a'; }
+    function setValue(id, val) { document.getElementById(id).textContent = val; }
+    function scheduleRefresh() { setInterval(refresh, 30_000); }
+    function refresh()         { fetchData('./data/hardware_metrics.json').then(render).catch(() => {}); }
+    function showError()       { setValue('status', 'No scan data yet.'); }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

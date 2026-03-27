@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Record pipeline start time
+        id: timing
+        run: echo "start_time=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y g++ make
+
+      # ── Computer webserver ────────────────────────────────────────────────
+
+      - name: Build computer webserver
+        run: make -C computer/webserver/webserv
+
+      - name: Build computer integration tests
+        run: make -C computer/webserver/testeur_webserver
+
+      - name: Prepare CI server config
+        run: |
+          mkdir -p computer/webserver/www/upload
+          sed "s|/home/docteurbadluck/Desktop/3D_scanner|$GITHUB_WORKSPACE|g" \
+            computer/webserver/webserv/config.conf \
+            > computer/webserver/webserv/ci.conf
+
+      - name: Start webserver
+        run: |
+          cd computer/webserver/webserv
+          ./webserv ci.conf &
+          echo $! > /tmp/webserv.pid
+          sleep 2
+
+      - name: Run integration tests
+        run: ./computer/webserver/testeur_webserver/testeur_webserver
+
+      - name: Stop webserver
+        if: always()
+        run: kill "$(cat /tmp/webserv.pid)" 2>/dev/null || true
+
+      # ── Pico (skipped until CMakeLists.txt exists) ─────────────────────
+
+      - name: Build pico firmware
+        if: hashFiles('pico/CMakeLists.txt') != ''
+        run: |
+          sudo apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi
+          cmake -B pico/build -S pico -G Ninja
+          cmake --build pico/build
+
+      # ── Pi (skipped until CMakeLists.txt exists) ───────────────────────
+
+      - name: Build pi software
+        if: hashFiles('pi/CMakeLists.txt') != ''
+        run: |
+          cmake -B pi/build -S pi -G Ninja
+          cmake --build pi/build
+
+      # ── Collect Accelerate metrics ─────────────────────────────────────
+
+      - name: Collect Accelerate metrics
+        if: always()
+        env:
+          COMMIT_TIMESTAMP: ${{ github.event.head_commit.timestamp }}
+          PIPELINE_START: ${{ steps.timing.outputs.start_time }}
+          JOB_STATUS: ${{ job.status }}
+        run: python3 metrics/collect_run_metrics.py
+
+      - name: Upload Accelerate metrics artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accelerate-metrics-${{ github.run_number }}
+          path: metrics/run_metrics.json
+          retention-days: 90
