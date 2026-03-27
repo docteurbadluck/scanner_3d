@@ -58,3 +58,10 @@ Productivity – tracks Accelerate metrics: lead time, deployment frequency, tim
 A WebSocket connection keeps the dashboard updated in near real-time, while the frontend remains minimal and fast using only HTML, CSS, and vanilla JavaScript.
 
 
+
+
+need for websockets : 
+sudo apt update 
+sudo apt install pipx 
+
+pipx install websockets 

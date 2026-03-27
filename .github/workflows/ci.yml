@@ -42,7 +42,6 @@ jobs:
       - name: server test
         run: make server-test
 
-
       # ── Collect Accelerate metrics ─────────────────────────────────────
 
       - name: Collect Accelerate metrics
