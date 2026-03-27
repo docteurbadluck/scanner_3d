@@ -54,6 +54,10 @@
         <div class="label">Change Failure Rate</div>
         <div class="value" id="cfr">—</div>
       </div>
+      <div class="metric" style="grid-column:1/-1">
+        <div class="label">Test Coverage Computer Part</div>
+        <div class="value" id="coverage">—</div>
+      </div>
     </div>
     <div class="meta">Updated: <span id="last-updated">—</span></div>
   </div>
@@ -61,6 +65,7 @@
   <script>
     function init() {
       fetchData('./data/productivity.json').then(render).catch(showError);
+      fetchData('./data/coverage.json').then(renderCoverage).catch(() => {});
       scheduleRefresh();
     }
 
@@ -77,8 +82,16 @@
 
     function setValue(id, val)   { document.getElementById(id).textContent = val ?? 'n/a'; }
     function fmt(val, unit)      { return val != null ? val + '\u00a0' + unit : 'n/a'; }
+    function renderCoverage(data) {
+      const val = data?.totals?.percent_covered;
+      setValue('coverage', val != null ? val.toFixed(1) + '\u00a0%' : 'n/a');
+    }
+
     function scheduleRefresh()   { setInterval(refresh, 60_000); }
-    function refresh()           { fetchData('./data/productivity.json').then(render).catch(() => {}); }
+    function refresh() {
+      fetchData('./data/productivity.json').then(render).catch(() => {});
+      fetchData('./data/coverage.json').then(renderCoverage).catch(() => {});
+    }
     function showError()         { setValue('status', 'No data \u2014 run aggregate.py first.'); }
 
     document.addEventListener('DOMContentLoaded', init);

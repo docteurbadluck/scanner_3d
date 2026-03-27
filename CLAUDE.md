@@ -12,7 +12,8 @@ Three independent C++ binaries, each on a separate device:
 | `pi/` | Raspberry Pi 3B | SPI master → Pico; captures photos; sends data to computer |
 | `computer/` | PC | Receives images; serves web monitor; runs Meshroom 3D reconstruction |
 
-Language: **C++ everywhere**. Pico uses `pico-sdk`. Pi uses Linux C++. Computer uses the existing 42-school webserver (Epoll, HTTP/1.1, WebSocket — already built in `computer/webserver/webserv/`).
+Language: **C++ everywhere**. Pico uses `pico-sdk`. Pi uses Linux C++.
+Computer use python.
 
 ---
 
@@ -127,6 +128,10 @@ Full reference: `pico/docs/Convention_CPP.md`
   minimal, highly abstract `main()` that reads like a table of contents — one call per
   logical step, no implementation detail visible at that level. Move all logic into
   well-named helper functions.
+- **Python typing**: all Python code must be fully typed — every function parameter,
+  return type, and non-obvious local variable must carry a type annotation (PEP 484).
+  Use built-in generics (`list[str]`, `dict[str, Any]`) and `from __future__ import annotations`
+  when needed.
 - Booleans read as questions: `isStable()`, `hasPhoto()`, `isAtTop()`.
 - Use `[[nodiscard]]` on functions whose return value must be checked.
 - Prefer composition over inheritance.
