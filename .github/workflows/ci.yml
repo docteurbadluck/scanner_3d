@@ -27,7 +27,13 @@ jobs:
         run: make -C computer/webserver/webserv
       
       - name: run webserv background
-        run: ./computer/webserver/webserv/run.sh & sleep 2 
+        run: |
+          ./computer/webserver/webserv/run.sh &
+          for i in $(seq 1 10); do
+            nc -z localhost 8080 && exit 0
+            sleep 1
+          done
+          echo "Server failed to start" && exit 1
 
       - name: test webserver 
         run: make -C computer/webserver/testeur_webserver && ./computer/webserver/testeur_webserver/testeur_webserver
