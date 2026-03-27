@@ -30,22 +30,53 @@ import io
 
 # ── GitHub API helpers ────────────────────────────────────────────────────────
 
+def test_authentication(token, repo):
+    url = f"https://api.github.com/repos/{repo}/actions/artifacts"
+    req = urllib.request.Request(url, headers={
+        'Authorization': f'Bearer {token}',
+        'Accept': 'application/vnd.github+json',
+    })
+    
+
 def gh_get(url, token):
     req = urllib.request.Request(url, headers={
         'Authorization': f'Bearer {token}',
         'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
     })
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read())
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read())
+    except urllib.error.HTTPError as e:
+        error_message = e.read().decode('utf-8')  # Decode the error response
+        print(f"Error {e.code}: {e.reason} - {error_message}")
+        # If GitHub returns the WWW-Authenticate header, print it
+        www_authenticate = e.headers.get('WWW-Authenticate', 'No WWW-Authenticate header found.')
+        print(f"WWW-Authenticate header: {www_authenticate}")
+        raise
 
-
-def download_bytes(url, token):
+def _resolve_artifact_url(url, token):
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def http_error_302(self, req, fp, code, msg, headers):
+            raise urllib.error.HTTPError(req.full_url, code, msg, headers, fp)
+        http_error_301 = http_error_303 = http_error_307 = http_error_302
     req = urllib.request.Request(url, headers={
         'Authorization': f'Bearer {token}',
         'Accept': 'application/vnd.github+json',
     })
-    with urllib.request.urlopen(req) as resp:
+    opener = urllib.request.build_opener(NoRedirect)
+    try:
+        opener.open(req).close()
+        return url
+    except urllib.error.HTTPError as e:
+        if 'Location' not in e.headers:
+            raise
+        return e.headers['Location']
+
+
+def download_bytes(url, token):
+    signed_url = _resolve_artifact_url(url, token)
+    with urllib.request.urlopen(signed_url) as resp:
         return resp.read()
 
 

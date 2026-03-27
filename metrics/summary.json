@@ -1,0 +1,14 @@
+{
+  "period_days": 30,
+  "total_runs": 1,
+  "successful_runs": 0,
+  "failed_runs": 1,
+  "lead_time_avg_seconds": null,
+  "lead_time_avg_minutes": null,
+  "deployment_frequency_per_day": null,
+  "time_to_restore_avg_seconds": null,
+  "time_to_restore_avg_minutes": null,
+  "change_failure_rate": 1.0,
+  "change_failure_rate_pct": 100.0,
+  "computed_at": "2026-03-27T13:35:16Z"
+}
