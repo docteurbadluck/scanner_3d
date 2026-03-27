@@ -23,6 +23,8 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update -qq && sudo apt-get install -y g++ make
 
+      # ── Webserver ─────────────────────────────────────
+
       - name: build the webserv
         run: make -C computer/webserver/webserv
 
