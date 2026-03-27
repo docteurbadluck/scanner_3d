@@ -23,6 +23,15 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update -qq && sudo apt-get install -y g++ make
 
+      - name: build the webserv
+        run: make -C computer/webserver/webserv
+      
+      - name: run webserv background
+        run: ./computer/webserver/webserv/run.sh & sleep 2 
+
+      - name: test webserver 
+        run: make -C computer/webserver/testeur_webserver && ./computer/webserver/testeur_webserver/testeur_webserver
+
       # ── Collect Accelerate metrics ─────────────────────────────────────
 
       - name: Collect Accelerate metrics
