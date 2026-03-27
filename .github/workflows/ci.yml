@@ -68,7 +68,7 @@ jobs:
         run: python3 metrics/aggregate.py
 
       - name: Commit updated summary
-        if: always() && github.ref == 'refs/heads/main'
+        if: ${{ always() && github.ref == 'refs/heads/main' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
