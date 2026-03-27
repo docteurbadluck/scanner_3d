@@ -23,9 +23,11 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update -qq && sudo apt-get install -y g++ make
 
+      # ── Webserver ─────────────────────────────────────
+
       - name: build the webserv
         run: make -C computer/webserver/webserv
-      
+
       - name: run webserv background
         run: |
           ./computer/webserver/webserv/run.sh &
@@ -36,7 +38,7 @@ jobs:
           echo "Server failed to start" && exit 1
 
       - name: test webserver 
-        run: make -C computer/webserver/testeur_webserver && ./computer/webserver/testeur_webserver/testeur_webserver
+        run: make server-test
 
       # ── Collect Accelerate metrics ─────────────────────────────────────
 
