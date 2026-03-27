@@ -39,4 +39,10 @@ http_response_t make_request_and_parse_http_version_1_0(const char *request_line
 //###GET###
 void test_get_200(void);
 
+//###POST###
+void test_post_upload_creates_file(void);
+
+//###DELETE###
+void test_delete_200(void);
+
 #endif
