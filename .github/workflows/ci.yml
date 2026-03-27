@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update -qq && sudo apt-get install -y g++ make
 
+      - name: Install Python dependencies
+        run: pip3 install -r computer/requirements.txt
+
       # ── server ─────────────────────────────────────
 
       - name: run server
