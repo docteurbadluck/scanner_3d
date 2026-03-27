@@ -56,7 +56,6 @@ void InitEpoll::add_stdin_fd(int epoll_fd)
 
 	ev.events = EPOLLIN;
 	ev.data.fd = 0;
-	if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, 0, &ev) == -1)
-		throw std::runtime_error("epoll_ctl add failed");
+	epoll_ctl(epoll_fd, EPOLL_CTL_ADD, 0, &ev);
 }
 
