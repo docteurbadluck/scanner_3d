@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.13)
+include(pico_sdk_import.cmake)
+project(motor C CXX ASM)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+pico_sdk_init()
+add_executable(motor 
+ srcs/main.cpp
+)
+target_link_libraries(motor pico_stdlib hardware_pwm hardware_spi)
+pico_add_extra_outputs(motor)
