@@ -50,6 +50,9 @@ jobs:
       - name: pico test
         run: make pico-test
 
+      - name: pico coverage
+        run: make pico-coverage-html
+
       # ── Collect Accelerate metrics ─────────────────────────────────────
 
       - name: Collect Accelerate metrics
@@ -79,6 +82,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add metrics/summary.json computer/www/data/productivity.json
+          git add metrics/summary.json computer/www/data/productivity.json computer/www/data/pico_coverage.json computer/www/coverage/
           git diff --cached --quiet || git commit -m "ci: update metrics summary [skip ci]"
           git push
