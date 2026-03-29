@@ -47,8 +47,8 @@ jobs:
 
       # ── pico ─────────────────────────────────────
 
-        - name: pico test
-          run: make pico-test
+      - name: pico test
+        run: make pico-test
 
       # ── Collect Accelerate metrics ─────────────────────────────────────
 
