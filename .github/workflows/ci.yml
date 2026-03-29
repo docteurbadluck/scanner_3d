@@ -45,6 +45,10 @@ jobs:
       - name: server test
         run: make server-test
 
+      # ── pico ─────────────────────────────────────
+
+        - name: pico test
+          run: make pico-test
 
       # ── Collect Accelerate metrics ─────────────────────────────────────
 

@@ -15,4 +15,7 @@ server-test:
 	cd computer && $(PYTHON) -m pytest tests/ -v \
 		--cov=server --cov-report=json:www/data/coverage.json
 
-.PHONY: install server-background server-stop server-test
+pico-test:
+	make test -C ./pico/motor
+
+.PHONY: install server-background server-stop server-test pico-test
