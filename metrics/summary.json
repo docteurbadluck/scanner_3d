@@ -1,14 +1,14 @@
 {
   "period_days": 30,
-  "total_runs": 23,
-  "successful_runs": 19,
+  "total_runs": 26,
+  "successful_runs": 22,
   "failed_runs": 4,
-  "lead_time_avg_seconds": 39.0,
-  "lead_time_avg_minutes": 0.7,
-  "deployment_frequency_per_day": 124.175,
+  "lead_time_avg_seconds": 38.125,
+  "lead_time_avg_minutes": 0.6,
+  "deployment_frequency_per_day": 68.308,
   "time_to_restore_avg_seconds": 2215.75,
   "time_to_restore_avg_minutes": 36.9,
-  "change_failure_rate": 0.1739,
-  "change_failure_rate_pct": 17.39,
-  "computed_at": "2026-03-27T17:24:35Z"
+  "change_failure_rate": 0.1538,
+  "change_failure_rate_pct": 15.38,
+  "computed_at": "2026-03-27T21:27:57Z"
 }
