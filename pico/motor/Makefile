@@ -1,7 +1,8 @@
 SRC_DIR   := srcs
 TEST_DIR  := tests
 BUILD_DIR := build_test
-COV_BUILD := build_coverage
+COV_BUILD    := build_coverage
+COV_HTML_DIR := ../../computer/www/coverage/pico
 UNITY_DIR := tests/unity
 UNITY_INC := $(UNITY_DIR)
 
@@ -35,6 +36,14 @@ test: $(TEST_BINS)
 
 coverage: $(COV_TEST_BINS)
 	@sh makefile_scripts/test.sh $(COV_TEST_BINS)
+
+coverage-html: coverage
+	@mkdir -p $(COV_HTML_DIR)
+	python3 -m gcovr \
+		--root . \
+		--filter srcs/ \
+		--object-directory $(COV_BUILD)/srcs \
+		--html-details $(COV_HTML_DIR)/index.html
 
 $(BUILD_DIR)/tests/%.o: $(TEST_DIR)/%.cpp
 	@mkdir -p $(dir $@)
@@ -72,4 +81,4 @@ fclean: clean
 
 re: fclean compile
 
-.PHONY: all compile clean fclean re test coverage
+.PHONY: all compile clean fclean re test coverage coverage-html

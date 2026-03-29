@@ -25,6 +25,9 @@
     .metric { background: rgba(255,255,255,0.05); border-radius: 0.75rem; padding: 1rem; }
     .metric .label { font-size: 0.75rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
     .metric .value { font-size: 1.6rem; font-weight: bold; color: #ffd700; }
+    .metric .detail { margin-top: 0.4rem; font-size: 0.75rem; }
+    .metric .detail a { color: #ffd700; text-decoration: none; opacity: 0.7; }
+    .metric .detail a:hover { opacity: 1; }
     .meta { margin-top: 1.2rem; font-size: 0.72rem; opacity: 0.4; }
   </style>
 </head>
@@ -61,6 +64,7 @@
       <div class="metric">
         <div class="label">Test Coverage Pico</div>
         <div class="value" id="coverage-pico">—</div>
+        <div class="detail"><a href="coverage/pico/index.html">Détails →</a></div>
       </div>
     </div>
     <div class="meta">Updated: <span id="last-updated">—</span></div>
