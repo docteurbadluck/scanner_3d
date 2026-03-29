@@ -1,10 +1,10 @@
-#include "ControllerDC.hpp"
+#include "ArmController_UC.hpp"
 
-ControllerDC::ControllerDC(IMotorDC &motor) : _motor(motor), _current_pos(UNKNOWN)
+ArmController_UC::ArmController_UC(IMotorDC &motor) : _motor(motor), _current_pos(UNKNOWN)
 {
 }
 
-bool ControllerDC::join_initial_pos()
+bool ArmController_UC::join_initial_pos()
 {
 	if (_motor.go_initial_pos())
 	{
@@ -15,7 +15,7 @@ bool ControllerDC::join_initial_pos()
 	return false;
 }
 
-bool ControllerDC::join_pos(Pos pos)
+bool ArmController_UC::join_pos(Pos pos)
 {
 	if (_current_pos == pos)
 		return true;

@@ -1,5 +1,5 @@
 #include "1_domain/System.hpp"
-#include "2_usecases/ControllerDC/ControllerDC.hpp"
+#include "2_usecases/ArmController_UC/ArmController_UC.hpp"
 #include "3_interface/IMotorDC.hpp"
 #include <string>
 
@@ -23,12 +23,12 @@ extern "C"
 }
 
 
-void test_ControllerDC_success()
+void test_ArmController_UC_success()
 {
 	System sys;
 	mockMotorDC mockMotor;
 	mockMotor._res = true;
-	ControllerDC controllerDC(mockMotor);
+	ArmController_UC controllerDC(mockMotor);
 	TEST_ASSERT_EQUAL_INT(UNKNOWN, controllerDC.get_pos());
 
 	bool res = controllerDC.join_initial_pos();
@@ -40,12 +40,12 @@ void test_ControllerDC_success()
 	TEST_ASSERT_EQUAL_INT(DOWN, controllerDC.get_pos());
 }
 
-void test_ControllerDC_fail()
+void test_ArmController_UC_fail()
 {
 	System sys;
 	mockMotorDC mockMotor;
 	mockMotor._res = false;
-	ControllerDC controllerDC(mockMotor);
+	ArmController_UC controllerDC(mockMotor);
 	TEST_ASSERT_EQUAL_INT(UNKNOWN, controllerDC.get_pos());
 
 	bool res = controllerDC.join_initial_pos();
@@ -65,8 +65,8 @@ int main(void)
 {
 	UNITY_BEGIN();
 
-	RUN_TEST(test_ControllerDC_success);
-	RUN_TEST(test_ControllerDC_fail);
+	RUN_TEST(test_ArmController_UC_success);
+	RUN_TEST(test_ArmController_UC_fail);
 
 	return UNITY_END();
 }
