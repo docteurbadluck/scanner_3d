@@ -3,3 +3,4 @@ requests>=2.28
 pytest>=7.0
 pytest-asyncio>=0.23
 pytest-cov>=5.0
+gcovr>=7.0
