@@ -215,7 +215,7 @@ def print_table(summary):
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
-WEB_OUTPUT_DEFAULT = 'computer/webserver/www/data/productivity.json'
+WEB_OUTPUT_DEFAULT = 'computer/www/data/productivity.json'
 
 
 def main():
