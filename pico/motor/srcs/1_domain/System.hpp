@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 
 enum state
@@ -31,5 +32,6 @@ class System
         bool    result_command(int res_code);
         Commands get_commands() const;
 };
+
 
 
