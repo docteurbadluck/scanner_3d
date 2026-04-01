@@ -1,17 +1,16 @@
 #pragma once
 
-enum Pos
+enum class Pos
 {
-	UP,
-	DOWN,
-	UNKNOWN,
+    UP,
+    DOWN,
+    UNKNOWN,
 };
-
 
 class IMotorDC
 {
-	public :
-		virtual ~IMotorDC() = default;
-		virtual	bool    go_initial_pos() = 0;
-		virtual bool    go_to(Pos pos) = 0; 
+public:
+    virtual ~IMotorDC() = default;
+    virtual bool goInitialPos() = 0;
+    virtual bool goTo(Pos pos) = 0;
 };

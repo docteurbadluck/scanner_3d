@@ -1,35 +1,37 @@
 #include "CommandReceptorUC.hpp"
 
-CommandReceptorUC::CommandReceptorUC(IReceptor &recep, Commands cmds) : _receptor(recep), _cmds(cmds)
-{
-}
+CommandReceptorUC::CommandReceptorUC(IReceptor &recep, Commands cmds, SendToPi_UC &sender)
+    : _receptor(recep), _cmds(cmds), _sender(sender)
+{}
 
-void CommandReceptorUC::check_for_new_message(System &sys)
+void CommandReceptorUC::checkForNewMessage(System &sys)
 {
-    if (_receptor.is_message_arrived() && sys.get_state() == LISTENING)
+    if (_receptor.isMessageArrived() && sys.getState() == LISTENING)
     {
-        _message = _receptor.get_message();
-        sys.command_received();
+        _message = _receptor.getMessage();
+        sys.commandReceived();
+        _sender.sendState(sys);
     }
 }
 
-bool CommandReceptorUC::interprete_message(System &sys)
+bool CommandReceptorUC::interpreteMessage(System &sys)
 {
-
-    for (int i = 0; i < _cmds.nbr_command ; i++)
+    for (size_t i = 0; i < _cmds.valid_command.size(); i++)
     {
         if (_message == _cmds.valid_command[i])
         {
-            sys.command_interpreted(true);
-            sys.set_command_to_execute(_message);
+            sys.commandInterpreted(true);
+            sys.setCommandToExecute(_message);
+            _sender.sendState(sys);
             return true;
         }
     }
-    sys.command_interpreted(false);
+    sys.commandInterpreted(false);
+    _sender.sendInvalidCmd();
     return false;
 }
 
-std::string CommandReceptorUC::get_message()
+std::string CommandReceptorUC::getMessage()
 {
-    return _message;   
+    return _message;
 }

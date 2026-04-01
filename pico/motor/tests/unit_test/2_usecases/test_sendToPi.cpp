@@ -1,0 +1,107 @@
+#include "3_interface/ISender.hpp"
+#include "2_usecases/SendToPi_UC/SendToPi_UC.hpp"
+#include "1_domain/System.hpp"
+#include <string>
+
+class mockSender : public ISender
+{
+public:
+	std::string _lastMsg;
+	void send(const std::string &msg) override { _lastMsg = msg; }
+};
+
+extern "C"
+{
+	#include "unity.h"
+
+	void setUp(void) {}
+	void tearDown(void) {}
+}
+
+void test_sendState_listening()
+{
+	mockSender sender;
+	SendToPi_UC uc(sender);
+	System sys;
+	uc.sendState(sys);
+	TEST_ASSERT_EQUAL_STRING("LISTENING", sender._lastMsg.c_str());
+}
+
+void test_sendState_interpreting()
+{
+	mockSender sender;
+	SendToPi_UC uc(sender);
+	System sys;
+	sys.commandReceived();
+	uc.sendState(sys);
+	TEST_ASSERT_EQUAL_STRING("INTERPRETING", sender._lastMsg.c_str());
+}
+
+void test_sendState_executing()
+{
+	mockSender sender;
+	SendToPi_UC uc(sender);
+	System sys;
+	sys.commandReceived();
+	sys.commandInterpreted(true);
+	uc.sendState(sys);
+	TEST_ASSERT_EQUAL_STRING("EXECUTING", sender._lastMsg.c_str());
+}
+
+void test_sendInvalidCmd()
+{
+	mockSender sender;
+	SendToPi_UC uc(sender);
+	uc.sendInvalidCmd();
+	TEST_ASSERT_EQUAL_STRING("INVALID_CMD", sender._lastMsg.c_str());
+}
+
+void test_sendResponse_ping()
+{
+	mockSender sender;
+	SendToPi_UC uc(sender);
+	System sys;
+	uc.sendResponse("PING", true, sys);
+	TEST_ASSERT_EQUAL_STRING("PONG", sender._lastMsg.c_str());
+}
+
+void test_sendResponse_get_status()
+{
+	mockSender sender;
+	SendToPi_UC uc(sender);
+	System sys;
+	uc.sendResponse("GET_STATUS", true, sys);
+	TEST_ASSERT_EQUAL_STRING("LISTENING", sender._lastMsg.c_str());
+}
+
+void test_sendResponse_done()
+{
+	mockSender sender;
+	SendToPi_UC uc(sender);
+	System sys;
+	uc.sendResponse("ARM_UP", true, sys);
+	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+}
+
+void test_sendResponse_fail()
+{
+	mockSender sender;
+	SendToPi_UC uc(sender);
+	System sys;
+	uc.sendResponse("ARM_UP", false, sys);
+	TEST_ASSERT_EQUAL_STRING("FAIL", sender._lastMsg.c_str());
+}
+
+int main(void)
+{
+	UNITY_BEGIN();
+	RUN_TEST(test_sendState_listening);
+	RUN_TEST(test_sendState_interpreting);
+	RUN_TEST(test_sendState_executing);
+	RUN_TEST(test_sendInvalidCmd);
+	RUN_TEST(test_sendResponse_ping);
+	RUN_TEST(test_sendResponse_get_status);
+	RUN_TEST(test_sendResponse_done);
+	RUN_TEST(test_sendResponse_fail);
+	return UNITY_END();
+}

@@ -6,12 +6,12 @@
 
 class mockMotorDC : public IMotorDC
 {
-	public :
-		mockMotorDC(){};
-		~mockMotorDC() = default;
-		bool	_res;	
-		bool	go_initial_pos() override {return _res;};
-		bool	go_to(Pos position) override {(void) position; return _res;}; 
+public:
+	mockMotorDC() {};
+	~mockMotorDC() = default;
+	bool _res;
+	bool goInitialPos() override { return _res; }
+	bool goTo(Pos position) override { (void)position; return _res; }
 };
 
 extern "C"
@@ -25,40 +25,42 @@ extern "C"
 
 void test_ArmController_UC_success()
 {
-	System sys;
 	mockMotorDC mockMotor;
 	mockMotor._res = true;
 	ArmController_UC controllerDC(mockMotor);
-	TEST_ASSERT_EQUAL_INT(UNKNOWN, controllerDC.get_pos());
+	TEST_ASSERT_EQUAL_INT((int)Pos::UNKNOWN, (int)controllerDC.getPos());
 
-	bool res = controllerDC.join_initial_pos();
+	bool res = controllerDC.joinInitialPos();
 	TEST_ASSERT_TRUE(res);
-	TEST_ASSERT_EQUAL_INT(UP, controllerDC.get_pos());
+	TEST_ASSERT_EQUAL_INT((int)Pos::UP, (int)controllerDC.getPos());
 
-	res = controllerDC.join_pos(DOWN);
+	res = controllerDC.joinPos(Pos::DOWN);
 	TEST_ASSERT_TRUE(res);
-	TEST_ASSERT_EQUAL_INT(DOWN, controllerDC.get_pos());
+	TEST_ASSERT_EQUAL_INT((int)Pos::DOWN, (int)controllerDC.getPos());
+
+	res = controllerDC.joinPos(Pos::DOWN);
+	TEST_ASSERT_TRUE(res);
+	TEST_ASSERT_EQUAL_INT((int)Pos::DOWN, (int)controllerDC.getPos());
 }
 
 void test_ArmController_UC_fail()
 {
-	System sys;
 	mockMotorDC mockMotor;
 	mockMotor._res = false;
 	ArmController_UC controllerDC(mockMotor);
-	TEST_ASSERT_EQUAL_INT(UNKNOWN, controllerDC.get_pos());
+	TEST_ASSERT_EQUAL_INT((int)Pos::UNKNOWN, (int)controllerDC.getPos());
 
-	bool res = controllerDC.join_initial_pos();
+	bool res = controllerDC.joinInitialPos();
 	TEST_ASSERT_FALSE(res);
-	TEST_ASSERT_EQUAL_INT(UNKNOWN, controllerDC.get_pos());
+	TEST_ASSERT_EQUAL_INT((int)Pos::UNKNOWN, (int)controllerDC.getPos());
 
 	mockMotor._res = true;
-	controllerDC.join_pos(DOWN);
-	TEST_ASSERT_EQUAL_INT(DOWN, controllerDC.get_pos());
+	controllerDC.joinPos(Pos::DOWN);
+	TEST_ASSERT_EQUAL_INT((int)Pos::DOWN, (int)controllerDC.getPos());
 	mockMotor._res = false;
-	
-	controllerDC.join_pos(UP);
-	TEST_ASSERT_EQUAL_INT(UNKNOWN, controllerDC.get_pos());
+
+	controllerDC.joinPos(Pos::UP);
+	TEST_ASSERT_EQUAL_INT((int)Pos::UNKNOWN, (int)controllerDC.getPos());
 }
 
 int main(void)

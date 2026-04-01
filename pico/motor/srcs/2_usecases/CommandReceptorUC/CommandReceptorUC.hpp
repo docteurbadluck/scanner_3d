@@ -1,21 +1,22 @@
 #pragma once
-
 #include "1_domain/System.hpp"
 #include "3_interface/IReceptor.hpp"
+#include "2_usecases/SendToPi_UC/SendToPi_UC.hpp"
 #include <string>
 
 class CommandReceptorUC
 {
 private:
-    IReceptor &_receptor;
-    std::string _message;
-    Commands    _cmds;
+    IReceptor   &_receptor;
+    Commands     _cmds;
+    SendToPi_UC &_sender;
+    std::string  _message;
 
 public:
-    CommandReceptorUC(IReceptor &recep, Commands cmds);
+    CommandReceptorUC(IReceptor &recep, Commands cmds, SendToPi_UC &sender);
     ~CommandReceptorUC() = default;
 
-    void        check_for_new_message(System &sys);
-    bool        interprete_message(System &sys);
-    std::string get_message();
+    void        checkForNewMessage(System &sys);
+    bool        interpreteMessage(System &sys);
+    std::string getMessage();
 };

@@ -3,12 +3,12 @@
 
 class mockStepper : public IStepperMotor
 {
-	public:
-		mockStepper() {};
-		~mockStepper() = default;
-		bool	_res;
-		bool	go_initial_pos() override { return _res; }
-		bool	step_forward()   override { return _res; }
+public:
+	mockStepper() {};
+	~mockStepper() = default;
+	bool _res;
+	bool goInitialPos() override { return _res; }
+	bool stepForward()  override { return _res; }
 };
 
 extern "C"
@@ -24,11 +24,11 @@ void test_PlateController_UC_initial_pos_success()
 	mockStepper mock;
 	mock._res = true;
 	PlateController_UC ctrl(mock);
-	TEST_ASSERT_EQUAL_INT(-1, ctrl.get_pos());
+	TEST_ASSERT_EQUAL_INT(-1, ctrl.getPos());
 
-	bool res = ctrl.join_initial_pos();
+	bool res = ctrl.joinInitialPos();
 	TEST_ASSERT_TRUE(res);
-	TEST_ASSERT_EQUAL_INT(0, ctrl.get_pos());
+	TEST_ASSERT_EQUAL_INT(0, ctrl.getPos());
 }
 
 void test_PlateController_UC_initial_pos_fail()
@@ -37,9 +37,9 @@ void test_PlateController_UC_initial_pos_fail()
 	mock._res = false;
 	PlateController_UC ctrl(mock);
 
-	bool res = ctrl.join_initial_pos();
+	bool res = ctrl.joinInitialPos();
 	TEST_ASSERT_FALSE(res);
-	TEST_ASSERT_EQUAL_INT(-1, ctrl.get_pos());
+	TEST_ASSERT_EQUAL_INT(-1, ctrl.getPos());
 }
 
 void test_PlateController_UC_rotate_to_success()
@@ -47,11 +47,11 @@ void test_PlateController_UC_rotate_to_success()
 	mockStepper mock;
 	mock._res = true;
 	PlateController_UC ctrl(mock);
-	ctrl.join_initial_pos();
+	ctrl.joinInitialPos();
 
-	bool res = ctrl.rotate_to(3);
+	bool res = ctrl.rotateTo(3);
 	TEST_ASSERT_TRUE(res);
-	TEST_ASSERT_EQUAL_INT(3, ctrl.get_pos());
+	TEST_ASSERT_EQUAL_INT(3, ctrl.getPos());
 }
 
 void test_PlateController_UC_rotate_to_same_pos()
@@ -59,11 +59,11 @@ void test_PlateController_UC_rotate_to_same_pos()
 	mockStepper mock;
 	mock._res = true;
 	PlateController_UC ctrl(mock);
-	ctrl.join_initial_pos();
+	ctrl.joinInitialPos();
 
-	bool res = ctrl.rotate_to(0);
+	bool res = ctrl.rotateTo(0);
 	TEST_ASSERT_TRUE(res);
-	TEST_ASSERT_EQUAL_INT(0, ctrl.get_pos());
+	TEST_ASSERT_EQUAL_INT(0, ctrl.getPos());
 }
 
 void test_PlateController_UC_rotate_wraps_around()
@@ -71,12 +71,12 @@ void test_PlateController_UC_rotate_wraps_around()
 	mockStepper mock;
 	mock._res = true;
 	PlateController_UC ctrl(mock);
-	ctrl.join_initial_pos();
+	ctrl.joinInitialPos();
 
-	ctrl.rotate_to(35);
-	bool res = ctrl.rotate_to(2);
+	ctrl.rotateTo(35);
+	bool res = ctrl.rotateTo(2);
 	TEST_ASSERT_TRUE(res);
-	TEST_ASSERT_EQUAL_INT(2, ctrl.get_pos());
+	TEST_ASSERT_EQUAL_INT(2, ctrl.getPos());
 }
 
 void test_PlateController_UC_rotate_fails_mid_way()
@@ -84,12 +84,12 @@ void test_PlateController_UC_rotate_fails_mid_way()
 	mockStepper mock;
 	mock._res = true;
 	PlateController_UC ctrl(mock);
-	ctrl.join_initial_pos();
+	ctrl.joinInitialPos();
 
 	mock._res = false;
-	bool res = ctrl.rotate_to(5);
+	bool res = ctrl.rotateTo(5);
 	TEST_ASSERT_FALSE(res);
-	TEST_ASSERT_EQUAL_INT(-1, ctrl.get_pos());
+	TEST_ASSERT_EQUAL_INT(-1, ctrl.getPos());
 }
 
 void test_PlateController_UC_rotate_before_init()
@@ -98,9 +98,9 @@ void test_PlateController_UC_rotate_before_init()
 	mock._res = true;
 	PlateController_UC ctrl(mock);
 
-	bool res = ctrl.rotate_to(3);
+	bool res = ctrl.rotateTo(3);
 	TEST_ASSERT_FALSE(res);
-	TEST_ASSERT_EQUAL_INT(-1, ctrl.get_pos());
+	TEST_ASSERT_EQUAL_INT(-1, ctrl.getPos());
 }
 
 int main(void)

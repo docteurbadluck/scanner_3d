@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 enum state
 {
@@ -10,25 +11,32 @@ enum state
 
 struct Commands
 {
-    static const int nbr_command = 2;
-    const std::string valid_command[2] = {"PING", "GET_STATUS"};
-}; 
+    const std::vector<std::string> valid_command = {"PING", "PONG", "GET_STATUS",
+                                                    "ARM_UP", "ARM_DOWN",
+                                                    "CAM_A", "CAM_B", "CAM_C", "CAM_D",
+                                                    "PLATE_NEXT", "INITIAL_POS"};
+};
 
 
 class System
 {
-    private :
-    state   _current_state;
+private:
+    state       _current_state;
     Commands    _commands;
     std::string _command_to_execute;
 
-    public :
-        System();
-        ~System() = default;
-        void    set_command_to_execute(const std::string & command);
-        state   get_state() const;
-        void    command_received();
-        void    command_interpreted(bool correct);
-        bool    result_command(int res_code);
-        Commands get_commands() const;
+public:
+    System();
+    ~System() = default;
+
+    void
+                          setCommandToExecute(const std::string &command);
+    [[nodiscard]] std::string getCommandToExecute() const;
+
+    state                     getState() const;
+    [[nodiscard]] std::string getStateString() const;
+    void                      commandReceived();
+    void                      commandInterpreted(bool correct);
+    bool                      resultCommand(int res_code);
+    Commands                  getCommands() const;
 };

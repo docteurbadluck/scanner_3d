@@ -19,8 +19,7 @@ Mouvement :
     
 Communication :
   electronique :
-    - implementer une connection SPI ou le pi est maitre et pico executant.                 (obj : controle de la position)
-    - connection SPI ou le pico qui gere les lumieres est aussi controller par le pi.       (obj : controle lumiere (optionnel)
+    - implementer une connection uart
    code : 
     - transmettres data a un ordinateur en wifi                                             (obj : delivrer photo)
     - retransmission de l'object 3d sur un server.                                          (obj : delivrer 3d)
