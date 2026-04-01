@@ -1,17 +1,17 @@
 #pragma once
-#include "1_domain/System.hpp"
 #include "3_interface/IMotorDC.hpp"
 
 class ArmController_UC
 {
-	private :
-		IMotorDC	&_motor;
-		Pos			_current_pos;	
-	public :
-		ArmController_UC(IMotorDC &Motor);
-		~ArmController_UC() = default;
+private:
+    IMotorDC &_motor;
+    Pos       _current_pos;
 
-		bool	join_initial_pos();
-		bool	join_pos(Pos); 
-		Pos		get_pos() const;
+public:
+    ArmController_UC(IMotorDC &motor);
+    ~ArmController_UC() = default;
+
+    bool joinInitialPos();
+    bool joinPos(Pos pos);
+    Pos  getPos() const;
 };

@@ -2,7 +2,7 @@
 
 class IAccelerometer
 {
-	public:
-		virtual ~IAccelerometer() = default;
-		virtual float	read_magnitude() = 0;
+public:
+    virtual ~IAccelerometer() = default;
+    virtual float readMagnitude() = 0;
 };

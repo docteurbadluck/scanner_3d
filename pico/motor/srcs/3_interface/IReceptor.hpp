@@ -3,9 +3,8 @@
 
 class IReceptor
 {
-private:
 public:
     virtual ~IReceptor() = default;
-    virtual bool is_message_arrived() = 0;
-    virtual std::string get_message() const = 0;
+    virtual bool        isMessageArrived() = 0;
+    virtual std::string getMessage() const = 0;
 };

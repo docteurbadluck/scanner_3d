@@ -34,8 +34,11 @@ compile: $(SRC_OBJECTS)
 test: $(TEST_BINS)
 	@sh makefile_scripts/test.sh $(TEST_BINS)
 
-coverage: $(COV_TEST_BINS)
+coverage: clean-coverage $(COV_TEST_BINS)
 	@sh makefile_scripts/test.sh $(COV_TEST_BINS)
+
+clean-coverage:
+	@rm -rf $(COV_BUILD)
 
 coverage-html: coverage
 	@mkdir -p $(COV_HTML_DIR)
@@ -81,4 +84,4 @@ fclean: clean
 
 re: fclean compile
 
-.PHONY: all compile clean fclean re test coverage coverage-html
+.PHONY: all compile clean fclean re test coverage clean-coverage coverage-html

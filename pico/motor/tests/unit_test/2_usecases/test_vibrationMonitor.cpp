@@ -3,11 +3,11 @@
 
 class mockAccelerometer : public IAccelerometer
 {
-	public:
-		mockAccelerometer() {};
-		~mockAccelerometer() = default;
-		float	_magnitude;
-		float	read_magnitude() override { return _magnitude; }
+public:
+	mockAccelerometer() {};
+	~mockAccelerometer() = default;
+	float _magnitude;
+	float readMagnitude() override { return _magnitude; }
 };
 
 extern "C"
