@@ -26,4 +26,10 @@ pico-coverage-html:
 	make coverage-html -C ./pico/motor
 	python3 metrics/pico_coverage.py
 
-.PHONY: install server-background server-stop server-test pico-test pico-coverage pico-coverage-html
+pi-test:
+	make test -C ./pi
+
+pi-coverage-html:
+	make coverage-html -C ./pi
+
+.PHONY: install server-background server-stop server-test pico-test pico-coverage pico-coverage-html pi-test pi-coverage-html
