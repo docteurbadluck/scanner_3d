@@ -1,40 +1,56 @@
 #include "System.hpp"
 
-
 System::System()
 {
     _current_state = LISTENING;
 }
 
-state System::get_state() const 
+state System::getState() const
 {
     return _current_state;
 }
-void System::command_received()
+
+std::string System::getStateString() const
+{
+    if (_current_state == LISTENING)    return "LISTENING";
+    if (_current_state == INTERPRETING) return "INTERPRETING";
+    return "EXECUTING";
+}
+
+void System::commandReceived()
 {
     _current_state = INTERPRETING;
 }
 
-void System::command_interpreted(bool correct)
+void System::commandInterpreted(bool correct)
 {
     if (correct)
-    _current_state = EXECUTING;
-    else 
-    _current_state = LISTENING;
+    {
+        _current_state = EXECUTING;
+    }
+    else
+    {
+        _current_state = LISTENING;
+    }
 }
 
-bool System::result_command(int res_code)
+bool System::resultCommand(int res_code)
 {
     _current_state = LISTENING;
     return (res_code == 0);
 }
 
-void System::set_command_to_execute(const std::string &command)
+void System::setCommandToExecute(const std::string &command)
 {
     _command_to_execute = command;
-}        
+}
 
-Commands System::get_commands() const
+std::string System::getCommandToExecute() const
+{
+    return _command_to_execute;
+}
+
+Commands System::getCommands() const
 {
     return _commands;
 }

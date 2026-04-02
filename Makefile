@@ -13,7 +13,8 @@ server-stop:
 
 server-test:
 	cd computer && $(PYTHON) -m pytest tests/ -v \
-		--cov=server --cov-report=json:www/data/coverage.json
+		--cov=server --cov-report=json:www/data/coverage.json \
+		--cov-report=html:www/coverage/computer
 
 pico-test:
 	make test -C ./pico/motor

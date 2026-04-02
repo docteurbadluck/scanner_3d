@@ -9,34 +9,66 @@ extern "C"
 	void tearDown(void) {}
 }
 
-void hello_world(void)
- {
-	TEST_ASSERT_TRUE(true);
- }
-
-
 void test_system_workflow()
 {
 	System sys;
-	TEST_ASSERT_EQUAL_INT(LISTENING, sys.get_state());
+	TEST_ASSERT_EQUAL_INT(LISTENING, sys.getState());
 
-	sys.command_received();
-	TEST_ASSERT_EQUAL_INT(INTERPRETING, sys.get_state());
+	sys.commandReceived();
+	TEST_ASSERT_EQUAL_INT(INTERPRETING, sys.getState());
 
-	sys.command_interpreted(false);
-	TEST_ASSERT_EQUAL_INT(LISTENING, sys.get_state());
+	sys.commandInterpreted(false);
+	TEST_ASSERT_EQUAL_INT(LISTENING, sys.getState());
 
-	sys.command_interpreted(true);
-	TEST_ASSERT_EQUAL_INT(EXECUTING, sys.get_state());
+	sys.commandInterpreted(true);
+	TEST_ASSERT_EQUAL_INT(EXECUTING, sys.getState());
 
-	TEST_ASSERT_EQUAL_INT(true, sys.result_command(0));
+	TEST_ASSERT_EQUAL_INT(true, sys.resultCommand(0));
+	TEST_ASSERT_EQUAL_INT(LISTENING, sys.getState());
+}
 
-	TEST_ASSERT_EQUAL_INT(LISTENING, sys.get_state());
+void test_system_resultCommand_fail()
+{
+	System sys;
+	sys.commandReceived();
+	sys.commandInterpreted(true);
+	TEST_ASSERT_EQUAL_INT(false, sys.resultCommand(1));
+	TEST_ASSERT_EQUAL_INT(LISTENING, sys.getState());
+}
+
+void test_system_getStateString()
+{
+	System sys;
+	TEST_ASSERT_EQUAL_STRING("LISTENING", sys.getStateString().c_str());
+
+	sys.commandReceived();
+	TEST_ASSERT_EQUAL_STRING("INTERPRETING", sys.getStateString().c_str());
+
+	sys.commandInterpreted(true);
+	TEST_ASSERT_EQUAL_STRING("EXECUTING", sys.getStateString().c_str());
+}
+
+void test_system_command_to_execute()
+{
+	System sys;
+	sys.setCommandToExecute("ARM_UP");
+	TEST_ASSERT_EQUAL_STRING("ARM_UP", sys.getCommandToExecute().c_str());
+}
+
+void test_system_getCommands()
+{
+	System sys;
+	Commands cmds = sys.getCommands();
+	TEST_ASSERT_TRUE(cmds.valid_command.size() > 0);
 }
 
 int main(void)
 {
 	UNITY_BEGIN();
 	RUN_TEST(test_system_workflow);
+	RUN_TEST(test_system_resultCommand_fail);
+	RUN_TEST(test_system_getStateString);
+	RUN_TEST(test_system_command_to_execute);
+	RUN_TEST(test_system_getCommands);
 	return UNITY_END();
 }
