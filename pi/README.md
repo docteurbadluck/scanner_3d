@@ -6,12 +6,12 @@ System states:
 	READY
 		Wait for commands from the computer (http 1.1).
 	PROCESSING
-		Control motors via SPI, position camera/object, ensure stability, take photos.
+		Control motors via api, position camera/object, ensure stability, take photos.
 	SENDING
 		Compress data and send it to the computer.
 
 uc :
-	InitializeSystem
+	CheckConnection
 	ListenForOrder
 	CaptureData
 	SendData

@@ -67,6 +67,11 @@
         <div class="value" id="coverage-pico">—</div>
         <div class="detail"><a href="coverage/pico/index.html">Détails →</a></div>
       </div>
+      <div class="metric">
+        <div class="label">Test Coverage Pi</div>
+        <div class="value" id="coverage-pi">—</div>
+        <div class="detail"><a href="coverage/pi/index.html">Détails →</a></div>
+      </div>
     </div>
     <div class="meta">Updated: <span id="last-updated">—</span></div>
   </div>
@@ -76,6 +81,7 @@
       fetchData('./data/productivity.json').then(render).catch(showError);
       fetchData('./data/coverage.json').then(renderCoverage).catch(() => {});
       fetchData('./data/pico_coverage.json').then(renderPicoCoverage).catch(() => {});
+      fetchData('./data/pi_coverage.json').then(renderPiCoverage).catch(() => {});
       scheduleRefresh();
     }
 
@@ -102,11 +108,17 @@
       setValue('coverage-pico', val != null ? val.toFixed(1) + '\u00a0%' : 'n/a');
     }
 
+    function renderPiCoverage(data) {
+      const val = data?.totals?.percent_covered;
+      setValue('coverage-pi', val != null ? val.toFixed(1) + '\u00a0%' : 'n/a');
+    }
+
     function scheduleRefresh()   { setInterval(refresh, 60_000); }
     function refresh() {
       fetchData('./data/productivity.json').then(render).catch(() => {});
       fetchData('./data/coverage.json').then(renderCoverage).catch(() => {});
       fetchData('./data/pico_coverage.json').then(renderPicoCoverage).catch(() => {});
+      fetchData('./data/pi_coverage.json').then(renderPiCoverage).catch(() => {});
     }
     function showError()         { setValue('status', 'No data \u2014 run aggregate.py first.'); }
 
