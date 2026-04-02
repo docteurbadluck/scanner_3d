@@ -30,7 +30,12 @@ pico-coverage-html:
 pi-test:
 	make test -C ./pi
 
+pi-coverage:
+	make coverage -C ./pi
+	python3 metrics/pi_coverage.py
+
 pi-coverage-html:
 	make coverage-html -C ./pi
+	python3 metrics/pi_coverage.py
 
-.PHONY: install server-background server-stop server-test pico-test pico-coverage pico-coverage-html pi-test pi-coverage-html
+.PHONY: install server-background server-stop server-test pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html

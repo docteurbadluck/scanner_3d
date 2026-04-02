@@ -1,7 +1,7 @@
 #include "2_usecases/CaptureData_UC/CaptureData_UC.hpp"
 #include <string>
 
-class mockPicoClient : public IPicoClient
+class mockPicoClient : public IPico
 {
 	public:
 		mockPicoClient() {}

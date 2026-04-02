@@ -1,4 +1,4 @@
-SRC_DIR   := src
+SRC_DIR   := srcs
 TEST_DIR  := tests
 BUILD_DIR := build_test
 COV_BUILD    := build_coverage
@@ -24,6 +24,9 @@ TEST_SOURCES  := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep -v '/
 TEST_BINS     := $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/tests/%, $(TEST_SOURCES))
 COV_TEST_BINS := $(patsubst $(TEST_DIR)/%.cpp, $(COV_BUILD)/tests/%, $(TEST_SOURCES))
 
+INTERNAL_SOURCES := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep '/internal/')
+INTERNAL_OBJECTS := $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/tests/%.o, $(INTERNAL_SOURCES))
+
 all: compile
 
 compile: $(SRC_OBJECTS)
@@ -31,18 +34,21 @@ compile: $(SRC_OBJECTS)
 test: $(TEST_BINS)
 	@sh makefile_scripts/test.sh $(TEST_BINS)
 
-coverage: $(COV_TEST_BINS)
+coverage: clean-coverage $(COV_TEST_BINS)
 	@sh makefile_scripts/test.sh $(COV_TEST_BINS)
+
+clean-coverage:
+	@rm -rf $(COV_BUILD)
 
 coverage-html: coverage
 	@mkdir -p $(COV_HTML_DIR)
 	python3 -m gcovr \
 		--root . \
-		--filter src/ \
+		--filter srcs/ \
 		--object-directory $(COV_BUILD)/srcs \
 		--html-details $(COV_HTML_DIR)/index.html
 
-$(BUILD_DIR)/tests/%: $(TEST_DIR)/%.cpp $(UNITY_OBJ) $(SRC_OBJECTS)
+$(BUILD_DIR)/tests/%: $(TEST_DIR)/%.cpp $(UNITY_OBJ) $(SRC_OBJECTS) $(INTERNAL_OBJECTS)
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
@@ -54,7 +60,7 @@ $(UNITY_OBJ): $(UNITY_SRC)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(COV_BUILD)/tests/%: $(TEST_DIR)/%.cpp $(COV_UNITY_OBJ) $(COV_SRC_OBJECTS)
+$(COV_BUILD)/tests/%: $(TEST_DIR)/%.cpp $(COV_UNITY_OBJ) $(COV_SRC_OBJECTS) $(INTERNAL_OBJECTS)
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(COV_FLAGS) $^ -o $@
 
@@ -74,4 +80,4 @@ fclean: clean
 
 re: fclean compile
 
-.PHONY: all compile clean fclean re test coverage coverage-html
+.PHONY: all compile clean fclean re test coverage clean-coverage coverage-html

@@ -1,7 +1,7 @@
 #include "2_usecases/CheckConnection_UC/CheckConnection_UC.hpp"
 #include <string>
 
-class mockPicoClient : public IPicoClient
+class mockPicoClient : public IPico
 {
 	public:
 		mockPicoClient() {}
@@ -16,7 +16,7 @@ class mockPicoClient : public IPicoClient
 		std::string getPicoStatus() override { return "OK"; }
 };
 
-class mockHttpUploader : public IHttpUploader
+class mockHttpUploader : public IComputer
 {
 	public:
 		mockHttpUploader() {}
@@ -43,7 +43,7 @@ void test_CheckConnection_success()
 	pico._res     = true;
 	uploader._res = true;
 	CheckConnection_UC uc(pico, uploader);
-	TEST_ASSERT_TRUE(uc.execute());
+	TEST_ASSERT_EQUAL_INT((int)ConnectionStatus::OK, (int)uc.execute());
 }
 
 void test_CheckConnection_pico_not_ready()
@@ -53,7 +53,7 @@ void test_CheckConnection_pico_not_ready()
 	pico._res     = false;
 	uploader._res = true;
 	CheckConnection_UC uc(pico, uploader);
-	TEST_ASSERT_FALSE(uc.execute());
+	TEST_ASSERT_EQUAL_INT((int)ConnectionStatus::PICO_UNREACHABLE, (int)uc.execute());
 }
 
 void test_CheckConnection_server_unreachable()
@@ -63,7 +63,7 @@ void test_CheckConnection_server_unreachable()
 	pico._res     = true;
 	uploader._res = false;
 	CheckConnection_UC uc(pico, uploader);
-	TEST_ASSERT_FALSE(uc.execute());
+	TEST_ASSERT_EQUAL_INT((int)ConnectionStatus::SERVER_UNREACHABLE, (int)uc.execute());
 }
 
 int main(void)
