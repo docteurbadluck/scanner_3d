@@ -48,6 +48,10 @@ coverage-html: coverage
 		--object-directory $(COV_BUILD)/srcs \
 		--html-details $(COV_HTML_DIR)/index.html
 
+$(BUILD_DIR)/tests/%.o: $(TEST_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 $(BUILD_DIR)/tests/%: $(TEST_DIR)/%.cpp $(UNITY_OBJ) $(SRC_OBJECTS) $(INTERNAL_OBJECTS)
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $^ -o $@

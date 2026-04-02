@@ -9,7 +9,7 @@ state System::get_state() const
 	return _current_state;
 }
 
-Commands System::getCommands() const
+const Commands& System::getCommands() const
 {
 	return _commands;
 }

@@ -7,7 +7,7 @@ CommandReceptor_UC::CommandReceptor_UC(IComputer &uploader, SendToComputer_UC &s
 bool CommandReceptor_UC::waitAndInterprete(System &sys)
 {
     _message = _computer.waitForOrder();
-    Commands cmds = sys.getCommands();
+    const Commands& cmds = sys.getCommands();
     for (size_t i = 0; i < cmds.valid_command.size(); i++)
     {
         if (_message == cmds.valid_command[i])

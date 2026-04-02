@@ -160,6 +160,20 @@ void test_execute_pong_noop()
 	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
 }
 
+void test_execute_unknown_command()
+{
+	mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
+	mockHttpUploader uploader; mockSender sender;
+	CaptureData_UC    capture(pico, cam, disk);
+	SendPhotoToComputer_UC       sendData(cam, uploader);
+	SendToComputer_UC sendUC(sender);
+	ExecuteOrder_UC   exec(capture, sendData, sendUC, pico);
+	System sys;
+
+	run_cmd(exec, sys, "UNKNOWN_CMD");
+	TEST_ASSERT_EQUAL_STRING("INVALID_CMD", sender._lastMsg.c_str());
+}
+
 int main(void)
 {
 	UNITY_BEGIN();
@@ -169,5 +183,6 @@ int main(void)
 	RUN_TEST(test_execute_start_capture_success);
 	RUN_TEST(test_execute_start_capture_fail);
 	RUN_TEST(test_execute_pong_noop);
+	RUN_TEST(test_execute_unknown_command);
 	return UNITY_END();
 }

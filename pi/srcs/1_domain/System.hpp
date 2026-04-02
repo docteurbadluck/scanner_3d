@@ -30,7 +30,7 @@ class System
 
 		state                     get_state() const;
 		[[nodiscard]] std::string getStateString() const;
-		Commands                  getCommands() const;
+		const Commands&           getCommands() const;
 		void                      setCommandToExecute(const std::string &command);
 		[[nodiscard]] std::string getCommandToExecute() const;
 		void                      ready();
