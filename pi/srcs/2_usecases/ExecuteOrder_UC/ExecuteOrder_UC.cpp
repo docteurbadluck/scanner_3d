@@ -1,4 +1,5 @@
 #include "ExecuteOrder_UC.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 
 ExecuteOrder_UC::ExecuteOrder_UC(CaptureData_UC &capture, SendPhotoToComputer_UC &send,
                                  SendToComputer_UC &sender, IPico &pico)
@@ -8,7 +9,11 @@ ExecuteOrder_UC::ExecuteOrder_UC(CaptureData_UC &capture, SendPhotoToComputer_UC
 int ExecuteOrder_UC::_dispatch(const std::string &cmd)
 {
     if (cmd == "START_CAPTURE")   return (_capture.execute() && _send.execute()) ? 0 : 1;
-    if (cmd == "GET_PICO_STATUS") { _sender.sendRaw(_pico.getPicoStatus()); return 0; }
+    if (cmd == "GET_PICO_STATUS")
+    {
+        _sender.sendRaw(_pico.getPicoStatus());
+        return 0;
+    }
     if (cmd == "PING")       return 0;
     if (cmd == "GET_STATUS") return 0;
     if (cmd == "PONG")       return 0;

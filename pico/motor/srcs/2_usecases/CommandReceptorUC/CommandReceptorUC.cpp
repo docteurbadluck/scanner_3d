@@ -1,4 +1,5 @@
 #include "CommandReceptorUC.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 
 CommandReceptorUC::CommandReceptorUC(IReceptor &recep, Commands cmds, SendToPi_UC &sender)
     : _receptor(recep), _cmds(cmds), _sender(sender)
@@ -8,7 +9,9 @@ void CommandReceptorUC::checkForNewMessage(System &sys)
 {
     if (_receptor.isMessageArrived() && sys.getState() == LISTENING)
     {
-        _message = _receptor.getMessage();
+        const std::string rawMessage = _receptor.getMessage();
+        const std::string jsonCommand = JsonMessage::extractStringField(rawMessage, "command");
+        _message = jsonCommand.empty() ? rawMessage : jsonCommand;
         sys.commandReceived();
         _sender.sendState(sys);
     }

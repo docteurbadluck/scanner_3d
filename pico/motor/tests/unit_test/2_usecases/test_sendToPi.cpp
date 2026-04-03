@@ -1,6 +1,7 @@
 #include "3_interface/ISender.hpp"
 #include "2_usecases/SendToPi_UC/SendToPi_UC.hpp"
 #include "1_domain/System.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 #include <string>
 
 class mockSender : public ISender
@@ -24,7 +25,7 @@ void test_sendState_listening()
 	SendToPi_UC uc(sender);
 	System sys;
 	uc.sendState(sys);
-	TEST_ASSERT_EQUAL_STRING("LISTENING", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("LISTENING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendState_interpreting()
@@ -34,7 +35,7 @@ void test_sendState_interpreting()
 	System sys;
 	sys.commandReceived();
 	uc.sendState(sys);
-	TEST_ASSERT_EQUAL_STRING("INTERPRETING", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("INTERPRETING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendState_executing()
@@ -45,7 +46,7 @@ void test_sendState_executing()
 	sys.commandReceived();
 	sys.commandInterpreted(true);
 	uc.sendState(sys);
-	TEST_ASSERT_EQUAL_STRING("EXECUTING", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("EXECUTING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendInvalidCmd()
@@ -53,7 +54,7 @@ void test_sendInvalidCmd()
 	mockSender sender;
 	SendToPi_UC uc(sender);
 	uc.sendInvalidCmd();
-	TEST_ASSERT_EQUAL_STRING("INVALID_CMD", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_ping()
@@ -62,7 +63,7 @@ void test_sendResponse_ping()
 	SendToPi_UC uc(sender);
 	System sys;
 	uc.sendResponse("PING", true, sys);
-	TEST_ASSERT_EQUAL_STRING("PONG", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("PONG", "PING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_get_status()
@@ -71,7 +72,7 @@ void test_sendResponse_get_status()
 	SendToPi_UC uc(sender);
 	System sys;
 	uc.sendResponse("GET_STATUS", true, sys);
-	TEST_ASSERT_EQUAL_STRING("LISTENING", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("LISTENING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_done()
@@ -80,7 +81,7 @@ void test_sendResponse_done()
 	SendToPi_UC uc(sender);
 	System sys;
 	uc.sendResponse("ARM_UP", true, sys);
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "ARM_UP").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_fail()
@@ -89,7 +90,7 @@ void test_sendResponse_fail()
 	SendToPi_UC uc(sender);
 	System sys;
 	uc.sendResponse("ARM_UP", false, sys);
-	TEST_ASSERT_EQUAL_STRING("FAIL", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "ARM_UP").c_str(), sender._lastMsg.c_str());
 }
 
 int main(void)
