@@ -16,6 +16,9 @@ server-test:
 		--cov=server --cov-report=json:www/data/coverage.json \
 		--cov-report=html:www/coverage/computer
 
+server-typecheck:
+	cd computer && $(PYTHON) -m mypy
+
 pico-test:
 	make test -C ./pico/motor
 
@@ -38,4 +41,4 @@ pi-coverage-html:
 	make coverage-html -C ./pi
 	python3 metrics/pi_coverage.py
 
-.PHONY: install server-background server-stop server-test pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html
+.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html

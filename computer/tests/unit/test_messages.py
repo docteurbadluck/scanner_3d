@@ -1,32 +1,30 @@
 from __future__ import annotations
 
 import json
-import sys
-from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).parents[2]))
-
-from server import WWW_DIR, build_http_handler, make_pong_message, make_status_message
+from server import WWW_DIR, build_http_handler
+from srcs._1_domain.messages import PongMessage, StatusMessage
+from srcs._1_domain.system import State
 
 
 def test_status_message_type() -> None:
-    data: dict[str, Any] = json.loads(make_status_message())
+    data: dict[str, Any] = json.loads(StatusMessage.build(State.INITIALIZATION).to_json())
     assert data["type"] == "status"
 
 
 def test_status_message_has_state() -> None:
-    data: dict[str, Any] = json.loads(make_status_message())
+    data: dict[str, Any] = json.loads(StatusMessage.build(State.INITIALIZATION).to_json())
     assert "state" in data
 
 
 def test_status_message_has_timestamp() -> None:
-    data: dict[str, Any] = json.loads(make_status_message())
+    data: dict[str, Any] = json.loads(StatusMessage.build(State.INITIALIZATION).to_json())
     assert "timestamp" in data
 
 
 def test_pong_message_type() -> None:
-    data: dict[str, Any] = json.loads(make_pong_message())
+    data: dict[str, Any] = json.loads(PongMessage().to_json())
     assert data["type"] == "pong"
 
 
