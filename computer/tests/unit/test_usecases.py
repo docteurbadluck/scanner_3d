@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from typing import AsyncIterator
 
+from srcs._1_domain.system import State
 from srcs._2_usecases.handle_connection_uc import handle_connection
 from srcs._2_usecases.handle_incoming_uc import handle_incoming
 
@@ -21,6 +22,14 @@ class FakeConnection:
     async def _iter(self) -> AsyncIterator[object]:
         for message in self._incoming:
             yield message
+
+
+class FakePi:
+    def __init__(self) -> None:
+        self.sent: list[str] = []
+
+    async def send(self, message: str) -> None:
+        self.sent.append(message)
 
 
 async def test_handle_incoming_replies_pong_on_ping() -> None:
@@ -43,6 +52,16 @@ async def test_handle_connection_sends_status_on_connect() -> None:
     assert "timestamp" in data
 
 
+async def test_handle_connection_sends_runtime_state_on_connect() -> None:
+    connection = FakeConnection()
+    await handle_connection(connection, state_provider=lambda: State.READY)
+
+    assert len(connection.sent) == 1
+    data = json.loads(connection.sent[0])
+    assert data["type"] == "status"
+    assert data["state"] == "READY"
+
+
 async def test_handle_connection_handles_ping_messages() -> None:
     connection = FakeConnection(incoming=['{"type": "ping"}'])
     await handle_connection(connection)
@@ -55,14 +74,25 @@ async def test_handle_connection_handles_ping_messages() -> None:
 
 
 async def test_handle_incoming_acks_valid_command() -> None:
+    pi = FakePi()
     for command in ("GET_STATUS", "GET_PICO_STATUS", "START_CAPTURE", "PING", "PONG"):
         connection = FakeConnection()
-        await handle_incoming(connection, json.dumps({"type": "command", "command": command}))
+        await handle_incoming(connection, json.dumps({"type": "command", "command": command}), pi)
 
         assert len(connection.sent) == 1
         data = json.loads(connection.sent[0])
         assert data["type"] == "ack"
         assert data["command"] == command
+
+
+async def test_handle_incoming_errors_when_pi_unavailable() -> None:
+    connection = FakeConnection()
+    await handle_incoming(connection, json.dumps({"type": "command", "command": "GET_STATUS"}))
+
+    assert len(connection.sent) == 1
+    data = json.loads(connection.sent[0])
+    assert data["type"] == "error"
+    assert data["reason"] == "Pi unavailable"
 
 
 async def test_handle_incoming_errors_on_unknown_command() -> None:
@@ -79,3 +109,23 @@ async def test_handle_incoming_ignores_unknown_type() -> None:
     connection = FakeConnection()
     await handle_incoming(connection, '{"type": "unknown"}')
     assert len(connection.sent) == 0
+
+
+async def test_handle_incoming_errors_on_invalid_json() -> None:
+    connection = FakeConnection()
+    await handle_incoming(connection, '{"type": "command",')
+
+    assert len(connection.sent) == 1
+    data = json.loads(connection.sent[0])
+    assert data["type"] == "error"
+    assert data["reason"] == "Invalid JSON message"
+
+
+async def test_handle_incoming_errors_on_invalid_shape() -> None:
+    connection = FakeConnection()
+    await handle_incoming(connection, '["not-a-dict"]')
+
+    assert len(connection.sent) == 1
+    data = json.loads(connection.sent[0])
+    assert data["type"] == "error"
+    assert data["reason"] == "Invalid message shape"

@@ -9,6 +9,8 @@ from typing import Any
 import websockets
 from websockets.asyncio.server import ServerConnection
 
+from srcs._1_domain.pi_messages import PiResponse, PiResponseKind
+from srcs._1_domain.system import State
 from srcs._2_usecases.handle_connection_uc import handle_connection
 from srcs._2_usecases.handle_pi_message_uc import handle_pi_message
 
@@ -20,6 +22,7 @@ WS_PI_PORT = 8082
 # shared state: active browser connections and pi connection
 _browsers: set[ServerConnection] = set()
 _pi_connection: ServerConnection | None = None
+_current_state: State = State.INITIALIZATION
 
 
 def build_http_handler(www_dir: Path) -> type[SimpleHTTPRequestHandler]:
@@ -42,19 +45,29 @@ def start_http_server(port: int, www_dir: Path) -> HTTPServer:
 
 
 async def _handle_browser(websocket: ServerConnection) -> None:
-    global _pi_connection
+    global _pi_connection, _current_state
     _browsers.add(websocket)
     try:
-        await handle_connection(websocket, _pi_connection)
+        await handle_connection(
+            websocket,
+            pi_provider=lambda: _pi_connection,
+            state_provider=lambda: _current_state,
+        )
     finally:
         _browsers.discard(websocket)
 
 
 async def _handle_pi(websocket: ServerConnection) -> None:
-    global _pi_connection
+    global _pi_connection, _current_state
     _pi_connection = websocket
     try:
         async for raw in websocket:
+            parsed = PiResponse.parse(str(raw))
+            if parsed.kind == PiResponseKind.STATE:
+                try:
+                    _current_state = State(parsed.payload)
+                except ValueError:
+                    pass
             await handle_pi_message(str(raw), list(_browsers))
     finally:
         _pi_connection = None

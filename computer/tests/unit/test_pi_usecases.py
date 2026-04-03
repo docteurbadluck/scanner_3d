@@ -36,6 +36,9 @@ class FakeBrowser:
     ('{"type":"state","state":"READY"}', PiResponseKind.STATE, "READY", ""),
     ('{"type":"state","state":"PROCESSING"}', PiResponseKind.STATE, "PROCESSING", ""),
     ('{"type":"state","state":"SENDING"}', PiResponseKind.STATE, "SENDING", ""),
+    ('{"type":"state","state":"LISTENING"}', PiResponseKind.STATE, "READY", ""),
+    ('{"type":"state","state":"INTERPRETING"}', PiResponseKind.STATE, "PROCESSING", ""),
+    ('{"type":"state","state":"EXECUTING"}', PiResponseKind.STATE, "PROCESSING", ""),
     ("GARBAGE", PiResponseKind.UNKNOWN, "GARBAGE", ""),
 ])
 def test_transport_message_parse(raw: str, expected_kind: PiResponseKind, expected_payload: str, expected_command: str) -> None:
@@ -82,6 +85,14 @@ async def test_handle_pi_message_no_browsers_does_not_raise() -> None:
 async def test_handle_pi_message_state_forwarded() -> None:
     b = FakeBrowser()
     await handle_pi_message('{"type":"state","state":"READY"}', [b])
+    data = json.loads(b.sent[0])
+    assert data["type"] == "state"
+    assert data["state"] == "READY"
+
+
+async def test_handle_pi_message_pico_state_is_mapped() -> None:
+    b = FakeBrowser()
+    await handle_pi_message('{"type":"state","state":"LISTENING"}', [b])
     data = json.loads(b.sent[0])
     assert data["type"] == "state"
     assert data["state"] == "READY"
