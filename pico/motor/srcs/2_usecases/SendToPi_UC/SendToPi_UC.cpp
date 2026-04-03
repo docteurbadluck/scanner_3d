@@ -1,5 +1,5 @@
 #include "SendToPi_UC.hpp"
-#include "1_domain/JsonMessage.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 
 SendToPi_UC::SendToPi_UC(ISender &sender) : _sender(sender)
 {}

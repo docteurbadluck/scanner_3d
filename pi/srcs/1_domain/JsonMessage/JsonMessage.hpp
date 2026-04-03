@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace PicoJson
+namespace JsonMessage
 {
 std::string escape(const std::string &value);
 std::string makeCommand(const std::string &command);

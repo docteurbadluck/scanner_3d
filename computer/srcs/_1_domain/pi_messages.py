@@ -62,11 +62,18 @@ class PiResponse:
         return PiResponse(kind=kind, payload=stripped)
 
     def to_json(self) -> str:
+        if self.kind == PiResponseKind.STATE:
+            return json.dumps({"type": "state", "state": self.payload})
+
+        if self.kind == PiResponseKind.INVALID_CMD:
+            return json.dumps({"type": "error", "reason": self.payload})
+
         data: dict[str, str] = {
-            "type": "pi_response",
+            "type": "response",
             "kind": self.kind.value,
-            "payload": self.payload,
         }
         if self.command:
             data["command"] = self.command
+        if self.kind == PiResponseKind.UNKNOWN:
+            data["payload"] = self.payload
         return json.dumps(data)

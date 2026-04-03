@@ -8,7 +8,7 @@
 #include "2_usecases/SendToComputer_UC/SendToComputer_UC.hpp"
 #include "2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.hpp"
 #include "1_domain/System.hpp"
-#include "1_domain/PicoJson.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 #include <string>
 
 class mockPicoClient : public IPico
@@ -86,7 +86,7 @@ void test_execute_ping()
 	System sys;
 
 	run_cmd(exec, sys, "PING");
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("PONG", "PING").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("PONG", "PING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_get_status()
@@ -101,7 +101,7 @@ void test_execute_get_status()
 	sys.ready();
 
 	run_cmd(exec, sys, "GET_STATUS");
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeState("READY").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("READY").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_get_pico_status()
@@ -130,8 +130,8 @@ void test_execute_start_capture_success()
 	System sys;
 
 	run_cmd(exec, sys, "START_CAPTURE");
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("DONE", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeCommand("CAPTURE").c_str(), pico._lastCommand.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeCommand("CAPTURE").c_str(), pico._lastCommand.c_str());
 }
 
 void test_execute_start_capture_fail()
@@ -146,7 +146,7 @@ void test_execute_start_capture_fail()
 	System sys;
 
 	run_cmd(exec, sys, "START_CAPTURE");
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("FAIL", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_pong_noop()
@@ -160,7 +160,7 @@ void test_execute_pong_noop()
 	System sys;
 
 	run_cmd(exec, sys, "PONG");
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("DONE", "PONG").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "PONG").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_unknown_command()
@@ -174,7 +174,7 @@ void test_execute_unknown_command()
 	System sys;
 
 	run_cmd(exec, sys, "UNKNOWN_CMD");
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
 }
 
 int main(void)

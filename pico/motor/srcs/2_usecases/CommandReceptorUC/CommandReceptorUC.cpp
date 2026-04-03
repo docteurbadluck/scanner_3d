@@ -1,5 +1,5 @@
 #include "CommandReceptorUC.hpp"
-#include "1_domain/JsonMessage.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 
 CommandReceptorUC::CommandReceptorUC(IReceptor &recep, Commands cmds, SendToPi_UC &sender)
     : _receptor(recep), _cmds(cmds), _sender(sender)

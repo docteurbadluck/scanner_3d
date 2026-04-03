@@ -1,7 +1,7 @@
 #include "3_interface/ISender.hpp"
 #include "2_usecases/SendToComputer_UC/SendToComputer_UC.hpp"
 #include "1_domain/System.hpp"
-#include "1_domain/PicoJson.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 #include <string>
 
 class mockSender : public ISender
@@ -25,7 +25,7 @@ void test_sendState_initialization()
 	SendToComputer_UC uc(sender);
 	System sys;
 	uc.sendState(sys);
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeState("INITIALIZATION").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("INITIALIZATION").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendState_ready()
@@ -35,7 +35,7 @@ void test_sendState_ready()
 	System sys;
 	sys.ready();
 	uc.sendState(sys);
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeState("READY").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("READY").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendInvalidCmd()
@@ -43,7 +43,7 @@ void test_sendInvalidCmd()
 	mockSender sender;
 	SendToComputer_UC uc(sender);
 	uc.sendInvalidCmd();
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_ping()
@@ -52,7 +52,7 @@ void test_sendResponse_ping()
 	SendToComputer_UC uc(sender);
 	System sys;
 	uc.sendResponse("PING", true, sys);
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("PONG", "PING").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("PONG", "PING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_get_status()
@@ -62,7 +62,7 @@ void test_sendResponse_get_status()
 	System sys;
 	sys.ready();
 	uc.sendResponse("GET_STATUS", true, sys);
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeState("READY").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("READY").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_done()
@@ -71,7 +71,7 @@ void test_sendResponse_done()
 	SendToComputer_UC uc(sender);
 	System sys;
 	uc.sendResponse("START_CAPTURE", true, sys);
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("DONE", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_fail()
@@ -80,7 +80,7 @@ void test_sendResponse_fail()
 	SendToComputer_UC uc(sender);
 	System sys;
 	uc.sendResponse("START_CAPTURE", false, sys);
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("FAIL", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
 }
 
 int main(void)

@@ -1,6 +1,6 @@
-#include "PicoJson.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 
-namespace PicoJson
+namespace JsonMessage
 {
 std::string escape(const std::string &value)
 {
@@ -73,19 +73,5 @@ std::string extractStringField(const std::string &json, const std::string &field
         value += c;
     }
     return "";
-}
-
-std::string normalizeMessage(const std::string &message)
-{
-    const std::string state = extractStringField(message, "state");
-    if (!state.empty())
-        return state;
-    const std::string kind = extractStringField(message, "kind");
-    if (!kind.empty())
-        return kind;
-    const std::string reason = extractStringField(message, "reason");
-    if (!reason.empty())
-        return reason;
-    return message;
 }
 }

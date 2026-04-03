@@ -1,5 +1,5 @@
 #include "2_usecases/CaptureData_UC/CaptureData_UC.hpp"
-#include "1_domain/PicoJson.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 #include <string>
 
 class mockPicoClient : public IPico
@@ -56,7 +56,7 @@ void test_CaptureData_success()
 	disk._res   = true;
 	CaptureData_UC uc(pico, camera, disk);
 	TEST_ASSERT_TRUE(uc.execute());
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeCommand("CAPTURE").c_str(), pico._lastCommand.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeCommand("CAPTURE").c_str(), pico._lastCommand.c_str());
 }
 
 void test_CaptureData_no_disk_space()

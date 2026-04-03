@@ -1,5 +1,5 @@
 #include "CommandReceptor_UC.hpp"
-#include "1_domain/PicoJson.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 
 CommandReceptor_UC::CommandReceptor_UC(IComputer &uploader, SendToComputer_UC &sender)
     : _computer(uploader), _sender(sender)
@@ -8,7 +8,7 @@ CommandReceptor_UC::CommandReceptor_UC(IComputer &uploader, SendToComputer_UC &s
 bool CommandReceptor_UC::waitAndInterprete(System &sys)
 {
     const std::string rawMessage = _computer.waitForOrder();
-    const std::string jsonCommand = PicoJson::extractStringField(rawMessage, "command");
+    const std::string jsonCommand = JsonMessage::extractStringField(rawMessage, "command");
     _message = jsonCommand.empty() ? rawMessage : jsonCommand;
     const Commands& cmds = sys.getCommands();
     for (size_t i = 0; i < cmds.valid_command.size(); i++)

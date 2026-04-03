@@ -3,7 +3,7 @@
 #include "2_usecases/SendToComputer_UC/SendToComputer_UC.hpp"
 #include "2_usecases/CommandReceptor_UC/CommandReceptor_UC.hpp"
 #include "1_domain/System.hpp"
-#include "1_domain/PicoJson.hpp"
+#include "1_domain/JsonMessage/JsonMessage.hpp"
 #include <string>
 
 class mockHttpUploader : public IComputer
@@ -35,7 +35,7 @@ void test_CommandReceptor_valid_command()
 {
 	mockHttpUploader uploader;
 	mockSender       sender;
-	uploader._order = PicoJson::makeCommand("START_CAPTURE");
+	uploader._order = JsonMessage::makeCommand("START_CAPTURE");
 	SendToComputer_UC   sendUC(sender);
 	CommandReceptor_UC  uc(uploader, sendUC);
 	System sys;
@@ -50,28 +50,28 @@ void test_CommandReceptor_invalid_command()
 {
 	mockHttpUploader uploader;
 	mockSender       sender;
-	uploader._order = PicoJson::makeCommand("UNKNOWN");
+	uploader._order = JsonMessage::makeCommand("UNKNOWN");
 	SendToComputer_UC   sendUC(sender);
 	CommandReceptor_UC  uc(uploader, sendUC);
 	System sys;
 
 	bool res = uc.waitAndInterprete(sys);
 	TEST_ASSERT_FALSE(res);
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
 }
 
 void test_CommandReceptor_sends_state_on_valid()
 {
 	mockHttpUploader uploader;
 	mockSender       sender;
-	uploader._order = PicoJson::makeCommand("PING");
+	uploader._order = JsonMessage::makeCommand("PING");
 	SendToComputer_UC   sendUC(sender);
 	CommandReceptor_UC  uc(uploader, sendUC);
 	System sys;
 	sys.ready();
 
 	uc.waitAndInterprete(sys);
-	TEST_ASSERT_EQUAL_STRING(PicoJson::makeState("READY").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("READY").c_str(), sender._lastMsg.c_str());
 }
 
 void test_CommandReceptor_all_valid_commands()
@@ -81,7 +81,7 @@ void test_CommandReceptor_all_valid_commands()
 	{
 		mockHttpUploader uploader;
 		mockSender       sender;
-		uploader._order = PicoJson::makeCommand(cmd);
+		uploader._order = JsonMessage::makeCommand(cmd);
 		SendToComputer_UC   sendUC(sender);
 		CommandReceptor_UC  uc(uploader, sendUC);
 		System sys;
