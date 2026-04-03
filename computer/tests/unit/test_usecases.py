@@ -109,3 +109,23 @@ async def test_handle_incoming_ignores_unknown_type() -> None:
     connection = FakeConnection()
     await handle_incoming(connection, '{"type": "unknown"}')
     assert len(connection.sent) == 0
+
+
+async def test_handle_incoming_errors_on_invalid_json() -> None:
+    connection = FakeConnection()
+    await handle_incoming(connection, '{"type": "command",')
+
+    assert len(connection.sent) == 1
+    data = json.loads(connection.sent[0])
+    assert data["type"] == "error"
+    assert data["reason"] == "Invalid JSON message"
+
+
+async def test_handle_incoming_errors_on_invalid_shape() -> None:
+    connection = FakeConnection()
+    await handle_incoming(connection, '["not-a-dict"]')
+
+    assert len(connection.sent) == 1
+    data = json.loads(connection.sent[0])
+    assert data["type"] == "error"
+    assert data["reason"] == "Invalid message shape"

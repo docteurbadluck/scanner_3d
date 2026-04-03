@@ -15,7 +15,17 @@ async def handle_incoming(
     pi: IPiTransport | None = None,
     pi_provider: Callable[[], IPiTransport | None] | None = None,
 ) -> None:
-    data: dict[str, Any] = json.loads(raw)
+    try:
+        decoded: Any = json.loads(raw)
+    except json.JSONDecodeError:
+        await connection.send(ErrorMessage("Invalid JSON message").to_json())
+        return
+
+    if not isinstance(decoded, dict):
+        await connection.send(ErrorMessage("Invalid message shape").to_json())
+        return
+
+    data: dict[str, Any] = decoded
     msg_type: str = data.get("type", "")
 
     if msg_type == "ping":

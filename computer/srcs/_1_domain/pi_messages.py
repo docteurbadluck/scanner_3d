@@ -25,6 +25,20 @@ _KNOWN_STATES: frozenset[str] = frozenset(
     {"INITIALIZATION", "READY", "PROCESSING", "SENDING"}
 )
 
+_STATE_MAPPING: dict[str, str] = {
+    "LISTENING": "READY",
+    "INTERPRETING": "PROCESSING",
+    "EXECUTING": "PROCESSING",
+    "INITIALIZATION": "INITIALIZATION",
+    "READY": "READY",
+    "PROCESSING": "PROCESSING",
+    "SENDING": "SENDING",
+}
+
+
+def _normalize_state(raw_state: str) -> str:
+    return _STATE_MAPPING.get(raw_state, raw_state)
+
 
 @dataclass(frozen=True)
 class PiResponse:
@@ -40,7 +54,7 @@ class PiResponse:
             if isinstance(data, dict):
                 msg_type = str(data.get("type", ""))
                 if msg_type == "state":
-                    state = str(data.get("state", ""))
+                    state = _normalize_state(str(data.get("state", "")))
                     return PiResponse(kind=PiResponseKind.STATE, payload=state)
                 if msg_type == "response":
                     kind_raw = str(data.get("kind", ""))
@@ -56,8 +70,9 @@ class PiResponse:
         except json.JSONDecodeError:
             pass
 
-        if stripped in _KNOWN_STATES:
-            return PiResponse(kind=PiResponseKind.STATE, payload=stripped)
+        normalized = _normalize_state(stripped)
+        if stripped in _KNOWN_STATES or normalized != stripped:
+            return PiResponse(kind=PiResponseKind.STATE, payload=normalized)
         kind = PiResponseKind.from_raw(stripped)
         return PiResponse(kind=kind, payload=stripped)
 
