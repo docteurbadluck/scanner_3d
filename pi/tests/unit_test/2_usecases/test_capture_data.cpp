@@ -1,4 +1,5 @@
 #include "2_usecases/CaptureData_UC/CaptureData_UC.hpp"
+#include "1_domain/PicoJson.hpp"
 #include <string>
 
 class mockPicoClient : public IPico
@@ -7,13 +8,14 @@ class mockPicoClient : public IPico
 		mockPicoClient() {}
 		~mockPicoClient() = default;
 		bool _res;
+		std::string _lastCommand;
 		bool isReady() override { return _res; }
-		bool sendCommand(const std::string &) override { return _res; }
+		bool sendCommand(const std::string &command) override { _lastCommand = command; return _res; }
 		bool setCameraPosition(const std::string &) override { return _res; }
 		bool setArmPosition(const std::string &) override { return _res; }
 		bool rotatePlateStep() override { return _res; }
 		bool isStable() override { return _res; }
-		std::string getPicoStatus() override { return "OK"; }
+		std::string getPicoStatus() override { return "{\"type\":\"state\",\"state\":\"READY\"}"; }
 };
 
 class mockCamera : public ICamera
@@ -54,6 +56,7 @@ void test_CaptureData_success()
 	disk._res   = true;
 	CaptureData_UC uc(pico, camera, disk);
 	TEST_ASSERT_TRUE(uc.execute());
+	TEST_ASSERT_EQUAL_STRING(PicoJson::makeCommand("CAPTURE").c_str(), pico._lastCommand.c_str());
 }
 
 void test_CaptureData_no_disk_space()

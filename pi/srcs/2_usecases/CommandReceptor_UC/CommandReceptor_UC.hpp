@@ -9,7 +9,6 @@ private:
     IComputer     &_computer;
     SendToComputer_UC &_sender;
     std::string        _message;
-
 public:
     CommandReceptor_UC(IComputer &uploader, SendToComputer_UC &sender);
     ~CommandReceptor_UC() = default;

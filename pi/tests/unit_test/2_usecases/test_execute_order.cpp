@@ -8,15 +8,17 @@
 #include "2_usecases/SendToComputer_UC/SendToComputer_UC.hpp"
 #include "2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.hpp"
 #include "1_domain/System.hpp"
+#include "1_domain/PicoJson.hpp"
 #include <string>
 
 class mockPicoClient : public IPico
 {
 public:
 	bool        _res = true;
-	std::string _status = "OK";
+	std::string _status = "{\"type\":\"state\",\"state\":\"READY\"}";
+	std::string _lastCommand;
 	bool isReady() override { return _res; }
-	bool sendCommand(const std::string &) override { return _res; }
+	bool sendCommand(const std::string &command) override { _lastCommand = command; return _res; }
 	bool setCameraPosition(const std::string &) override { return _res; }
 	bool setArmPosition(const std::string &) override { return _res; }
 	bool rotatePlateStep() override { return _res; }
@@ -84,7 +86,7 @@ void test_execute_ping()
 	System sys;
 
 	run_cmd(exec, sys, "PING");
-	TEST_ASSERT_EQUAL_STRING("PONG", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("PONG", "PING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_get_status()
@@ -99,14 +101,14 @@ void test_execute_get_status()
 	sys.ready();
 
 	run_cmd(exec, sys, "GET_STATUS");
-	TEST_ASSERT_EQUAL_STRING("READY", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(PicoJson::makeState("READY").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_get_pico_status()
 {
 	mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
 	mockHttpUploader uploader; mockSender sender;
-	pico._status = "PICO_READY";
+	pico._status = "{\"type\":\"state\",\"state\":\"READY\"}";
 	CaptureData_UC    capture(pico, cam, disk);
 	SendPhotoToComputer_UC       sendData(cam, uploader);
 	SendToComputer_UC sendUC(sender);
@@ -114,7 +116,7 @@ void test_execute_get_pico_status()
 	System sys;
 
 	run_cmd(exec, sys, "GET_PICO_STATUS");
-	TEST_ASSERT_EQUAL_STRING("PICO_READY", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING("{\"type\":\"state\",\"state\":\"READY\"}", sender._lastMsg.c_str());
 }
 
 void test_execute_start_capture_success()
@@ -128,7 +130,8 @@ void test_execute_start_capture_success()
 	System sys;
 
 	run_cmd(exec, sys, "START_CAPTURE");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("DONE", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(PicoJson::makeCommand("CAPTURE").c_str(), pico._lastCommand.c_str());
 }
 
 void test_execute_start_capture_fail()
@@ -143,7 +146,7 @@ void test_execute_start_capture_fail()
 	System sys;
 
 	run_cmd(exec, sys, "START_CAPTURE");
-	TEST_ASSERT_EQUAL_STRING("FAIL", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("FAIL", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_pong_noop()
@@ -157,7 +160,7 @@ void test_execute_pong_noop()
 	System sys;
 
 	run_cmd(exec, sys, "PONG");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(PicoJson::makeResponse("DONE", "PONG").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_unknown_command()
@@ -171,7 +174,7 @@ void test_execute_unknown_command()
 	System sys;
 
 	run_cmd(exec, sys, "UNKNOWN_CMD");
-	TEST_ASSERT_EQUAL_STRING("INVALID_CMD", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(PicoJson::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
 }
 
 int main(void)

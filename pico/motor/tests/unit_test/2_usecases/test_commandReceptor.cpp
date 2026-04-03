@@ -3,6 +3,7 @@
 #include "2_usecases/CommandReceptorUC/CommandReceptorUC.hpp"
 #include "2_usecases/SendToPi_UC/SendToPi_UC.hpp"
 #include "1_domain/System.hpp"
+#include "1_domain/JsonMessage.hpp"
 #include <string>
 
 class mockReceptor : public IReceptor
@@ -38,12 +39,12 @@ void test_checkForNewMessage_arrives()
 	Commands     cmds = sys.getCommands();
 
 	receptor._arrived = true;
-	receptor._msg     = "ARM_UP";
+	receptor._msg     = JsonMessage::makeCommand("ARM_UP");
 	CommandReceptorUC uc(receptor, cmds, sendUC);
 
 	uc.checkForNewMessage(sys);
 	TEST_ASSERT_EQUAL_INT(INTERPRETING, sys.getState());
-	TEST_ASSERT_EQUAL_STRING("INTERPRETING", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("INTERPRETING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_checkForNewMessage_no_message()
@@ -71,7 +72,7 @@ void test_checkForNewMessage_not_listening()
 
 	sys.commandReceived();
 	receptor._arrived = true;
-	receptor._msg     = "ARM_UP";
+	receptor._msg     = JsonMessage::makeCommand("ARM_UP");
 	CommandReceptorUC uc(receptor, cmds, sendUC);
 
 	uc.checkForNewMessage(sys);
@@ -87,7 +88,7 @@ void test_interpreteMessage_valid()
 	Commands     cmds = sys.getCommands();
 
 	receptor._arrived = true;
-	receptor._msg     = "ARM_UP";
+	receptor._msg     = JsonMessage::makeCommand("ARM_UP");
 	CommandReceptorUC uc(receptor, cmds, sendUC);
 
 	uc.checkForNewMessage(sys);
@@ -95,7 +96,7 @@ void test_interpreteMessage_valid()
 	TEST_ASSERT_TRUE(res);
 	TEST_ASSERT_EQUAL_INT(EXECUTING, sys.getState());
 	TEST_ASSERT_EQUAL_STRING("ARM_UP", sys.getCommandToExecute().c_str());
-	TEST_ASSERT_EQUAL_STRING("EXECUTING", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("EXECUTING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_interpreteMessage_invalid()
@@ -107,14 +108,14 @@ void test_interpreteMessage_invalid()
 	Commands     cmds = sys.getCommands();
 
 	receptor._arrived = true;
-	receptor._msg     = "UNKNOWN_CMD";
+	receptor._msg     = JsonMessage::makeCommand("UNKNOWN_CMD");
 	CommandReceptorUC uc(receptor, cmds, sendUC);
 
 	uc.checkForNewMessage(sys);
 	bool res = uc.interpreteMessage(sys);
 	TEST_ASSERT_FALSE(res);
 	TEST_ASSERT_EQUAL_INT(LISTENING, sys.getState());
-	TEST_ASSERT_EQUAL_STRING("INVALID_CMD", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
 }
 
 void test_getMessage()
@@ -126,7 +127,7 @@ void test_getMessage()
 	Commands     cmds = sys.getCommands();
 
 	receptor._arrived = true;
-	receptor._msg     = "PLATE_NEXT";
+	receptor._msg     = JsonMessage::makeCommand("PLATE_NEXT");
 	CommandReceptorUC uc(receptor, cmds, sendUC);
 
 	uc.checkForNewMessage(sys);

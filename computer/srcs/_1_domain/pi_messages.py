@@ -30,14 +30,43 @@ _KNOWN_STATES: frozenset[str] = frozenset(
 class PiResponse:
     kind:    PiResponseKind
     payload: str
+    command: str = ""
 
     @staticmethod
     def parse(raw: str) -> PiResponse:
         stripped = raw.strip()
+        try:
+            data = json.loads(stripped)
+            if isinstance(data, dict):
+                msg_type = str(data.get("type", ""))
+                if msg_type == "state":
+                    state = str(data.get("state", ""))
+                    return PiResponse(kind=PiResponseKind.STATE, payload=state)
+                if msg_type == "response":
+                    kind_raw = str(data.get("kind", ""))
+                    command = str(data.get("command", ""))
+                    return PiResponse(
+                        kind=PiResponseKind.from_raw(kind_raw),
+                        payload=kind_raw,
+                        command=command,
+                    )
+                if msg_type == "error":
+                    reason = str(data.get("reason", ""))
+                    return PiResponse(kind=PiResponseKind.INVALID_CMD, payload=reason)
+        except json.JSONDecodeError:
+            pass
+
         if stripped in _KNOWN_STATES:
             return PiResponse(kind=PiResponseKind.STATE, payload=stripped)
         kind = PiResponseKind.from_raw(stripped)
         return PiResponse(kind=kind, payload=stripped)
 
     def to_json(self) -> str:
-        return json.dumps({"type": "pi_response", "kind": self.kind.value, "payload": self.payload})
+        data: dict[str, str] = {
+            "type": "pi_response",
+            "kind": self.kind.value,
+            "payload": self.payload,
+        }
+        if self.command:
+            data["command"] = self.command
+        return json.dumps(data)

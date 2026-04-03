@@ -10,6 +10,7 @@
 #include "2_usecases/SendToPi_UC/SendToPi_UC.hpp"
 #include "2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.hpp"
 #include "1_domain/System.hpp"
+#include "1_domain/JsonMessage.hpp"
 #include <string>
 
 class mockMotorDC : public IMotorDC
@@ -76,7 +77,7 @@ void test_execute_arm_up()
 	System sys;
 
 	run_cmd(exec, sys, "ARM_UP");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "ARM_UP").c_str(), sender._lastMsg.c_str());
 	TEST_ASSERT_EQUAL_INT(LISTENING, sys.getState());
 }
 
@@ -94,7 +95,7 @@ void test_execute_arm_down()
 
 	arm.joinPos(Pos::UP);
 	run_cmd(exec, sys, "ARM_DOWN");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "ARM_DOWN").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_cam_a()
@@ -110,7 +111,7 @@ void test_execute_cam_a()
 	System sys;
 
 	run_cmd(exec, sys, "CAM_A");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "CAM_A").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_cam_b()
@@ -127,7 +128,7 @@ void test_execute_cam_b()
 
 	hand.joinPos(Pos_hand::UP_A);
 	run_cmd(exec, sys, "CAM_B");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "CAM_B").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_cam_c()
@@ -144,7 +145,7 @@ void test_execute_cam_c()
 
 	hand.joinPos(Pos_hand::UP_B);
 	run_cmd(exec, sys, "CAM_C");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "CAM_C").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_cam_d()
@@ -161,7 +162,7 @@ void test_execute_cam_d()
 
 	hand.joinPos(Pos_hand::DOWN_A);
 	run_cmd(exec, sys, "CAM_D");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "CAM_D").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_plate_next()
@@ -178,7 +179,7 @@ void test_execute_plate_next()
 
 	plate.joinInitialPos();
 	run_cmd(exec, sys, "PLATE_NEXT");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "PLATE_NEXT").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_initial_pos()
@@ -194,7 +195,7 @@ void test_execute_initial_pos()
 	System sys;
 
 	run_cmd(exec, sys, "INITIAL_POS");
-	TEST_ASSERT_EQUAL_STRING("DONE", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "INITIAL_POS").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_initial_pos_fail()
@@ -211,7 +212,7 @@ void test_execute_initial_pos_fail()
 	System sys;
 
 	run_cmd(exec, sys, "INITIAL_POS");
-	TEST_ASSERT_EQUAL_STRING("FAIL", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "INITIAL_POS").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_ping()
@@ -227,7 +228,7 @@ void test_execute_ping()
 	System sys;
 
 	run_cmd(exec, sys, "PING");
-	TEST_ASSERT_EQUAL_STRING("PONG", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("PONG", "PING").c_str(), sender._lastMsg.c_str());
 }
 
 int main(void)
