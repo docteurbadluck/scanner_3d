@@ -7,5 +7,5 @@ pico_sdk_init()
 add_executable(motor 
  srcs/main.cpp
 )
-target_link_libraries(motor pico_stdlib hardware_pwm hardware_spi)
+target_link_libraries(motor pico_stdlib hardware_pwm hardware_spi hardware_i2c)
 pico_add_extra_outputs(motor)
