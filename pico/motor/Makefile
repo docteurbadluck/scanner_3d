@@ -13,6 +13,8 @@ CFLAGS   := -std=c11   -Wall -Wextra -Wpedantic -I$(UNITY_INC)
 COV_FLAGS := --coverage -O0
 
 SRC_SOURCES := $(shell find $(SRC_DIR) -name '*.cpp' 2>/dev/null | grep -v 'main\.cpp' | grep -v '/4_drivers/')
+PORTABLE_DRIVER_SOURCES := $(SRC_DIR)/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp
+SRC_SOURCES := $(SRC_SOURCES) $(PORTABLE_DRIVER_SOURCES)
 SRC_OBJECTS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/srcs/%.o, $(SRC_SOURCES))
 COV_SRC_OBJECTS := $(patsubst $(SRC_DIR)/%.cpp, $(COV_BUILD)/srcs/%.o, $(SRC_SOURCES))
 
@@ -20,10 +22,9 @@ UNITY_SRC := $(UNITY_DIR)/unity.c
 UNITY_OBJ := $(BUILD_DIR)/unity/unity.o
 COV_UNITY_OBJ := $(COV_BUILD)/unity/unity.o
 
-TEST_SOURCES  := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep -v '/internal/' | grep -v '/4_drivers/')
+TEST_SOURCES  := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep -v '/internal/')
 TEST_BINS     := $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/tests/%, $(TEST_SOURCES))
 COV_TEST_BINS := $(patsubst $(TEST_DIR)/%.cpp, $(COV_BUILD)/tests/%, $(TEST_SOURCES))
-
 INTERNAL_SOURCES := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep '/internal/')
 INTERNAL_OBJECTS := $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/tests/%.o, $(INTERNAL_SOURCES))
 

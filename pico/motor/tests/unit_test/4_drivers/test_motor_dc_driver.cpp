@@ -25,30 +25,30 @@ struct Harness
 	MotorDC_DriverIO io()
 	{
 		return MotorDC_DriverIO{
-			.drive_up = [this](uint8_t speed) {
+			[this](uint8_t speed) {
 				dir = Dir::UP;
 				last_speed = speed;
 			},
-			.drive_down = [this](uint8_t speed) {
+			[this](uint8_t speed) {
 				dir = Dir::DOWN;
 				last_speed = speed;
 			},
-			.stop = [this]() {
+			[this]() {
 				dir = Dir::STOP;
 				stop_calls++;
 			},
-			.is_up_pressed = [this]() {
+			[this]() {
 				if (force_up_pressed)
 					return true;
 				return dir == Dir::UP && now >= up_trigger_ms;
 			},
-			.is_down_pressed = [this]() {
+			[this]() {
 				if (force_down_pressed)
 					return true;
 				return dir == Dir::DOWN && now >= down_trigger_ms;
 			},
-			.now_ms = [this]() { return now; },
-			.sleep_ms = [this](uint32_t ms) { now += ms; },
+			[this]() { return now; },
+			[this](uint32_t ms) { now += ms; },
 		};
 	}
 };

@@ -15,7 +15,7 @@ LISTENING → INTERPRETING → EXECUTING
 | Stepper NEMA 23 + DM556 | `StepperMotor_Driver` | position 0…N | Forward only, 10° per step |
 | DC motor JGB37 | `MotorDC_Driver` | Top / Moving / Bottom | Adjacent transitions only |
 | Servo MG995 | `ServoMotor_Driver` | UP_A / UP_B / DOWN_A / DOWN_B | Adjacent transitions only |
-| Accelerometer MPU-6050 × 2 | `Accelerometer_Driver` | — | Magnitude threshold 0.05 g |
+| Accelerometer MPU-6050 × 2 | `Accelerometer_Driver` | — | Vibration threshold 0.05 g (delta from 1 g gravity) |
 
 ## Pin map
 

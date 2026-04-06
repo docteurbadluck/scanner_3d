@@ -11,11 +11,15 @@ bool UsbReceptor_Driver::isMessageArrived()
 {
     const int c = getchar_timeout_us(_cfg.poll_timeout_us);
 
-    if (c == PICO_ERROR_TIMEOUT)
+    if (c < 0)
         return false;
 
-    _buffer += static_cast<char>(c);
-    return static_cast<char>(c) == _cfg.delimiter;
+    if (_buffer.size() >= _cfg.max_msg_size)
+        _buffer.clear();
+
+    const char ch = static_cast<char>(c);
+    _buffer += ch;
+    return ch == _cfg.delimiter;
 }
 
 std::string UsbReceptor_Driver::getMessage() const

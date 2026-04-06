@@ -3,6 +3,7 @@
 #include "3_interface/IMotorDC.hpp"
 
 #include <cstdint>
+#include <functional>
 
 struct MotorDC_DriverConfig
 {
@@ -22,27 +23,28 @@ struct MotorDC_DriverPins
     bool    buttons_active_low = true;
 };
 
+struct MotorDC_DriverIO
+{
+    std::function<void(uint8_t)>  drive_up;
+    std::function<void(uint8_t)>  drive_down;
+    std::function<void()>         stop;
+    std::function<bool()>         is_up_pressed;
+    std::function<bool()>         is_down_pressed;
+    std::function<uint32_t()>     now_ms;
+    std::function<void(uint32_t)> sleep_ms;
+};
+
 class MotorDC_Driver : public IMotorDC
 {
 private:
     MotorDC_DriverConfig _cfg;
-    MotorDC_DriverPins   _pins;
-
-    uint32_t _in1_pwm_slice;
-    uint32_t _in1_pwm_channel;
-    uint32_t _in2_pwm_slice;
-    uint32_t _in2_pwm_channel;
-
-    void _drive_up();
-    void _drive_down();
-    void _stop();
-    bool _is_up_pressed() const;
-    bool _is_down_pressed() const;
+    MotorDC_DriverIO     _io;
 
     bool _wait_until_pressed(Pos pos) const;
 
 public:
     MotorDC_Driver(const MotorDC_DriverConfig &cfg, const MotorDC_DriverPins &pins);
+    MotorDC_Driver(const MotorDC_DriverConfig &cfg, MotorDC_DriverIO io);
 
     ~MotorDC_Driver() override = default;
 

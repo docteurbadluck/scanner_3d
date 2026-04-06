@@ -7,8 +7,9 @@
 
 struct UsbReceptor_DriverConfig
 {
-    uint32_t poll_timeout_us = 100;
-    char     delimiter       = '\n';
+    uint32_t poll_timeout_us  = 100;
+    char     delimiter        = '\n';
+    size_t   max_msg_size     = 512;
 };
 
 class UsbReceptor_Driver : public IReceptor
