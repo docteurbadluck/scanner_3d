@@ -4,13 +4,22 @@
 #include "4_drivers/Accelerometer_Driver/Accelerometer_Driver.hpp"
 #include "4_drivers/MotorDC_Driver/MotorDC_Driver.hpp"
 #include "4_drivers/StepperMotor_Driver/StepperMotor_Driver.hpp"
+#include "4_drivers/UsbReceptor_Driver/UsbReceptor_Driver.hpp"
+#include "4_drivers/UsbSender_Driver/UsbSender_Driver.hpp"
 
 #include <hardware/i2c.h>
 
-// ── UART  (GP0 / GP1 — physical pins 1, 2) ─────────────────────────────────
-//   TX → Pi : GP0
-//   RX ← Pi : GP1
-//   Configured in main via uart_init(uart0, baud) + gpio_set_function().
+// ── USB CDC  (communication + flashing) ────────────────────────────────────
+//   Pi ↔ Pico via /dev/ttyACM0  (stdio_usb, enabled in CMakeLists.txt)
+//   Flashing via SWD (openocd, no BOOTSEL needed):
+//     Pi GPIO 24 → Pico SWDCLK  (debug header pad)
+//     Pi GPIO 25 → Pico SWDIO   (debug header pad)
+//   GP0 and GP1 are free.
+inline const UsbReceptor_DriverConfig USB_RECEPTOR_CONFIG
+{
+    .poll_timeout_us = 100,
+    .delimiter       = '\n',
+};
 
 // ── Servo MG995  (GP2 — physical pin 4) ────────────────────────────────────
 inline const ServoMotor_DriverPins SERVO_PINS

@@ -1,54 +1,75 @@
-# 3D_scanner
-Le but de ce projet est d'automatiser la prise de photo d'un object leger sur un socle. et d'envoyer les photos sur un ordinateur assez puissant pour faire tourner un logiciel de modelisation 3d basé sur les photographies.
+# 3D Scanner
 
+Automate 360° photo capture of a light object on a turntable, then reconstruct a 3D model with Meshroom.
 
-differentes taches : 
+## Architecture
 
-Mouvement :
-  electronique :
-    - faire tourner un moteur pas a pas avec un raspberry pico,                             (obj : tourner l'object central)
-    - faire tourner un moteur dc avec un raspberry pico avec un system de boutons stopper.  (obj : change la position de la camera)
-    - faire tourner un servo moteur avec un raspbery pico.                                  (obj : change l'orientation de la camera)
-    remarque : les moteurs n'ont pas a fonctionner en parrallele.
-  mecanique :
-    - modeliser bras qui tiens la camera et le servo moteur.                                (obj : change la position et orientation de la camera)
-    - modeliser le support pour le bras et les boutons stoppeur.                            (obj : change la position)
-    - modeliser le support de l'objet.                                                      (obj : tourner l'object central)
-  code : 
-    - écrire une api sur le pico utilisable par le pi (en spi)
-    
-Communication :
-  electronique :
-    - implementer une connection uart
-   code : 
-    - transmettres data a un ordinateur en wifi                                             (obj : delivrer photo)
-    - retransmission de l'object 3d sur un server.                                          (obj : delivrer 3d)
-    - nettoyage des datas. en cas de succees.                                               (obj : delivrer 3d)
-    
-Data : 
-  electronique : 
-    - prendre les photos depuis le raspberry pi                                            (obj : prise de donnée)
-  code : 
-    - utiliser du logiciel Meshroom pour reconstitution 3d.                                 (obj : produire 3d)
+Three independent binaries, each on a separate device:
 
-Productivité : 
-  - trouver pour chaque objectif des valeurs refletant la qualité de l'objectif atteint. exemple : prise de donné : temps necessaire, qualité de l'image 
-  - implementer une note sur les quatres facteurs de accelerate : lead time, nombre de deploiement  time to recover, TX d'echec (total deploiement / breaking one)
-  - utiliser une architecture logiciel en quatre couche (architecture decouplée) 
-  - imposer une couverture de test d'au moins 80 % pour les units tests. écrire integration test, et  end to end test. (test automatisée) 
-  - ecrire une CI et CD. (intégration et déploiement continus)
-  - monitoring
+| Binary | Device | Role |
+|--------|--------|------|
+| `pico/motor/` | Raspberry Pi Pico | Controls 3 motors + reads 2 accelerometers |
+| `pi/` | Raspberry Pi 3B | Captures photos, commands the Pico, sends data |
+| `computer/` | PC | Receives images, serves web monitor, runs Meshroom |
 
-list materielle :
-- moteur dc JGB37 24v 45 rpm.
-- servo motor  MG995
-- stepper motor nema 23 + dm556 20-50 v
-- camera OV5647
-- raspberry pico
-- rasbperry pi 3b 
-- alimentation 24 volt,
-- limiteur LM2596 dc-dc
+## Hardware
 
-j'ai besoin d'un code pour le pico, un code pour le pi, un code pour l'ordinateur. tout vas etre ecrit en c++. 
-l'utilisation de bibliotheque pour simplifier le code est aussi de mise. 
-le pico controle les moteur, le pi controle les prises de photo et command le pico, l'ordinateur produit les images 3d et les places sur un server. 
+| Component | Part | Role |
+|-----------|------|------|
+| Microcontroller | Raspberry Pi Pico | Motor control |
+| Single-board computer | Raspberry Pi 3B | Camera host, orchestrator |
+| Camera | OV5647 | Photo capture |
+| Stepper motor | NEMA 23 + DM556 (20–50V) | Rotates object platform |
+| DC motor | JGB37 24V 45RPM | Moves camera arm (up/down) |
+| Servo | MG995 | Tilts camera |
+| Accelerometers | MPU-6050 × 2 | Stability check |
+| Power | 24V PSU + LM2596 DC-DC | Motors at 24V; Pi/Pico at 5V |
+
+## Communication
+
+```
+Computer  :3333
+    │  HTTP/1.1 (image upload)
+    │  WebSocket (real-time monitoring)
+    ▼
+Raspberry Pi 3B
+    │  USB CDC / UART  (/dev/ttyACM0)
+    ▼
+Raspberry Pi Pico
+    ├── DM556  stepper  (STEP/DIR/ENA pulses)  GP10–GP12
+    ├── JGB37  DC motor (dual PWM IN1/IN2)      GP6–GP9
+    ├── MG995  servo    (50 Hz PWM)             GP2
+    └── MPU-6050 × 2   (I2C0)                  GP4–GP5
+```
+
+## Flashing the Pico from the Pi (SWD — no button press)
+
+```
+Pi GPIO 24  →  Pico SWDCLK  (debug header)
+Pi GPIO 25  →  Pico SWDIO   (debug header)
+Pi GND      →  Pico SWD GND (debug header)
+```
+
+```bash
+openocd -f interface/raspberrypi-native.cfg \
+        -f target/rp2040.cfg \
+        -c "program motor.elf verify reset exit"
+```
+
+## Build
+
+```bash
+# Pico
+cmake -B pico/motor/build -S pico/motor -G Ninja
+cmake --build pico/motor/build
+
+# Computer webserver
+make -C computer/webserver/webserv
+```
+
+## Productivity
+
+- 4-layer clean architecture (entities / use cases / interfaces / framework)
+- 80% unit test coverage minimum
+- CI/CD on every push to `main`
+- Accelerate metrics: lead time, deployment frequency, time to restore, change failure rate

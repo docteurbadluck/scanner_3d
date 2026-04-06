@@ -8,4 +8,6 @@ add_executable(motor
  srcs/main.cpp
 )
 target_link_libraries(motor pico_stdlib hardware_pwm hardware_spi hardware_i2c)
+pico_enable_stdio_usb(motor 1)
+pico_enable_stdio_uart(motor 0)
 pico_add_extra_outputs(motor)
