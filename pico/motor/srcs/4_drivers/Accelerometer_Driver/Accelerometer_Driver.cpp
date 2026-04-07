@@ -56,5 +56,6 @@ float Accelerometer_Driver::readMagnitude()
 {
     int16_t x, y, z;
     _readRawAccel(x, y, z);
-    return _toMagnitude(x, y, z);
+    const float mag = _toMagnitude(x, y, z);
+    return fabsf(mag - 1.0f);
 }

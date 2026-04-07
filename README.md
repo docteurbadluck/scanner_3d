@@ -36,10 +36,11 @@ Raspberry Pi 3B
     │  USB CDC / UART  (/dev/ttyACM0)
     ▼
 Raspberry Pi Pico
-    ├── DM556  stepper  (STEP/DIR/ENA pulses)  GP10–GP12
-    ├── JGB37  DC motor (dual PWM IN1/IN2)      GP6–GP9
-    ├── MG995  servo    (50 Hz PWM)             GP2
-    └── MPU-6050 × 2   (I2C0)                  GP4–GP5
+    ├── DM556  stepper         (STEP/DIR/ENA pulses)      GP10–GP12
+    ├── JGB37  DC motor driver (PWM IN1/IN2)              GP6–GP7
+    ├── JGB37  endstops        (top/bottom limit inputs)  GP8–GP9
+    ├── MG995  servo           (50 Hz PWM)                GP2
+    └── MPU-6050 × 2           (I2C0)                     GP4–GP5
 ```
 
 ## Flashing the Pico from the Pi (SWD — no button press)

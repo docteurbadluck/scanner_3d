@@ -4,9 +4,18 @@ project(motor C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
-add_executable(motor 
- srcs/main.cpp
+
+file(GLOB_RECURSE MOTOR_SOURCES
+    srcs/1_domain/*.cpp
+    srcs/2_usecases/*.cpp
+    srcs/4_drivers/*.cpp
 )
+
+add_executable(motor
+    srcs/main.cpp
+    ${MOTOR_SOURCES}
+)
+target_include_directories(motor PRIVATE srcs)
 target_link_libraries(motor pico_stdlib hardware_pwm hardware_spi hardware_i2c)
 pico_enable_stdio_usb(motor 1)
 pico_enable_stdio_uart(motor 0)
