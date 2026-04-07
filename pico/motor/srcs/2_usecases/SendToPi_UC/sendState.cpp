@@ -1,0 +1,8 @@
+#include "SendToPi_UC.hpp"
+
+#include "1_domain/JsonMessage/JsonMessage.hpp"
+
+void SendToPi_UC::sendState(const System &sys)
+{
+    _sender.send(JsonMessage::makeState(sys.getStateString()));
+}

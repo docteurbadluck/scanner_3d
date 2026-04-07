@@ -1,5 +1,5 @@
 #pragma once
-#include "1_domain/System.hpp"
+#include "1_domain/System/System.hpp"
 #include "3_interface/IReceptor.hpp"
 #include "2_usecases/SendToPi_UC/SendToPi_UC.hpp"
 #include <string>

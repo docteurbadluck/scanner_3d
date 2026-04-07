@@ -112,12 +112,41 @@ void execute()
     applyLightDecision();
 }
 
-## 8. Formatting
+## 8. File Organisation
+
+Each **publicly exposed function** lives in its own `.cpp` file named after the function.  
+The matching header declares only the public interface of the class.
+
+```
+HourBasedLightSensor/
+├── HourBasedLightSensor.hpp   ← class declaration (public interface only)
+├── HourBasedLightSensor.cpp   ← constructor / shared state
+├── isNightTime.cpp            ← one public method → one file
+├── accessors/
+│   ├── getters.cpp            ← all getters grouped here
+│   └── setters.cpp            ← all setters grouped here
+└── internal/                  ← private helpers too long to inline
+    └── parseTimeRange.cpp
+```
+
+**Rules:**
+- `HourBasedLightSensor.cpp` contains **only the constructor** and its short private helpers (anonymous namespace). No other method lives there.
+- One public method = one `.cpp` file, named identically to the method (`isNightTime.cpp`).
+- Getter methods (`get...`) must be grouped in `accessors/getters.cpp`.
+- Setter methods (`set...`) must be grouped in `accessors/setters.cpp`.
+- Internal class methods (`_methodName`) must be placed in `internal/_methodName.cpp`.
+- Short private helpers (≤ 15 lines) that are only used by one method are written **at the bottom of that method's `.cpp`**, inside an anonymous namespace.
+- Helpers shared across several methods, or longer than 15 lines, go into the `internal/` sub-folder.
+- Accessor methods are **not** split one-per-file.
+
+---
+
+## 9. Formatting
 Tabs (4 spaces)
 max 100 chars / ligne
 toujours {}
 
-## 9. Key Principle
+## 10. Key Principle
 
 👉 Lire une méthode publique = comprendre le comportement sans lire les détails
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "1_domain/System.hpp"
+#include "1_domain/System/System.hpp"
 #include "2_usecases/ArmController_UC/ArmController_UC.hpp"
 #include "2_usecases/HandController_UC/HandController_UC.hpp"
 #include "2_usecases/PlateController_UC/PlateController_UC.hpp"

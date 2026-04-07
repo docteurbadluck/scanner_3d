@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-07T15:41:04Z",
+  "computed_at": "2026-04-07T17:39:39Z",
   "passed": true,
   "checks": {
     "layer_violations": {
@@ -13,6 +13,11 @@
       "violations": []
     },
     "coverage": {
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
+    },
+    "file_organisation": {
       "passed": true,
       "violation_count": 0,
       "violations": []
