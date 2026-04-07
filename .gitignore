@@ -45,3 +45,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .server.pid
+
+# Generated HTML reports (too large for git)
+computer/www/docs/
+computer/www/complexity/

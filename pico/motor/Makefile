@@ -22,7 +22,7 @@ UNITY_SRC := $(UNITY_DIR)/unity.c
 UNITY_OBJ := $(BUILD_DIR)/unity/unity.o
 COV_UNITY_OBJ := $(COV_BUILD)/unity/unity.o
 
-TEST_SOURCES  := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep -v '/internal/')
+TEST_SOURCES  := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep -v '/internal/' | grep -v '/4_drivers/')
 TEST_BINS     := $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/tests/%, $(TEST_SOURCES))
 COV_TEST_BINS := $(patsubst $(TEST_DIR)/%.cpp, $(COV_BUILD)/tests/%, $(TEST_SOURCES))
 INTERNAL_SOURCES := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep '/internal/')

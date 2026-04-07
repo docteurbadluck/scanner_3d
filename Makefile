@@ -41,4 +41,16 @@ pi-coverage-html:
 	make coverage-html -C ./pi
 	python3 metrics/pi_coverage.py
 
-.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html
+complexity:
+	$(PYTHON) metrics/collect_complexity.py
+
+doxygen:
+	doxygen docs/Doxyfile
+	@echo "Doc generated in computer/www/docs/html/index.html"
+
+doxygen-clean:
+	rm -rf computer/www/docs
+
+.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html complexity doxygen doxygen-clean
+
+include scripts/remote.mk
