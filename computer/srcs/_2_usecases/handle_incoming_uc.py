@@ -26,9 +26,18 @@ async def _handle_ping(connection: IConnection) -> None:
 
 
 async def _send_command(connection: IConnection, active_pi: IPiTransport, command: str) -> None:
-    cmd = CommandMessage.build(command)
-    await forward_command_to_pi(active_pi, cmd.command)
-    await connection.send(AckMessage(cmd.command).to_json())
+    await forward_command_to_pi(active_pi, command)
+    await connection.send(AckMessage(command).to_json())
+
+
+def _require_active_pi(
+    pi: IPiTransport | None,
+    pi_provider: Callable[[], IPiTransport | None] | None,
+) -> IPiTransport:
+    active_pi = pi_provider() if pi_provider is not None else pi
+    if active_pi is None:
+        raise ValueError("Pi unavailable")
+    return active_pi
 
 
 async def _handle_command(
@@ -37,11 +46,10 @@ async def _handle_command(
     pi: IPiTransport | None, pi_provider: Callable[[], IPiTransport | None] | None,
 ) -> None:
     command: str = str(data.get("command", ""))
-    active_pi = pi_provider() if pi_provider is not None else pi
     try:
-        if active_pi is None:
-            raise ValueError("Pi unavailable")
-        await _send_command(connection, active_pi, command)
+        cmd = CommandMessage.build(command)
+        active_pi = _require_active_pi(pi, pi_provider)
+        await _send_command(connection, active_pi, cmd.command)
     except ValueError as exc:
         await connection.send(ErrorMessage(str(exc)).to_json())
     except Exception as exc:
