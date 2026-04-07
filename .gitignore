@@ -45,3 +45,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .server.pid
+
+# Doxygen generated output
+computer/www/docs/

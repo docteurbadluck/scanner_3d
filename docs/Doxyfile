@@ -1,0 +1,65 @@
+# Doxyfile — 3D Scanner project
+# Run: doxygen docs/Doxyfile  (from repo root)
+# Output: computer/www/docs/html/index.html
+
+#---------------------------------------------------------------------------
+# Project
+#---------------------------------------------------------------------------
+PROJECT_NAME           = "3D Scanner"
+PROJECT_BRIEF          = "360 degree scan: Pico motor control + Pi camera + Computer 3D reconstruction"
+PROJECT_NUMBER         =
+OUTPUT_DIRECTORY       = computer/www/docs
+
+#---------------------------------------------------------------------------
+# Input
+#---------------------------------------------------------------------------
+INPUT                  = pico/motor/srcs pi/srcs
+RECURSIVE              = YES
+FILE_PATTERNS          = *.cpp *.hpp *.h *.c
+INCLUDE_PATH           = pico/motor/srcs pi/srcs
+
+#---------------------------------------------------------------------------
+# Extraction — document everything even without /// comments
+#---------------------------------------------------------------------------
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+
+#---------------------------------------------------------------------------
+# Output formats
+#---------------------------------------------------------------------------
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+HTML_OUTPUT            = html
+HTML_COLORSTYLE        = LIGHT
+
+#---------------------------------------------------------------------------
+# Graphs (requires graphviz / dot)
+#---------------------------------------------------------------------------
+HAVE_DOT               = YES
+DOT_NUM_THREADS        = 4
+UML_LOOK               = YES
+UML_LIMIT_NUM_FIELDS   = 15
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+
+#---------------------------------------------------------------------------
+# Noise reduction
+#---------------------------------------------------------------------------
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = NO
+
+#---------------------------------------------------------------------------
+# Source code browsing
+#---------------------------------------------------------------------------
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+STRIP_CODE_COMMENTS    = NO

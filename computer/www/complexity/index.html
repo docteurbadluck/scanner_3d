@@ -1,0 +1,3157 @@
+<!DOCTYPE HTML PUBLIC
+"-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Code complexity report</title>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <style>
+    h2
+    {
+          text-align: center;
+    }
+        td.footer
+        {
+          text-align: center;
+          padding-top: 3px;
+          font-family: sans-serif;
+        }
+    td.greater-value
+        {
+          padding-top: 2px;
+          text-align: center;
+          padding-left: 10px;
+          padding-right: 10px;
+          font-family: sans-serif;
+          white-space: nowrap;
+      background-color: LightPink;
+        }
+    td.lesser-value
+        {
+          padding-top: 2px;
+          text-align: center;
+          padding-left: 10px;
+          padding-right: 10px;
+          font-family: sans-serif;
+          white-space: nowrap;
+      background-color: LightGreen;
+        }
+    td.value
+        {
+          padding-top: 2px;
+          text-align: center;
+          padding-left: 10px;
+          padding-right: 10px;
+          font-family: sans-serif;
+          white-space: nowrap;
+        }
+    td.file-header
+        {
+          background-color: LightBlue;
+          font-weight: bold;
+        }
+    td.function-name
+        {
+          background-color: LightSteelBlue;
+        }
+    /* DataTables wrapper styling */
+    .dataTables_wrapper {
+          margin: 0 auto;
+          width: 95%;
+        }
+    /* Fallback styling if DataTables CSS doesn't load */
+    table#complexityTable {
+          border-collapse: collapse;
+          width: 95%;
+          margin: 0 auto;
+        }
+    table#complexityTable th {
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px;
+          text-align: left;
+          border: 1px solid #ddd;
+        }
+    table#complexityTable td {
+          border: 1px solid #ddd;
+        }
+    table#complexityTable tr:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+    table#complexityTable tr:hover {
+          background-color: #ddd;
+        }
+  </style>
+ </head>
+ <body>
+<h2>Code Complexity Report</h2>
+
+<center>
+
+<table id="complexityTable" class="display" style="width:100%">
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Function name</th>
+      <th>Cyclomatic complexity (15)</th>
+      <th>LOC (1000000)</th>
+      <th>
+        
+           Token count
+        
+      </th>
+      <th>Parameter count (100)</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::escape</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">12</td>
+    
+
+    
+       <td class="value">57</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::makeCommand</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">26</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::makeState</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">26</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::makeResponse</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">40</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::makeError</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">26</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::extractStringField</td>
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="lesser-value">34</td>
+    
+
+    
+       <td class="value">206</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::System</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::getState</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::getStateString</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">29</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::commandReceived</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::commandInterpreted</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">11</td>
+    
+
+    
+       <td class="value">26</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::resultCommand</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">20</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::setCommandToExecute</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">17</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::getCommandToExecute</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::getCommands</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/ServoMotor_Driver/ServoMotor_Driver.cpp</td>
+    <td class="function-name">ServoMotor_Driver::ServoMotor_Driver</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">40</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/ServoMotor_Driver/ServoMotor_Driver.cpp</td>
+    <td class="function-name">ServoMotor_Driver::_initPWM</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">10</td>
+    
+
+    
+       <td class="value">64</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/ServoMotor_Driver/ServoMotor_Driver.cpp</td>
+    <td class="function-name">ServoMotor_Driver::_setPulse</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">18</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/ServoMotor_Driver/ServoMotor_Driver.cpp</td>
+    <td class="function-name">ServoMotor_Driver::_angleForPos</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">7</td>
+    
+
+    
+       <td class="value">54</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/ServoMotor_Driver/ServoMotor_Driver.cpp</td>
+    <td class="function-name">ServoMotor_Driver::_angleToPulse</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">27</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/ServoMotor_Driver/ServoMotor_Driver.cpp</td>
+    <td class="function-name">ServoMotor_Driver::goInitialPos</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">15</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/ServoMotor_Driver/ServoMotor_Driver.cpp</td>
+    <td class="function-name">ServoMotor_Driver::goTo</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">10</td>
+    
+
+    
+       <td class="value">54</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/UsbSender_Driver/UsbSender_Driver.cpp</td>
+    <td class="function-name">UsbSender_Driver::send</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/UsbReceptor_Driver/UsbReceptor_Driver.cpp</td>
+    <td class="function-name">UsbReceptor_Driver::UsbReceptor_Driver</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">16</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/UsbReceptor_Driver/UsbReceptor_Driver.cpp</td>
+    <td class="function-name">UsbReceptor_Driver::isMessageArrived</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="value">50</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/UsbReceptor_Driver/UsbReceptor_Driver.cpp</td>
+    <td class="function-name">UsbReceptor_Driver::getMessage</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/StepperMotor_Driver/StepperMotor_Driver.cpp</td>
+    <td class="function-name">StepperMotor_Driver::StepperMotor_Driver</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">30</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/StepperMotor_Driver/StepperMotor_Driver.cpp</td>
+    <td class="function-name">StepperMotor_Driver::_initGPIO</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">15</td>
+    
+
+    
+       <td class="value">90</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/StepperMotor_Driver/StepperMotor_Driver.cpp</td>
+    <td class="function-name">StepperMotor_Driver::_enable</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">22</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/StepperMotor_Driver/StepperMotor_Driver.cpp</td>
+    <td class="function-name">StepperMotor_Driver::_pulseStep</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">33</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/StepperMotor_Driver/StepperMotor_Driver.cpp</td>
+    <td class="function-name">StepperMotor_Driver::goInitialPos</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">23</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/StepperMotor_Driver/StepperMotor_Driver.cpp</td>
+    <td class="function-name">StepperMotor_Driver::stepForward</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="value">39</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/Accelerometer_Driver/Accelerometer_Driver.cpp</td>
+    <td class="function-name">Accelerometer_Driver::Accelerometer_Driver</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">7</td>
+    
+
+    
+       <td class="value">34</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/Accelerometer_Driver/Accelerometer_Driver.cpp</td>
+    <td class="function-name">Accelerometer_Driver::_initI2C</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="value">50</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/Accelerometer_Driver/Accelerometer_Driver.cpp</td>
+    <td class="function-name">Accelerometer_Driver::_wakeUp</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">36</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/Accelerometer_Driver/Accelerometer_Driver.cpp</td>
+    <td class="function-name">Accelerometer_Driver::_readRawAccel</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">10</td>
+    
+
+    
+       <td class="value">134</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/Accelerometer_Driver/Accelerometer_Driver.cpp</td>
+    <td class="function-name">Accelerometer_Driver::_toMagnitude</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">7</td>
+    
+
+    
+       <td class="value">74</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/Accelerometer_Driver/Accelerometer_Driver.cpp</td>
+    <td class="function-name">Accelerometer_Driver::readMagnitude</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">33</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">speed_to_level</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">34</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::MotorDC_Driver</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">42</td>
+    
+
+    
+       <td class="value">237</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::_drive_up</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">30</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::_drive_down</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">30</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::_stop</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">25</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::_is_up_pressed</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">29</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::_is_down_pressed</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">29</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::_wait_until_pressed</td>
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="lesser-value">13</td>
+    
+
+    
+       <td class="value">81</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::goInitialPos</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">15</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp</td>
+    <td class="function-name">MotorDC_Driver::goTo</td>
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="lesser-value">26</td>
+    
+
+    
+       <td class="value">104</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ArmController_UC/ArmController_UC.cpp</td>
+    <td class="function-name">ArmController_UC::ArmController_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">22</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ArmController_UC/ArmController_UC.cpp</td>
+    <td class="function-name">ArmController_UC::joinInitialPos</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">10</td>
+    
+
+    
+       <td class="value">35</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ArmController_UC/ArmController_UC.cpp</td>
+    <td class="function-name">ArmController_UC::joinPos</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">12</td>
+    
+
+    
+       <td class="value">45</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ArmController_UC/ArmController_UC.cpp</td>
+    <td class="function-name">ArmController_UC::getPos</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/CommandReceptorUC/CommandReceptorUC.cpp</td>
+    <td class="function-name">CommandReceptorUC::CommandReceptorUC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="value">32</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/CommandReceptorUC/CommandReceptorUC.cpp</td>
+    <td class="function-name">CommandReceptorUC::checkForNewMessage</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">11</td>
+    
+
+    
+       <td class="value">80</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/CommandReceptorUC/CommandReceptorUC.cpp</td>
+    <td class="function-name">CommandReceptorUC::interpreteMessage</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">16</td>
+    
+
+    
+       <td class="value">85</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/CommandReceptorUC/CommandReceptorUC.cpp</td>
+    <td class="function-name">CommandReceptorUC::getMessage</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">10</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/HandController_UC/HandController_UC.cpp</td>
+    <td class="function-name">HandController_UC::HandController_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">22</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/HandController_UC/HandController_UC.cpp</td>
+    <td class="function-name">HandController_UC::joinInitialPos</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">10</td>
+    
+
+    
+       <td class="value">35</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/HandController_UC/HandController_UC.cpp</td>
+    <td class="function-name">HandController_UC::joinPos</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">12</td>
+    
+
+    
+       <td class="value">45</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/HandController_UC/HandController_UC.cpp</td>
+    <td class="function-name">HandController_UC::getPos</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp</td>
+    <td class="function-name">ExecuteCommand_UC::ExecuteCommand_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">51</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp</td>
+    <td class="function-name">ExecuteCommand_UC::_goInitialPos</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">7</td>
+    
+
+    
+       <td class="value">43</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp</td>
+    <td class="function-name">ExecuteCommand_UC::_dispatch</td>
+    
+       <td class="greater-value">16</td>
+    
+
+    
+       <td class="lesser-value">12</td>
+    
+
+    
+       <td class="value">171</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp</td>
+    <td class="function-name">ExecuteCommand_UC::_waitUntilStable</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">18</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp</td>
+    <td class="function-name">ExecuteCommand_UC::execute</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="value">53</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/VibrationMonitor_UC/VibrationMonitor_UC.cpp</td>
+    <td class="function-name">VibrationMonitor_UC::VibrationMonitor_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/VibrationMonitor_UC/VibrationMonitor_UC.cpp</td>
+    <td class="function-name">VibrationMonitor_UC::isStable</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">34</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/SendToPi_UC/SendToPi_UC.cpp</td>
+    <td class="function-name">SendToPi_UC::SendToPi_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">15</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/SendToPi_UC/SendToPi_UC.cpp</td>
+    <td class="function-name">SendToPi_UC::sendState</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">27</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/SendToPi_UC/SendToPi_UC.cpp</td>
+    <td class="function-name">SendToPi_UC::sendInvalidCmd</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">19</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/SendToPi_UC/SendToPi_UC.cpp</td>
+    <td class="function-name">SendToPi_UC::sendResponse</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">11</td>
+    
+
+    
+       <td class="value">98</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/PlateController_UC/PlateController_UC.cpp</td>
+    <td class="function-name">PlateController_UC::PlateController_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="value">21</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/PlateController_UC/PlateController_UC.cpp</td>
+    <td class="function-name">PlateController_UC::joinInitialPos</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">10</td>
+    
+
+    
+       <td class="value">32</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/PlateController_UC/PlateController_UC.cpp</td>
+    <td class="function-name">PlateController_UC::_rotateSteps</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">13</td>
+    
+
+    
+       <td class="value">57</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/PlateController_UC/PlateController_UC.cpp</td>
+    <td class="function-name">PlateController_UC::rotateTo</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">9</td>
+    
+
+    
+       <td class="value">46</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pico/motor/srcs/2_usecases/PlateController_UC/PlateController_UC.cpp</td>
+    <td class="function-name">PlateController_UC::getPos</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>pico/motor/srcs/main.cpp</td>
+    <td class="function-name">main</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">11</td>
+    
+
+    
+       <td class="value">33</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>pi/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::escape</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">12</td>
+    
+
+    
+       <td class="value">57</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::makeCommand</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">26</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::makeState</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">26</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::makeResponse</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">40</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::makeError</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">26</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::extractStringField</td>
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="lesser-value">34</td>
+    
+
+    
+       <td class="value">206</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/JsonMessage/JsonMessage.cpp</td>
+    <td class="function-name">JsonMessage::normalizeMessage</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">13</td>
+    
+
+    
+       <td class="value">89</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::System</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="value">12</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::get_state</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::getCommands</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::getStateString</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">7</td>
+    
+
+    
+       <td class="value">38</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::setCommandToExecute</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">17</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::getCommandToExecute</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::ready</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::processing</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::sending</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/1_domain/System.cpp</td>
+    <td class="function-name">System::reset</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CheckConnection_UC/CheckConnection_UC.cpp</td>
+    <td class="function-name">CheckConnection_UC::CheckConnection_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CheckConnection_UC/CheckConnection_UC.cpp</td>
+    <td class="function-name">CheckConnection_UC::execute</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="value">40</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CaptureData_UC/CaptureData_UC.cpp</td>
+    <td class="function-name">CaptureData_UC::CaptureData_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">33</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CaptureData_UC/CaptureData_UC.cpp</td>
+    <td class="function-name">CaptureData_UC::execute</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">10</td>
+    
+
+    
+       <td class="value">52</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CheckCaptureStorage_UC/CheckCaptureStorage_UC.cpp</td>
+    <td class="function-name">CheckCaptureStorage_UC::CheckCaptureStorage_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">15</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CheckCaptureStorage_UC/CheckCaptureStorage_UC.cpp</td>
+    <td class="function-name">CheckCaptureStorage_UC::execute</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">26</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CommandReceptor_UC/CommandReceptor_UC.cpp</td>
+    <td class="function-name">CommandReceptor_UC::CommandReceptor_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CommandReceptor_UC/CommandReceptor_UC.cpp</td>
+    <td class="function-name">CommandReceptor_UC::waitAndInterprete</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">18</td>
+    
+
+    
+       <td class="value">121</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/CommandReceptor_UC/CommandReceptor_UC.cpp</td>
+    <td class="function-name">CommandReceptor_UC::getMessage</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>pi/srcs/2_usecases/SendPhotoToComputer_UC/SendPhotoToComputer_UC.cpp</td>
+    <td class="function-name">SendPhotoToComputer_UC::SendPhotoToComputer_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/SendPhotoToComputer_UC/SendPhotoToComputer_UC.cpp</td>
+    <td class="function-name">SendPhotoToComputer_UC::execute</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="value">39</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+
+  
+
+  
+
+  
+  <tr>
+    <td>pi/srcs/2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.cpp</td>
+    <td class="function-name">ExecuteOrder_UC::ExecuteOrder_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">42</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.cpp</td>
+    <td class="function-name">ExecuteOrder_UC::_dispatch</td>
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="lesser-value">13</td>
+    
+
+    
+       <td class="value">91</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.cpp</td>
+    <td class="function-name">ExecuteOrder_UC::execute</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">9</td>
+    
+
+    
+       <td class="value">62</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>pi/srcs/2_usecases/SendToComputer_UC/SendToComputer_UC.cpp</td>
+    <td class="function-name">SendToComputer_UC::SendToComputer_UC</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">15</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/SendToComputer_UC/SendToComputer_UC.cpp</td>
+    <td class="function-name">SendToComputer_UC::sendState</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">27</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/SendToComputer_UC/SendToComputer_UC.cpp</td>
+    <td class="function-name">SendToComputer_UC::sendInvalidCmd</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">19</td>
+    
+
+    
+       <td class="lesser-value">0</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/SendToComputer_UC/SendToComputer_UC.cpp</td>
+    <td class="function-name">SendToComputer_UC::sendRaw</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">20</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>pi/srcs/2_usecases/SendToComputer_UC/SendToComputer_UC.cpp</td>
+    <td class="function-name">SendToComputer_UC::sendResponse</td>
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="lesser-value">11</td>
+    
+
+    
+       <td class="value">98</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>computer/srcs/_1_domain/messages.py</td>
+    <td class="function-name">build</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">34</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/messages.py</td>
+    <td class="function-name">to_json</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+
+    
+       <td class="value">31</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/messages.py</td>
+    <td class="function-name">to_json</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">18</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/messages.py</td>
+    <td class="function-name">build</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">32</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/messages.py</td>
+    <td class="function-name">to_json</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/messages.py</td>
+    <td class="function-name">to_json</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/messages.py</td>
+    <td class="function-name">to_json</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">24</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">__init__</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">32</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">get_state</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">get_state_string</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">13</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">get_commands</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">set_command_to_execute</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">16</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">get_command_to_execute</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">ready</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">14</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">processing</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">14</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">sending</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">14</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/system.py</td>
+    <td class="function-name">reset</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="value">19</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>computer/srcs/_1_domain/pi_messages.py</td>
+    <td class="function-name">from_raw</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="value">23</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/pi_messages.py</td>
+    <td class="function-name">_normalize_state</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">18</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/pi_messages.py</td>
+    <td class="function-name">parse</td>
+    
+       <td class="lesser-value">8</td>
+    
+
+    
+       <td class="lesser-value">27</td>
+    
+
+    
+       <td class="value">217</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_1_domain/pi_messages.py</td>
+    <td class="function-name">to_json</td>
+    
+       <td class="lesser-value">5</td>
+    
+
+    
+       <td class="lesser-value">14</td>
+    
+
+    
+       <td class="value">119</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>computer/srcs/_2_usecases/handle_connection_uc.py</td>
+    <td class="function-name">handle_connection</td>
+    
+       <td class="lesser-value">3</td>
+    
+
+    
+       <td class="lesser-value">10</td>
+    
+
+    
+       <td class="value">98</td>
+    
+
+    
+       <td class="lesser-value">7</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>computer/srcs/_2_usecases/handle_incoming_uc.py</td>
+    <td class="function-name">handle_incoming</td>
+    
+       <td class="lesser-value">9</td>
+    
+
+    
+       <td class="lesser-value">32</td>
+    
+
+    
+       <td class="value">263</td>
+    
+
+    
+       <td class="lesser-value">6</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>computer/srcs/_2_usecases/handle_pi_message_uc.py</td>
+    <td class="function-name">handle_pi_message</td>
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="lesser-value">4</td>
+    
+
+    
+       <td class="value">40</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>computer/srcs/_2_usecases/forward_command_to_pi_uc.py</td>
+    <td class="function-name">forward_command_to_pi</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">27</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>computer/srcs/_3_interface/IConnection.py</td>
+    <td class="function-name">send</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">12</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_3_interface/IConnection.py</td>
+    <td class="function-name">__aiter__</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">11</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+  <tr>
+    <td>computer/srcs/_3_interface/IServer.py</td>
+    <td class="function-name">start</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">8</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+  <tr>
+    <td>computer/srcs/_3_interface/IServer.py</td>
+    <td class="function-name">stop</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">8</td>
+    
+
+    
+       <td class="lesser-value">1</td>
+    
+  </tr>
+  
+
+  
+
+  
+  <tr>
+    <td>computer/srcs/_3_interface/IPiTransport.py</td>
+    <td class="function-name">send</td>
+    
+       <td class="lesser-value">1</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+
+    
+       <td class="value">12</td>
+    
+
+    
+       <td class="lesser-value">2</td>
+    
+  </tr>
+  
+
+  
+
+  </tbody>
+</table>
+<center>
+
+<br>
+<table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="footer">Generated by
+    <a href="http://www.lizard.ws/">Lizard</a> on 2026-04-07 12:54
+    </td></tr>
+</table>
+
+<script>
+// Gracefully degrade if CDN is unavailable
+if (typeof jQuery !== 'undefined' && typeof jQuery.fn.dataTable !== 'undefined') {
+    $(document).ready(function() {
+        try {
+            $('#complexityTable').DataTable({
+                "pageLength": 25,
+                "order": [[2, "desc"]],  // Sort by cyclomatic complexity descending by default
+                "columnDefs": [
+                    { "type": "num", "targets": [2, 3, 4, 5] }  // Ensure numeric sorting for metric columns
+                ]
+            });
+        } catch (e) {
+            console.warn('DataTables initialization failed. Displaying static table.', e);
+        }
+    });
+} else {
+    // Fallback: Table will display as static HTML
+    console.info('DataTables not available. Displaying static HTML table.');
+}
+</script>
+
+ </body>
+</html>
+
