@@ -24,7 +24,7 @@ jobs:
         run: echo "start_time=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Install dependencies
-        run: sudo apt-get update -qq && sudo apt-get install -y g++ make
+        run: sudo apt-get update -qq && sudo apt-get install -y g++ make doxygen graphviz
 
       - name: Install Python dependencies
         run: pip3 install -r computer/requirements.txt
@@ -61,6 +61,22 @@ jobs:
       - name: pi coverage
         run: make pi-coverage-html
 
+      # ── Complexity + Doxygen ───────────────────────────────────────────
+
+      - name: complexity analysis
+        run: make complexity
+
+      - name: generate doxygen docs
+        run: make doxygen
+
+      - name: upload doxygen artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: doxygen-docs-${{ github.run_number }}
+          path: computer/www/docs/html/
+          retention-days: 30
+
       # ── Collect Accelerate metrics ─────────────────────────────────────
 
       - name: Collect Accelerate metrics
@@ -90,6 +106,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add metrics/summary.json computer/www/data/productivity.json computer/www/data/pico_coverage.json computer/www/data/pi_coverage.json computer/www/coverage/ computer/www/data/coverage.json
+          git add metrics/summary.json computer/www/data/productivity.json computer/www/data/pico_coverage.json computer/www/data/pi_coverage.json computer/www/coverage/ computer/www/data/coverage.json computer/www/data/complexity.json
           git diff --cached --quiet || git commit -m "ci: update metrics summary [skip ci]"
           git push

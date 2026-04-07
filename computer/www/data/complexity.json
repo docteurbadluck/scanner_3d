@@ -1,0 +1,129 @@
+{
+  "computed_at": "2026-04-07T10:54:57Z",
+  "thresholds": {
+    "warn": 5,
+    "critical": 10
+  },
+  "components": {
+    "pico": {
+      "function_count": 77,
+      "nloc": 589,
+      "avg_ccn": 1.95,
+      "max_ccn": 16,
+      "violations_over_5": 3,
+      "violations_over_10": 1,
+      "top_complex": [
+        {
+          "name": "ExecuteCommand_UC::_dispatch",
+          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp",
+          "ccn": 16,
+          "nloc": 12
+        },
+        {
+          "name": "JsonMessage::extractStringField",
+          "file": "pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "ccn": 8,
+          "nloc": 34
+        },
+        {
+          "name": "MotorDC_Driver::_wait_until_pressed",
+          "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp",
+          "ccn": 6,
+          "nloc": 13
+        },
+        {
+          "name": "MotorDC_Driver::goTo",
+          "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp",
+          "ccn": 5,
+          "nloc": 26
+        },
+        {
+          "name": "JsonMessage::escape",
+          "file": "pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "ccn": 4,
+          "nloc": 12
+        }
+      ]
+    },
+    "pi": {
+      "function_count": 36,
+      "nloc": 245,
+      "avg_ccn": 2.08,
+      "max_ccn": 8,
+      "violations_over_5": 2,
+      "violations_over_10": 0,
+      "top_complex": [
+        {
+          "name": "JsonMessage::extractStringField",
+          "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "ccn": 8,
+          "nloc": 34
+        },
+        {
+          "name": "ExecuteOrder_UC::_dispatch",
+          "file": "pi/srcs/2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.cpp",
+          "ccn": 8,
+          "nloc": 13
+        },
+        {
+          "name": "JsonMessage::escape",
+          "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "ccn": 4,
+          "nloc": 12
+        },
+        {
+          "name": "JsonMessage::normalizeMessage",
+          "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "ccn": 4,
+          "nloc": 13
+        },
+        {
+          "name": "System::getStateString",
+          "file": "pi/srcs/1_domain/System.cpp",
+          "ccn": 4,
+          "nloc": 7
+        }
+      ]
+    },
+    "computer": {
+      "function_count": 30,
+      "nloc": 152,
+      "avg_ccn": 1.8,
+      "max_ccn": 9,
+      "violations_over_5": 2,
+      "violations_over_10": 0,
+      "top_complex": [
+        {
+          "name": "handle_incoming",
+          "file": "computer/srcs/_2_usecases/handle_incoming_uc.py",
+          "ccn": 9,
+          "nloc": 32
+        },
+        {
+          "name": "parse",
+          "file": "computer/srcs/_1_domain/pi_messages.py",
+          "ccn": 8,
+          "nloc": 27
+        },
+        {
+          "name": "to_json",
+          "file": "computer/srcs/_1_domain/pi_messages.py",
+          "ccn": 5,
+          "nloc": 14
+        },
+        {
+          "name": "handle_connection",
+          "file": "computer/srcs/_2_usecases/handle_connection_uc.py",
+          "ccn": 3,
+          "nloc": 10
+        },
+        {
+          "name": "build",
+          "file": "computer/srcs/_1_domain/messages.py",
+          "ccn": 2,
+          "nloc": 4
+        }
+      ]
+    }
+  }
+}

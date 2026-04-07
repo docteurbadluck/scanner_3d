@@ -1,61 +1,60 @@
+# Computer — Web server & 3D reconstruction
 
-Main goal: retrieve data and transform it into a 3D model.
+Receives photos from the Pi, serves a real-time web monitor, and runs Meshroom for 3D reconstruction.
 
-System states
-	INITIALIZATION
-		Start server on localhost:3333,  ping the Raspberry Pi to check availability.
-	READING
-		Receive images and metadata from the Pi.
-	WRITING
-		Store images on disk in a structured way.
-	PROCESSING
-		Send data to a more powerful computer for 3D reconstruction.
+## System states
 
-Monitoring
-The server provides a real-time dashboard displaying:
+```
+INITIALIZATION → READING → WRITING → PROCESSING
+```
 
-	Scanner state
-	Raspberry Pi and Pico status
-	Motor positions
-	Accelerometer data
+| State | Description |
+|-------|-------------|
+| INITIALIZATION | Start server on :3333, ping the Pi to check availability |
+| READING | Receive images and metadata from the Pi via HTTP upload |
+| WRITING | Store images on disk in a structured layout |
+| PROCESSING | Send data to a remote machine and run Meshroom reconstruction |
 
-It also includes:
+## Communication
 
-	History of scans and system evolution
-	Progress tracking (implemented vs pending features)
-	Buttons to:
-	run hardware tests
-	test connections
-	Processing strategy
+| Link | Protocol | Port | Purpose |
+|------|----------|------|---------|
+| Pi → Computer | HTTP 1.1 | :3333 | Image upload |
+| Browser → Computer | WebSocket | :3333 | Real-time dashboard updates |
+| Browser → Computer | HTTP 1.1 | :3333 | Web monitor pages |
 
-Since the local computer is not powerful enough:
+## Web monitor
 
-	Send data to a remote machine
-	Run reconstruction there using:
-	Meshroom
+Four pages served by the Python webserver:
 
-Metrics : 
+| Page | Content |
+|------|---------|
+| Index | Main dashboard — Pico + Pi status, launch scans, run hardware tests |
+| Status | Motor positions, camera angles, accelerometer readings |
+| Metrics | Response time, action duration, stability score, image quality |
+| Productivity | Accelerate metrics — lead time, deployment frequency, time to restore, change failure rate |
 
-	reconstruction success rate
-	model quality
-	scan completion time
-	Processing time
+WebSocket keeps the dashboard updated in near real-time. Frontend: HTML + CSS + vanilla JS only.
 
+## 3D Reconstruction
 
-connection : use a python webserver
-		the websocket connection is used for get metrics and send order,
-		http protocol for upload
+The local machine offloads reconstruction to a more powerful remote host:
 
+1. Upload structured image set via SSH/HTTP.
+2. Run **Meshroom** on the remote host.
+3. Retrieve the resulting 3D model.
+4. Serve the model via the web monitor.
+5. Clean up raw images on success.
 
-Web Monitor
+## Build
 
-The web monitor provides a lightweight interface to control and monitor the 3D scanner system. It consists of four main pages:
+```bash
+make -C webserver/webserv
+```
 
-Index – main dashboard, displays overall Pico + Pi status, allows launching scans and running hardware tests in real time.
-Status – detailed view of motors, camera positions, and sensor readings.
-Metrics – shows performance metrics for each objective (response time, action duration, stability, etc.) and their evolution.
-Productivity – tracks Accelerate metrics: lead time, deployment frequency, time to recover, and change failure rate.
+## Metrics
 
-A WebSocket connection keeps the dashboard updated in near real-time, while the frontend remains minimal and fast using only HTML, CSS, and vanilla JavaScript.
-
-
+- Reconstruction success rate
+- Model quality score
+- Scan completion time
+- Processing time (upload + reconstruction + retrieval)
