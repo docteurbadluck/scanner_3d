@@ -17,15 +17,20 @@ void CommandReceptorUC::checkForNewMessage(System &sys)
     }
 }
 
+void CommandReceptorUC::_handleValidCommand(System &sys)
+{
+    sys.commandInterpreted(true);
+    sys.setCommandToExecute(_message);
+    _sender.sendState(sys);
+}
+
 bool CommandReceptorUC::interpreteMessage(System &sys)
 {
     for (size_t i = 0; i < _cmds.valid_command.size(); i++)
     {
         if (_message == _cmds.valid_command[i])
         {
-            sys.commandInterpreted(true);
-            sys.setCommandToExecute(_message);
-            _sender.sendState(sys);
+            _handleValidCommand(sys);
             return true;
         }
     }

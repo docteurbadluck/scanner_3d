@@ -1,6 +1,6 @@
 {
-  "computed_at": "2026-04-07T15:02:05Z",
-  "passed": false,
+  "computed_at": "2026-04-07T15:29:12Z",
+  "passed": true,
   "checks": {
     "layer_violations": {
       "passed": true,
@@ -8,94 +8,9 @@
       "violations": []
     },
     "conventions": {
-      "passed": false,
-      "violation_count": 14,
-      "violations": [
-        {
-          "file": "pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp",
-          "function": "JsonMessage::extractStringField",
-          "value": 34,
-          "rule": "nloc 34 > 15"
-        },
-        {
-          "file": "pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp",
-          "function": "JsonMessage::extractStringField",
-          "value": 8,
-          "rule": "ccn 8 > 6"
-        },
-        {
-          "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp",
-          "function": "MotorDC_Driver::goTo",
-          "value": 26,
-          "rule": "nloc 26 > 15"
-        },
-        {
-          "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver_hw.cpp",
-          "function": "MotorDC_Driver::MotorDC_Driver",
-          "value": 63,
-          "rule": "nloc 63 > 15"
-        },
-        {
-          "file": "pico/motor/srcs/2_usecases/CommandReceptorUC/CommandReceptorUC.cpp",
-          "function": "CommandReceptorUC::interpreteMessage",
-          "value": 16,
-          "rule": "nloc 16 > 15"
-        },
-        {
-          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp",
-          "function": "ExecuteCommand_UC::_dispatch",
-          "value": 16,
-          "rule": "ccn 16 > 6"
-        },
-        {
-          "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
-          "function": "JsonMessage::extractStringField",
-          "value": 34,
-          "rule": "nloc 34 > 15"
-        },
-        {
-          "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
-          "function": "JsonMessage::extractStringField",
-          "value": 8,
-          "rule": "ccn 8 > 6"
-        },
-        {
-          "file": "pi/srcs/2_usecases/CommandReceptor_UC/CommandReceptor_UC.cpp",
-          "function": "CommandReceptor_UC::waitAndInterprete",
-          "value": 18,
-          "rule": "nloc 18 > 15"
-        },
-        {
-          "file": "pi/srcs/2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.cpp",
-          "function": "ExecuteOrder_UC::_dispatch",
-          "value": 8,
-          "rule": "ccn 8 > 6"
-        },
-        {
-          "file": "computer/srcs/_1_domain/pi_messages.py",
-          "function": "parse",
-          "value": 27,
-          "rule": "nloc 27 > 15"
-        },
-        {
-          "file": "computer/srcs/_1_domain/pi_messages.py",
-          "function": "parse",
-          "value": 8,
-          "rule": "ccn 8 > 6"
-        },
-        {
-          "file": "computer/srcs/_2_usecases/handle_incoming_uc.py",
-          "function": "handle_incoming",
-          "value": 32,
-          "rule": "nloc 32 > 15"
-        },
-        {
-          "file": "computer/srcs/_2_usecases/handle_incoming_uc.py",
-          "function": "handle_incoming",
-          "value": 9,
-          "rule": "ccn 9 > 6"
-        }
-      ]
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
     },
     "coverage": {
       "passed": true,

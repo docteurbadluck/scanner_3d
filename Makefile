@@ -28,19 +28,11 @@ pico-coverage:
 	make coverage -C ./pico/motor
 	python3 metrics/pico_coverage.py
 
-pico-coverage-html:
-	make coverage-html -C ./pico/motor
-	python3 metrics/pico_coverage.py
-
 pi-test:
 	make test -C ./pi
 
 pi-coverage:
 	make coverage -C ./pi
-	python3 metrics/pi_coverage.py
-
-pi-coverage-html:
-	make coverage-html -C ./pi
 	python3 metrics/pi_coverage.py
 
 complexity:
@@ -56,6 +48,6 @@ doxygen:
 doxygen-clean:
 	rm -rf computer/www/docs
 
-.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html complexity fitness doxygen doxygen-clean
+.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pi-test pi-coverage complexity fitness doxygen doxygen-clean
 
 include scripts/remote.mk

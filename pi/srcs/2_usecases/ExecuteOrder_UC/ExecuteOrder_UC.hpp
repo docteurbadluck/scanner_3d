@@ -13,7 +13,8 @@ private:
     SendToComputer_UC &_sender;
     IPico       &_pico;
 
-    int _dispatch(const std::string &cmd);
+    int  _dispatch(const std::string &cmd);
+    bool _isNoOp(const std::string &cmd) const;
 
 public:
     ExecuteOrder_UC(CaptureData_UC &capture, SendPhotoToComputer_UC &send,

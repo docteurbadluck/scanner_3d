@@ -41,6 +41,8 @@ private:
     MotorDC_DriverIO     _io;
 
     bool _wait_until_pressed(Pos pos) const;
+    bool _goUp();
+    bool _goDown();
 
 public:
     MotorDC_Driver(const MotorDC_DriverConfig &cfg, const MotorDC_DriverPins &pins);

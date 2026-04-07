@@ -25,34 +25,38 @@ bool MotorDC_Driver::goInitialPos()
     return goTo(Pos::UP);
 }
 
-bool MotorDC_Driver::goTo(Pos pos)
+bool MotorDC_Driver::_goUp()
 {
-    if (pos == Pos::UNKNOWN)
-        return false;
-
-    if (pos == Pos::UP)
+    if (_io.is_up_pressed())
     {
-        if (_io.is_up_pressed())
-        {
-            _io.stop();
-            return true;
-        }
-
-        _io.drive_up(_cfg.speed_percent);
-        const bool reached = _wait_until_pressed(Pos::UP);
         _io.stop();
-        return reached;
+        return true;
     }
+    _io.drive_up(_cfg.speed_percent);
+    const bool reached = _wait_until_pressed(Pos::UP);
+    _io.stop();
+    return reached;
+}
 
+bool MotorDC_Driver::_goDown()
+{
     if (_io.is_down_pressed())
     {
         _io.stop();
         return true;
     }
-
     _io.drive_down(_cfg.speed_percent);
     const bool reached = _wait_until_pressed(Pos::DOWN);
     _io.stop();
     return reached;
+}
+
+bool MotorDC_Driver::goTo(Pos pos)
+{
+    if (pos == Pos::UNKNOWN)
+        return false;
+    if (pos == Pos::UP)
+        return _goUp();
+    return _goDown();
 }
 
