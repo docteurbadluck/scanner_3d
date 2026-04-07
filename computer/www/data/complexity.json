@@ -1,14 +1,14 @@
 {
-  "computed_at": "2026-04-07T11:29:58Z",
+  "computed_at": "2026-04-07T14:34:25Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
   },
   "components": {
     "pico": {
-      "function_count": 77,
-      "nloc": 589,
-      "avg_ccn": 1.95,
+      "function_count": 74,
+      "nloc": 599,
+      "avg_ccn": 2.0,
       "max_ccn": 16,
       "violations_over_5": 3,
       "violations_over_10": 1,
@@ -32,16 +32,16 @@
           "nloc": 13
         },
         {
+          "name": "MotorDC_Driver::MotorDC_Driver",
+          "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver_hw.cpp",
+          "ccn": 5,
+          "nloc": 63
+        },
+        {
           "name": "MotorDC_Driver::goTo",
           "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp",
           "ccn": 5,
           "nloc": 26
-        },
-        {
-          "name": "JsonMessage::escape",
-          "file": "pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp",
-          "ccn": 4,
-          "nloc": 12
         }
       ]
     },
