@@ -12,6 +12,8 @@ private:
     SendToPi_UC &_sender;
     std::string  _message;
 
+    void _handleValidCommand(System &sys);
+
 public:
     CommandReceptorUC(IReceptor &recep, Commands cmds, SendToPi_UC &sender);
     ~CommandReceptorUC() = default;

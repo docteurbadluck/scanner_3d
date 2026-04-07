@@ -51,7 +51,7 @@ jobs:
         run: make pico-test
 
       - name: pico coverage
-        run: make pico-coverage-html
+        run: make pico-coverage
 
       # ── pi ───────────────────────────────────────
 
@@ -59,12 +59,15 @@ jobs:
         run: make pi-test
 
       - name: pi coverage
-        run: make pi-coverage-html
+        run: make pi-coverage
 
       # ── Complexity + Doxygen ───────────────────────────────────────────
 
       - name: complexity analysis
         run: make complexity
+
+      - name: fitness checks
+        run: make fitness
 
       - name: generate doxygen docs
         run: make doxygen
@@ -106,6 +109,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add metrics/summary.json computer/www/data/productivity.json computer/www/data/pico_coverage.json computer/www/data/pi_coverage.json computer/www/coverage/ computer/www/data/coverage.json computer/www/data/complexity.json
+          git add metrics/summary.json computer/www/data/productivity.json computer/www/data/pico_coverage.json computer/www/data/pi_coverage.json computer/www/coverage/ computer/www/data/coverage.json computer/www/data/computer_srcs_coverage.json computer/www/data/complexity.json computer/www/data/fitness.json
           git diff --cached --quiet || git commit -m "ci: update metrics summary [skip ci]"
           git push

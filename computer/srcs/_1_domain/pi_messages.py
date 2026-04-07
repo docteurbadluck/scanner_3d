@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
 
 
 class PiResponseKind(Enum):
@@ -40,6 +41,45 @@ def _normalize_state(raw_state: str) -> str:
     return _STATE_MAPPING.get(raw_state, raw_state)
 
 
+def _parse_state_message(data: dict[str, Any]) -> PiResponse:
+    state = _normalize_state(str(data.get("state", "")))
+    return PiResponse(kind=PiResponseKind.STATE, payload=state)
+
+
+def _parse_response_message(data: dict[str, Any]) -> PiResponse:
+    kind_raw = str(data.get("kind", ""))
+    command = str(data.get("command", ""))
+    return PiResponse(
+        kind=PiResponseKind.from_raw(kind_raw),
+        payload=kind_raw,
+        command=command,
+    )
+
+
+def _parse_error_message(data: dict[str, Any]) -> PiResponse:
+    reason = str(data.get("reason", ""))
+    return PiResponse(kind=PiResponseKind.INVALID_CMD, payload=reason)
+
+
+def _parse_json_dict(data: dict[str, Any]) -> PiResponse | None:
+    msg_type = str(data.get("type", ""))
+    if msg_type == "state":
+        return _parse_state_message(data)
+    if msg_type == "response":
+        return _parse_response_message(data)
+    if msg_type == "error":
+        return _parse_error_message(data)
+    return None
+
+
+def _parse_plain_text(stripped: str) -> PiResponse:
+    normalized = _normalize_state(stripped)
+    if stripped in _KNOWN_STATES or normalized != stripped:
+        return PiResponse(kind=PiResponseKind.STATE, payload=normalized)
+    kind = PiResponseKind.from_raw(stripped)
+    return PiResponse(kind=kind, payload=stripped)
+
+
 @dataclass(frozen=True)
 class PiResponse:
     kind:    PiResponseKind
@@ -52,29 +92,12 @@ class PiResponse:
         try:
             data = json.loads(stripped)
             if isinstance(data, dict):
-                msg_type = str(data.get("type", ""))
-                if msg_type == "state":
-                    state = _normalize_state(str(data.get("state", "")))
-                    return PiResponse(kind=PiResponseKind.STATE, payload=state)
-                if msg_type == "response":
-                    kind_raw = str(data.get("kind", ""))
-                    command = str(data.get("command", ""))
-                    return PiResponse(
-                        kind=PiResponseKind.from_raw(kind_raw),
-                        payload=kind_raw,
-                        command=command,
-                    )
-                if msg_type == "error":
-                    reason = str(data.get("reason", ""))
-                    return PiResponse(kind=PiResponseKind.INVALID_CMD, payload=reason)
+                result = _parse_json_dict(data)
+                if result is not None:
+                    return result
         except json.JSONDecodeError:
             pass
-
-        normalized = _normalize_state(stripped)
-        if stripped in _KNOWN_STATES or normalized != stripped:
-            return PiResponse(kind=PiResponseKind.STATE, payload=normalized)
-        kind = PiResponseKind.from_raw(stripped)
-        return PiResponse(kind=kind, payload=stripped)
+        return _parse_plain_text(stripped)
 
     def to_json(self) -> str:
         if self.kind == PiResponseKind.STATE:

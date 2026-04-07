@@ -1,0 +1,21 @@
+{
+  "computed_at": "2026-04-07T15:41:04Z",
+  "passed": true,
+  "checks": {
+    "layer_violations": {
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
+    },
+    "conventions": {
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
+    },
+    "coverage": {
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
+    }
+  }
+}

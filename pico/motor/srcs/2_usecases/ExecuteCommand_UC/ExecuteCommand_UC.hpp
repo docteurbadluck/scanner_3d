@@ -16,6 +16,10 @@ private:
     SendToPi_UC         &_sender;
 
     int  _dispatch(const std::string &cmd);
+    int  _dispatchArm(const std::string &cmd);
+    int  _dispatchHand(const std::string &cmd);
+    int  _moveArmTo(Pos pos);
+    int  _moveCamTo(Pos_hand pos);
     int  _goInitialPos();
     void _waitUntilStable();
 

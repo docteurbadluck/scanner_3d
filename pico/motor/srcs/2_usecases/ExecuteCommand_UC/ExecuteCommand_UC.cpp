@@ -14,14 +14,38 @@ int ExecuteCommand_UC::_goInitialPos()
     return ok ? 0 : 1;
 }
 
+int ExecuteCommand_UC::_moveArmTo(Pos pos)
+{
+    return _arm.joinPos(pos) ? 0 : 1;
+}
+
+int ExecuteCommand_UC::_moveCamTo(Pos_hand pos)
+{
+    return _hand.joinPos(pos) ? 0 : 1;
+}
+
+int ExecuteCommand_UC::_dispatchArm(const std::string &cmd)
+{
+    if (cmd == "ARM_UP")   return _moveArmTo(Pos::UP);
+    if (cmd == "ARM_DOWN") return _moveArmTo(Pos::DOWN);
+    return -1;
+}
+
+int ExecuteCommand_UC::_dispatchHand(const std::string &cmd)
+{
+    if (cmd == "CAM_A") return _moveCamTo(Pos_hand::UP_A);
+    if (cmd == "CAM_B") return _moveCamTo(Pos_hand::UP_B);
+    if (cmd == "CAM_C") return _moveCamTo(Pos_hand::DOWN_A);
+    if (cmd == "CAM_D") return _moveCamTo(Pos_hand::DOWN_B);
+    return -1;
+}
+
 int ExecuteCommand_UC::_dispatch(const std::string &cmd)
 {
-    if (cmd == "ARM_UP")      return _arm.joinPos(Pos::UP) ? 0 : 1;
-    if (cmd == "ARM_DOWN")    return _arm.joinPos(Pos::DOWN) ? 0 : 1;
-    if (cmd == "CAM_A")       return _hand.joinPos(Pos_hand::UP_A) ? 0 : 1;
-    if (cmd == "CAM_B")       return _hand.joinPos(Pos_hand::UP_B) ? 0 : 1;
-    if (cmd == "CAM_C")       return _hand.joinPos(Pos_hand::DOWN_A) ? 0 : 1;
-    if (cmd == "CAM_D")       return _hand.joinPos(Pos_hand::DOWN_B) ? 0 : 1;
+    const int armRes = _dispatchArm(cmd);
+    if (armRes != -1)  return armRes;
+    const int handRes = _dispatchHand(cmd);
+    if (handRes != -1) return handRes;
     if (cmd == "PLATE_NEXT")  return _plate.rotateTo(_plate.getPos() + 1) ? 0 : 1;
     if (cmd == "INITIAL_POS") return _goInitialPos();
     return 0;

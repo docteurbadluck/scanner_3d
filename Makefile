@@ -13,7 +13,9 @@ server-stop:
 
 server-test:
 	cd computer && $(PYTHON) -m pytest tests/ -v \
-		--cov=server --cov-report=json:www/data/coverage.json \
+		--cov=server --cov=srcs \
+		--cov-report=json:www/data/coverage.json \
+		--cov-report=json:www/data/computer_srcs_coverage.json \
 		--cov-report=html:www/coverage/computer
 
 server-typecheck:
@@ -26,10 +28,6 @@ pico-coverage:
 	make coverage -C ./pico/motor
 	python3 metrics/pico_coverage.py
 
-pico-coverage-html:
-	make coverage-html -C ./pico/motor
-	python3 metrics/pico_coverage.py
-
 pi-test:
 	make test -C ./pi
 
@@ -37,12 +35,11 @@ pi-coverage:
 	make coverage -C ./pi
 	python3 metrics/pi_coverage.py
 
-pi-coverage-html:
-	make coverage-html -C ./pi
-	python3 metrics/pi_coverage.py
-
 complexity:
 	$(PYTHON) metrics/collect_complexity.py
+
+fitness:
+	$(PYTHON) metrics/fitness.py
 
 doxygen:
 	doxygen docs/Doxyfile
@@ -51,6 +48,6 @@ doxygen:
 doxygen-clean:
 	rm -rf computer/www/docs
 
-.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html complexity doxygen doxygen-clean
+.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pi-test pi-coverage complexity fitness doxygen doxygen-clean
 
 include scripts/remote.mk
