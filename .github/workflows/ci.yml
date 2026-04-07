@@ -109,6 +109,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add metrics/summary.json computer/www/data/productivity.json computer/www/data/pico_coverage.json computer/www/data/pi_coverage.json computer/www/coverage/ computer/www/data/coverage.json computer/www/data/complexity.json computer/www/data/fitness.json
+          git add metrics/summary.json computer/www/data/productivity.json computer/www/data/pico_coverage.json computer/www/data/pi_coverage.json computer/www/coverage/ computer/www/data/coverage.json computer/www/data/computer_srcs_coverage.json computer/www/data/complexity.json computer/www/data/fitness.json
           git diff --cached --quiet || git commit -m "ci: update metrics summary [skip ci]"
           git push

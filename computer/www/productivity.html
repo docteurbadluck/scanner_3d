@@ -79,7 +79,7 @@
   <script>
     function init() {
       fetchData('./data/productivity.json').then(render).catch(showError);
-      fetchData('./data/coverage.json').then(renderCoverage).catch(() => {});
+      fetchData('./data/computer_srcs_coverage.json').then(renderCoverage).catch(() => {});
       fetchData('./data/pico_coverage.json').then(renderPicoCoverage).catch(() => {});
       fetchData('./data/pi_coverage.json').then(renderPiCoverage).catch(() => {});
       scheduleRefresh();
@@ -116,7 +116,7 @@
     function scheduleRefresh()   { setInterval(refresh, 60_000); }
     function refresh() {
       fetchData('./data/productivity.json').then(render).catch(() => {});
-      fetchData('./data/coverage.json').then(renderCoverage).catch(() => {});
+      fetchData('./data/computer_srcs_coverage.json').then(renderCoverage).catch(() => {});
       fetchData('./data/pico_coverage.json').then(renderPicoCoverage).catch(() => {});
       fetchData('./data/pi_coverage.json').then(renderPiCoverage).catch(() => {});
     }

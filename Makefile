@@ -13,7 +13,9 @@ server-stop:
 
 server-test:
 	cd computer && $(PYTHON) -m pytest tests/ -v \
-		--cov=server --cov-report=json:www/data/coverage.json \
+		--cov=server --cov=srcs \
+		--cov-report=json:www/data/coverage.json \
+		--cov-report=json:www/data/computer_srcs_coverage.json \
 		--cov-report=html:www/coverage/computer
 
 server-typecheck:

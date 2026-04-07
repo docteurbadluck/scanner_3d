@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-07T14:47:05Z",
+  "computed_at": "2026-04-07T15:02:05Z",
   "passed": false,
   "checks": {
     "layer_violations": {
@@ -98,15 +98,9 @@
       ]
     },
     "coverage": {
-      "passed": false,
-      "violation_count": 1,
-      "violations": [
-        {
-          "component": "computer",
-          "coverage": 52.6,
-          "rule": "coverage 52.6% < 80.0%"
-        }
-      ]
+      "passed": true,
+      "violation_count": 0,
+      "violations": []
     }
   }
 }

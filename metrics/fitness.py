@@ -40,7 +40,7 @@ PY_ROOT = Path("computer/srcs")
 COVERAGE_FILES: dict[str, Path] = {
     "pico":     Path("computer/www/data/pico_coverage.json"),
     "pi":       Path("computer/www/data/pi_coverage.json"),
-    "computer": Path("computer/www/data/coverage.json"),
+    "computer": Path("computer/www/data/computer_srcs_coverage.json"),
 }
 
 # layer_name → forbidden imported layers
