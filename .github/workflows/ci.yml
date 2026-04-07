@@ -51,7 +51,7 @@ jobs:
         run: make pico-test
 
       - name: pico coverage
-        run: make pico-coverage-html
+        run: make pico-coverage
 
       # ── pi ───────────────────────────────────────
 
@@ -59,7 +59,7 @@ jobs:
         run: make pi-test
 
       - name: pi coverage
-        run: make pi-coverage-html
+        run: make pi-coverage
 
       # ── Complexity + Doxygen ───────────────────────────────────────────
 
