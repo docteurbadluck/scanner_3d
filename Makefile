@@ -44,6 +44,9 @@ pi-coverage-html:
 complexity:
 	$(PYTHON) metrics/collect_complexity.py
 
+fitness:
+	$(PYTHON) metrics/fitness.py
+
 doxygen:
 	doxygen docs/Doxyfile
 	@echo "Doc generated in computer/www/docs/html/index.html"
@@ -51,6 +54,6 @@ doxygen:
 doxygen-clean:
 	rm -rf computer/www/docs
 
-.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html complexity doxygen doxygen-clean
+.PHONY: install server-background server-stop server-test server-typecheck pico-test pico-coverage pico-coverage-html pi-test pi-coverage pi-coverage-html complexity fitness doxygen doxygen-clean
 
 include scripts/remote.mk
