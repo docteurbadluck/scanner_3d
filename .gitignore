@@ -46,5 +46,6 @@ __pycache__/
 .pytest_cache/
 .server.pid
 
-# Doxygen generated output
+# Generated HTML reports (too large for git)
 computer/www/docs/
+computer/www/complexity/
