@@ -1,29 +1,35 @@
 {
-  "computed_at": "2026-04-07T15:48:32Z",
+  "computed_at": "2026-04-08T09:51:10Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
   },
   "components": {
     "pico": {
-      "function_count": 89,
-      "nloc": 640,
-      "avg_ccn": 1.81,
+      "function_count": 90,
+      "nloc": 643,
+      "avg_ccn": 1.8,
       "max_ccn": 6,
       "violations_over_5": 2,
       "violations_over_10": 0,
       "top_complex": [
         {
+          "name": "MotorDC_Driver::_wait_until_pressed",
+          "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/internal/_wait_until_pressed.cpp",
+          "ccn": 6,
+          "nloc": 13
+        },
+        {
           "name": "ExecuteCommand_UC::_dispatch",
-          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp",
+          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/internal/_dispatch.cpp",
           "ccn": 6,
           "nloc": 10
         },
         {
-          "name": "MotorDC_Driver::_wait_until_pressed",
-          "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp",
-          "ccn": 6,
-          "nloc": 13
+          "name": "ExecuteCommand_UC::_dispatchHand",
+          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/internal/_dispatchHand.cpp",
+          "ccn": 5,
+          "nloc": 8
         },
         {
           "name": "extract_value_from",
@@ -32,16 +38,10 @@
           "nloc": 14
         },
         {
-          "name": "ExecuteCommand_UC::_dispatchHand",
-          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.cpp",
-          "ccn": 5,
-          "nloc": 8
-        },
-        {
-          "name": "JsonMessage::escape",
-          "file": "pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "name": "ServoMotor_Driver::_angleForPos",
+          "file": "pico/motor/srcs/4_drivers/ServoMotor_Driver/internal/_angleForPos.cpp",
           "ccn": 4,
-          "nloc": 12
+          "nloc": 7
         }
       ]
     },
@@ -55,7 +55,7 @@
       "top_complex": [
         {
           "name": "ExecuteOrder_UC::_dispatch",
-          "file": "pi/srcs/2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.cpp",
+          "file": "pi/srcs/2_usecases/ExecuteOrder_UC/internal/_dispatch.cpp",
           "ccn": 6,
           "nloc": 13
         },
@@ -66,22 +66,22 @@
           "nloc": 14
         },
         {
+          "name": "SendToComputer_UC::sendResponse",
+          "file": "pi/srcs/2_usecases/SendToComputer_UC/sendResponse.cpp",
+          "ccn": 4,
+          "nloc": 11
+        },
+        {
+          "name": "CaptureData_UC::execute",
+          "file": "pi/srcs/2_usecases/CaptureData_UC/execute.cpp",
+          "ccn": 4,
+          "nloc": 10
+        },
+        {
           "name": "JsonMessage::escape",
           "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
           "ccn": 4,
           "nloc": 12
-        },
-        {
-          "name": "JsonMessage::normalizeMessage",
-          "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
-          "ccn": 4,
-          "nloc": 13
-        },
-        {
-          "name": "System::getStateString",
-          "file": "pi/srcs/1_domain/System.cpp",
-          "ccn": 4,
-          "nloc": 7
         }
       ]
     },
@@ -100,12 +100,6 @@
           "nloc": 14
         },
         {
-          "name": "handle_incoming",
-          "file": "computer/srcs/_2_usecases/handle_incoming_uc.py",
-          "ccn": 4,
-          "nloc": 14
-        },
-        {
           "name": "_parse_json_dict",
           "file": "computer/srcs/_1_domain/pi_messages.py",
           "ccn": 4,
@@ -118,10 +112,16 @@
           "nloc": 11
         },
         {
-          "name": "_parse_and_validate",
+          "name": "handle_incoming",
           "file": "computer/srcs/_2_usecases/handle_incoming_uc.py",
+          "ccn": 4,
+          "nloc": 14
+        },
+        {
+          "name": "_parse_plain_text",
+          "file": "computer/srcs/_1_domain/pi_messages.py",
           "ccn": 3,
-          "nloc": 10
+          "nloc": 6
         }
       ]
     }
