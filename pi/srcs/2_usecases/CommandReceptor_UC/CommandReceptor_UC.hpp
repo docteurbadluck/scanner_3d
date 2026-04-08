@@ -1,5 +1,5 @@
 #pragma once
-#include "1_domain/System.hpp"
+#include "1_domain/System/System.hpp"
 #include "2_usecases/SendToComputer_UC/SendToComputer_UC.hpp"
 #include "3_interface/IComputer.hpp"
 

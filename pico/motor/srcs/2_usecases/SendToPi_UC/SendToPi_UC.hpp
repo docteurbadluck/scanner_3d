@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "1_domain/System.hpp"
+#include "1_domain/System/System.hpp"
 #include "3_interface/ISender.hpp"
 
 class SendToPi_UC

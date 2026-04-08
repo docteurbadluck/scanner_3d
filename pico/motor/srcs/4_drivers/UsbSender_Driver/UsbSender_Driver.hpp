@@ -7,7 +7,7 @@
 class UsbSender_Driver : public ISender
 {
 public:
-    UsbSender_Driver() = default;
+    UsbSender_Driver();
     ~UsbSender_Driver() override = default;
 
     void send(const std::string &message) override;

@@ -1,4 +1,4 @@
-#include "1_domain/System.hpp"
+#include "1_domain/System/System.hpp"
 #include "2_usecases/ArmController_UC/ArmController_UC.hpp"
 #include "3_interface/IMotorDC.hpp"
 #include <string>

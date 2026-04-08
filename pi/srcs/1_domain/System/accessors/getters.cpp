@@ -1,8 +1,4 @@
-#include "System.hpp"
-
-System::System() : _current_state(INITIALIZATION)
-{
-}
+#include "../System.hpp"
 
 state System::get_state() const
 {
@@ -22,32 +18,7 @@ std::string System::getStateString() const
 	return "SENDING";
 }
 
-void System::setCommandToExecute(const std::string &command)
-{
-	_command_to_execute = command;
-}
-
 std::string System::getCommandToExecute() const
 {
 	return _command_to_execute;
-}
-
-void System::ready()
-{
-	_current_state = READY;
-}
-
-void System::processing()
-{
-	_current_state = PROCESSING;
-}
-
-void System::sending()
-{
-	_current_state = SENDING;
-}
-
-void System::reset()
-{
-	_current_state = INITIALIZATION;
 }
