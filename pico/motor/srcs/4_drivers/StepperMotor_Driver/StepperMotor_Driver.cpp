@@ -6,4 +6,3 @@ StepperMotor_Driver::StepperMotor_Driver(const StepperMotor_DriverConfig &cfg,
 {
     _initGPIO();
 }
-{
