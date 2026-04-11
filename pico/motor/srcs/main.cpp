@@ -5,9 +5,7 @@ int main()
 {
     stdio_init_all();
     gpio_init(25);
-    
     gpio_set_dir(25, GPIO_OUT);
-
     while (1)
     {
         printf("hello world \n");
@@ -18,6 +16,5 @@ int main()
         sleep_ms(500);
 
     }
-
     return 0;
 }
