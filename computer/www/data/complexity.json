@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-08T09:51:10Z",
+  "computed_at": "2026-04-11T15:40:56Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
@@ -7,7 +7,7 @@
   "components": {
     "pico": {
       "function_count": 90,
-      "nloc": 643,
+      "nloc": 646,
       "avg_ccn": 1.8,
       "max_ccn": 6,
       "violations_over_5": 2,
@@ -33,7 +33,7 @@
         },
         {
           "name": "extract_value_from",
-          "file": "pico/motor/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "file": "pico/motor/srcs/3_interface/JsonMessage/JsonMessage.cpp",
           "ccn": 5,
           "nloc": 14
         },
@@ -46,9 +46,9 @@
       ]
     },
     "pi": {
-      "function_count": 41,
-      "nloc": 255,
-      "avg_ccn": 1.98,
+      "function_count": 87,
+      "nloc": 639,
+      "avg_ccn": 2.05,
       "max_ccn": 6,
       "violations_over_5": 1,
       "violations_over_10": 0,
@@ -61,27 +61,27 @@
         },
         {
           "name": "extract_value_from",
-          "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "file": "pi/srcs/3_interface/JsonMessage/JsonMessage.cpp",
           "ccn": 5,
           "nloc": 14
         },
         {
-          "name": "SendToComputer_UC::sendResponse",
-          "file": "pi/srcs/2_usecases/SendToComputer_UC/sendResponse.cpp",
+          "name": "Computer_Driver::_readFrame",
+          "file": "pi/srcs/4_drivers/Computer_Driver/internal/_readFrame.cpp",
           "ccn": 4,
-          "nloc": 11
+          "nloc": 15
         },
         {
-          "name": "CaptureData_UC::execute",
-          "file": "pi/srcs/2_usecases/CaptureData_UC/execute.cpp",
+          "name": "Computer_Driver::_connect",
+          "file": "pi/srcs/4_drivers/Computer_Driver/internal/_connect.cpp",
           "ccn": 4,
-          "nloc": 10
+          "nloc": 13
         },
         {
-          "name": "JsonMessage::escape",
-          "file": "pi/srcs/1_domain/JsonMessage/JsonMessage.cpp",
+          "name": "Computer_Driver::_tcpConnect",
+          "file": "pi/srcs/4_drivers/Computer_Driver/internal/_tcpConnect.cpp",
           "ccn": 4,
-          "nloc": 12
+          "nloc": 15
         }
       ]
     },
