@@ -10,7 +10,7 @@
 #include "2_usecases/SendToPi_UC/SendToPi_UC.hpp"
 #include "2_usecases/ExecuteCommand_UC/ExecuteCommand_UC.hpp"
 #include "1_domain/System/System.hpp"
-#include "1_domain/JsonMessage/JsonMessage.hpp"
+#include "3_interface/JsonMessage/JsonMessage.hpp"
 #include <string>
 
 class mockMotorDC : public IMotorDC
