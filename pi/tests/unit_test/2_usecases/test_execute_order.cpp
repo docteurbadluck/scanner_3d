@@ -8,7 +8,7 @@
 #include "2_usecases/SendToComputer_UC/SendToComputer_UC.hpp"
 #include "2_usecases/ExecuteOrder_UC/ExecuteOrder_UC.hpp"
 #include "1_domain/System/System.hpp"
-#include "1_domain/JsonMessage/JsonMessage.hpp"
+#include "3_interface/JsonMessage/JsonMessage.hpp"
 #include <string>
 
 class mockPicoClient : public IPico

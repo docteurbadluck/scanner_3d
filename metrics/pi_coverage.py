@@ -14,6 +14,7 @@ def run_gcovr() -> dict:
         ["gcovr",
          "--root", ".",
          "--filter", "srcs/",
+         "--exclude", "srcs/4_drivers/",
          "--object-directory", "build_coverage/srcs",
          "--json-summary", str(_TMP.resolve())],
         cwd=str(PI_DIR.resolve()),

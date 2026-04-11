@@ -1,6 +1,6 @@
 #include "CommandReceptorUC.hpp"
 
-#include "1_domain/JsonMessage/JsonMessage.hpp"
+#include "3_interface/JsonMessage/JsonMessage.hpp"
 
 void CommandReceptorUC::checkForNewMessage(System &sys)
 {

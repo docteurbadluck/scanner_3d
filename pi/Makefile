@@ -45,6 +45,7 @@ coverage-html: coverage
 	python3 -m gcovr \
 		--root . \
 		--filter srcs/ \
+		--exclude srcs/4_drivers/ \
 		--object-directory $(COV_BUILD)/srcs \
 		--html-details $(COV_HTML_DIR)/index.html
 

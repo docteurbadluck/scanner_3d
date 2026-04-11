@@ -15,7 +15,15 @@ add_executable(motor
     srcs/main.cpp
     ${MOTOR_SOURCES}
 )
-target_include_directories(motor PRIVATE srcs)
+target_include_directories(motor PRIVATE
+    srcs
+    srcs/4_drivers/Accelerometer_Driver
+    srcs/4_drivers/MotorDC_Driver
+    srcs/4_drivers/ServoMotor_Driver
+    srcs/4_drivers/StepperMotor_Driver
+    srcs/4_drivers/UsbReceptor_Driver
+    srcs/4_drivers/UsbSender_Driver
+)
 target_link_libraries(motor pico_stdlib hardware_pwm hardware_spi hardware_i2c)
 pico_enable_stdio_usb(motor 1)
 pico_enable_stdio_uart(motor 0)

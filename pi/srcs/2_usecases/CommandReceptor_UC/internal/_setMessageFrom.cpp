@@ -1,5 +1,5 @@
 #include "../CommandReceptor_UC.hpp"
-#include "1_domain/JsonMessage/JsonMessage.hpp"
+#include "3_interface/JsonMessage/JsonMessage.hpp"
 
 void CommandReceptor_UC::_setMessageFrom(const std::string &raw)
 {

@@ -1,5 +1,5 @@
 #include "2_usecases/CaptureData_UC/CaptureData_UC.hpp"
-#include "1_domain/JsonMessage/JsonMessage.hpp"
+#include "3_interface/JsonMessage/JsonMessage.hpp"
 #include <string>
 
 class mockPicoClient : public IPico

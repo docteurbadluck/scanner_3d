@@ -1,5 +1,5 @@
 #include "CaptureData_UC.hpp"
-#include "1_domain/JsonMessage/JsonMessage.hpp"
+#include "3_interface/JsonMessage/JsonMessage.hpp"
 
 bool CaptureData_UC::execute()
 {

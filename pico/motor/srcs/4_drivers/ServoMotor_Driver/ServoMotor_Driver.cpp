@@ -8,4 +8,3 @@ ServoMotor_Driver::ServoMotor_Driver(const ServoMotor_DriverConfig &cfg,
 {
     _initPWM();
 }
-                                     const ServoMotor_DriverPins   &pins)
