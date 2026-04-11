@@ -14,7 +14,6 @@ int main()
         sleep_ms(500);
         gpio_put(25, 0);
         sleep_ms(500);
-
     }
     return 0;
 }
