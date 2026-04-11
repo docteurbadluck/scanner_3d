@@ -2,6 +2,8 @@ build/
 build_test/
 build_coverage/
 .git/
+.github/
+.vscode/
 __pycache__/
 *.pyc
 *.o
@@ -9,4 +11,12 @@ __pycache__/
 *.uf2
 *.bin
 .pytest_cache/
-computer/www/coverage/
+computer/
+docs/
+metrics/
+CLAUDE.md
+Connection.md
+README.md
+.rsync-exclude
+.gitignore
+.server.pid
