@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Callable
 
-from srcs._1_domain.messages import StatusMessage
+from srcs._1_domain.messages import PiConnectionMessage, StatusMessage
 from srcs._1_domain.system import State
 from srcs._2_usecases.handle_incoming_uc import handle_incoming
 from srcs._3_interface.IConnection import IConnection
@@ -14,6 +14,8 @@ async def handle_connection(
     pi_provider: Callable[[], IPiTransport | None] | None = None,
     state_provider: Callable[[], State] | None = None,
 ) -> None:
+    pi_connected = pi_provider is not None and pi_provider() is not None
+    await connection.send(PiConnectionMessage(connected=pi_connected).to_json())
     current_state = state_provider() if state_provider is not None else State.INITIALIZATION
     await connection.send(StatusMessage.build(current_state).to_json())
     async for message in connection:

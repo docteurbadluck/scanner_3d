@@ -61,3 +61,11 @@ class ErrorMessage:
 
     def to_json(self) -> str:
         return json.dumps({"type": "error", "reason": self.reason})
+
+
+@dataclass(frozen=True)
+class PiConnectionMessage:
+    connected: bool
+
+    def to_json(self) -> str:
+        return json.dumps({"type": "pi_connection", "connected": self.connected})

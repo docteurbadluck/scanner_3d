@@ -47,16 +47,10 @@ jobs:
 
       # ── pico ─────────────────────────────────────
 
-      - name: pico test
-        run: make pico-test
-
       - name: pico coverage
         run: make pico-coverage
 
       # ── pi ───────────────────────────────────────
-
-      - name: pi test
-        run: make pi-test
 
       - name: pi coverage
         run: make pi-coverage

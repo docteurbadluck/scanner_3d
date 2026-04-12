@@ -2,5 +2,5 @@
 
 void System::reset()
 {
-	_current_state = INITIALIZATION;
+	_current_state = READY;
 }
