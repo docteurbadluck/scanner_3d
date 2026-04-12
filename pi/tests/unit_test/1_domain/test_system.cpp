@@ -44,7 +44,7 @@ void test_System_reset()
 	sys.ready();
 	sys.processing();
 	sys.reset();
-	TEST_ASSERT_EQUAL_INT(INITIALIZATION, sys.get_state());
+	TEST_ASSERT_EQUAL_INT(READY, sys.get_state());
 }
 
 void test_System_getStateString()

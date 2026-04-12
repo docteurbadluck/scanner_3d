@@ -32,35 +32,37 @@ static void runOneCommand(
     sys.processing();
     sender.sendState(sys);
     executor.execute(sys);
-    sleep(10);
     sys.reset();
     sender.sendState(sys);
+}
 
+static Computer_DriverConfig buildConfig(int argc, char *argv[])
+{
+    Computer_DriverConfig cfg;
+    cfg.host = (argc >= 2) ? argv[1] : "127.0.0.1";
+    return cfg;
+}
+
+static void runLoop(
+    System &sys, CommandReceptor_UC &receptor,
+    ExecuteOrder_UC &executor, SendToComputer_UC &sender)
+{
+    while (true)
+        runOneCommand(sys, receptor, executor, sender);
 }
 
 int main(int argc, char *argv[])
 {
-    printf("hello world\n");
-    Computer_DriverConfig compCfg;
-    if (argc >= 2)
-        compCfg.host = argv[1];
-    else
-        compCfg.host = "127.0.0.1";
-
-    Computer_Driver    computer(compCfg);
+    Computer_Driver    computer(buildConfig(argc, argv));
     Pico_Driver        pico({});
     Camera_Driver      camera({});
     DiskChecker_Driver disk({});
-
     SendToComputer_UC      sender(computer);
     CaptureData_UC         capture(pico, camera, disk);
     SendPhotoToComputer_UC sendPhoto(camera, computer);
     CommandReceptor_UC     receptor(computer, sender);
     ExecuteOrder_UC        executor(capture, sendPhoto, sender, pico);
-
     System sys;
     runInitialization(sys, computer, sender);
-    while (true)
-        runOneCommand(sys, receptor, executor, sender);
-    return 0;
+    runLoop(sys, receptor, executor, sender);
 }
