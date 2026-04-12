@@ -14,17 +14,131 @@
       backdrop-filter: blur(6px);
       box-shadow: 0 10px 25px rgba(0,0,0,0.35);
       text-align: center;
+      min-width: 320px;
     }
-    h1 { margin: 0 0 0.5rem; font-size: 2.25rem; line-height: 1.1; }
-    p  { margin: 0 0 1.2rem; opacity: 0.85; }
-    .link { display: inline-block; padding: 0.6rem 1.6rem; background: #ffd700; color: #1a1a2e; font-weight: bold; text-decoration: none; border-radius: 30px; transition: transform 0.15s; }
-    .link:hover { transform: scale(1.06); }
+    h1 { margin: 0 0 1.5rem; font-size: 2.25rem; line-height: 1.1; }
+    .rows { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; }
+    .label { opacity: 0.7; font-size: 0.95rem; }
+    .badge {
+      font-size: 0.8rem; font-weight: bold; padding: 0.25rem 0.75rem;
+      border-radius: 999px; min-width: 90px; text-align: center;
+    }
+    .badge-ok      { background: #16a34a; color: #fff; }
+    .badge-warn    { background: #ca8a04; color: #fff; }
+    .badge-err     { background: #dc2626; color: #fff; }
+    .badge-unknown { background: #475569; color: #cbd5e1; }
+    .ping-btn {
+      width: 100%; padding: 0.65rem 1.6rem; background: #ffd700; color: #1a1a2e;
+      font-weight: bold; border: none; border-radius: 30px; cursor: pointer;
+      font-size: 1rem; transition: transform 0.15s;
+    }
+    .ping-btn:hover:not(:disabled) { transform: scale(1.04); }
+    .ping-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .ping-result { margin-top: 0.6rem; font-size: 0.85rem; min-height: 1.1rem; opacity: 0.8; }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>status</h1>
-    <p>Welcome! Your server is up.</p>
+    <div class="rows">
+      <div class="row">
+        <span class="label">Pi</span>
+        <span id="pi-badge"  class="badge badge-unknown">unknown</span>
+      </div>
+      <div class="row">
+        <span class="label">Pi State</span>
+        <span id="state-badge" class="badge badge-unknown">unknown</span>
+      </div>
+      <div class="row">
+        <span class="label">Pico</span>
+        <span id="pico-badge" class="badge badge-unknown">unknown</span>
+      </div>
+    </div>
+    <button id="ping-btn" class="ping-btn" disabled>Ping Pi</button>
+    <div id="ping-result" class="ping-result"></div>
   </div>
+
+  <script>
+    const piBadge    = document.getElementById('pi-badge');
+    const stateBadge = document.getElementById('state-badge');
+    const picoBadge  = document.getElementById('pico-badge');
+    const pingBtn    = document.getElementById('ping-btn');
+    const pingResult = document.getElementById('ping-result');
+
+    const PING_TIMEOUT_MS = 5000;
+
+    let pingTs      = null;
+    let pingTimeout = null;
+    let ws          = null;
+
+    function isPingAllowed() {
+      const state = stateBadge.textContent;
+      return piBadge.textContent === 'connected'
+          && state !== 'PROCESSING'
+          && state !== 'SENDING';
+    }
+
+    function cancelPing(msg) {
+      clearTimeout(pingTimeout);
+      pingTimeout = null;
+      pingTs      = null;
+      pingResult.textContent = msg;
+    }
+
+    function setBadge(el, ok) {
+      if (ok === null) { el.className = 'badge badge-unknown'; el.textContent = 'unknown'; return; }
+      el.className = ok ? 'badge badge-ok' : 'badge badge-err';
+      el.textContent = ok ? 'connected' : 'disconnected';
+    }
+
+    function setStateBadge(el, state) {
+      const cls = { READY: 'badge-ok', PROCESSING: 'badge-warn', SENDING: 'badge-warn' };
+      el.className = 'badge ' + (cls[state] ?? 'badge-unknown');
+      el.textContent = state ?? 'unknown';
+      if (pingTimeout === null)
+        pingBtn.disabled = !isPingAllowed();
+    }
+
+    function onMessage(evt) {
+      const data = JSON.parse(evt.data);
+      if (data.type === 'pi_connection') {
+        setBadge(piBadge, data.connected);
+        if (!data.connected) { setBadge(picoBadge, null); setStateBadge(stateBadge, null); }
+      }
+      if (data.type === 'status') {
+        setStateBadge(stateBadge, data.state);
+      }
+      if (data.type === 'state') {
+        setStateBadge(stateBadge, data.state);
+      }
+      if (data.type === 'response' && data.kind === 'PONG') {
+        const ms = pingTs !== null ? Date.now() - pingTs : null;
+        cancelPing(ms !== null ? `PONG — ${ms} ms` : 'PONG');
+      }
+    }
+
+    function connect() {
+      ws = new WebSocket(`ws://${location.hostname}:8081`);
+      ws.onmessage = onMessage;
+      ws.onclose = () => {
+        setBadge(piBadge, null);
+        setBadge(picoBadge, null);
+        pingBtn.disabled = true;
+        setTimeout(connect, 3000);
+      };
+    }
+
+    pingBtn.addEventListener('click', () => {
+      if (!ws || ws.readyState !== WebSocket.OPEN) return;
+      pingTs = Date.now();
+      pingBtn.disabled = true;
+      pingResult.textContent = '…';
+      ws.send(JSON.stringify({ type: 'command', command: 'PING' }));
+      pingTimeout = setTimeout(() => cancelPing('timeout'), PING_TIMEOUT_MS);
+    });
+
+    connect();
+  </script>
 </body>
 </html>

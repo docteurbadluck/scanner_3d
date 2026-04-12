@@ -1,6 +1,7 @@
 SRC_DIR   := srcs
 TEST_DIR  := tests
 BUILD_DIR := build_test
+BIN_DIR   := build
 COV_BUILD    := build_coverage
 COV_HTML_DIR := ../../computer/www/coverage/pi
 UNITY_DIR := tests/unity
@@ -27,7 +28,11 @@ COV_TEST_BINS := $(patsubst $(TEST_DIR)/%.cpp, $(COV_BUILD)/tests/%, $(TEST_SOUR
 INTERNAL_SOURCES := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep '/internal/')
 INTERNAL_OBJECTS := $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/tests/%.o, $(INTERNAL_SOURCES))
 
-all: compile
+BINARY := $(BIN_DIR)/pi
+
+all: $(SRC_OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $(SRC_DIR)/main.cpp $(SRC_OBJECTS) -o $(BINARY)
 
 compile: $(SRC_OBJECTS)
 
@@ -81,8 +86,8 @@ clean:
 	rm -rf $(BUILD_DIR)/srcs $(BUILD_DIR)/unity
 
 fclean: clean
-	rm -rf $(BUILD_DIR) $(COV_BUILD)
+	rm -rf $(BUILD_DIR) $(BIN_DIR) $(COV_BUILD)
 
-re: fclean compile
+re: fclean all
 
 .PHONY: all compile clean fclean re test coverage clean-coverage coverage-html

@@ -1,7 +1,8 @@
-PI_HOST    ?= pi
-PI_REPO    ?= ~/3D_scanner
-RSYNC      := rsync -avz --exclude-from=.rsync-exclude
-SSH        := ssh $(PI_HOST)
+PI_HOST      ?= pi
+PI_REPO      ?= ~/3D_scanner
+COMPUTER_IP  ?= $(shell hostname -I | awk '{print $$1}')
+RSYNC        := rsync -avz --exclude-from=.rsync-exclude
+SSH          := ssh $(PI_HOST)
 PICO_BUILD := $(PI_REPO)/pico/motor/build
 PICO_UF2   := $(PICO_BUILD)/motor.uf2
 
@@ -31,6 +32,10 @@ build-pi:
 	@printf "==> Building Pi code on $(PI_HOST)...\n"
 	@$(SSH) "make -C $(PI_REPO)/pi"
 
+fclean-pi:
+	@printf "==> Cleaning Pi build on $(PI_HOST)...\n"
+	@$(SSH) "make fclean -C $(PI_REPO)/pi"
+
 test-pi:
 	@printf "==> Running Pi tests on $(PI_HOST)...\n"
 	@$(SSH) "make test -C $(PI_REPO)/pi"
@@ -56,8 +61,8 @@ flash-pico:
 # ── Phase 7 — Full loop ─────────────────────────────────────────────────────
 
 run-pi:
-	@printf "==> Starting Pi binary on $(PI_HOST)...\n"
-	@$(SSH) "nohup $(PI_REPO)/pi/build/pi > /tmp/pi.log 2>&1 & echo \$$!"
+	@printf "==> Starting Pi binary on $(PI_HOST) (computer: $(COMPUTER_IP))...\n"
+	ssh -t $(PI_HOST) "$(PI_REPO)/pi/build/pi $(COMPUTER_IP)"
 
 log-pi:
 	@$(SSH) "tail -f /tmp/pi.log"
@@ -65,6 +70,12 @@ log-pi:
 stop-pi:
 	@printf "==> Stopping Pi binary on $(PI_HOST)...\n"
 	@$(SSH) "pkill -f pi/build/pi || true"
+
+re-pi:
+	@$(MAKE) -f scripts/remote.mk sync
+	-@$(MAKE) -f scripts/remote.mk stop-pi
+	@$(MAKE) -f scripts/remote.mk build-pi
+	@$(MAKE) -f scripts/remote.mk run-pi
 
 all-remote:
 	@printf "==> Starting full remote loop [%s]\n" "$$(date '+%H:%M:%S')"
@@ -77,4 +88,4 @@ all-remote:
 	@$(MAKE) run-pi
 
 .PHONY: check-ssh check-prereqs sync sync-dry \
-        build-pi test-pi build-pico flash-pico run-pi log-pi stop-pi all-remote
+        build-pi fclean-pi test-pi build-pico flash-pico run-pi log-pi stop-pi re-pi all-remote

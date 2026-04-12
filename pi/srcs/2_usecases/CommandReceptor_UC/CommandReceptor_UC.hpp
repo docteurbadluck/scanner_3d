@@ -12,6 +12,7 @@ private:
 
     void _setMessageFrom(const std::string &raw);
     bool _isValidCommand(const Commands &cmds) const;
+    void _logCommand(bool valid) const;
 public:
     CommandReceptor_UC(IComputer &uploader, SendToComputer_UC &sender);
     ~CommandReceptor_UC() = default;
