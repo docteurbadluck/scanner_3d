@@ -45,32 +45,34 @@ async def test_handle_connection_sends_status_on_connect() -> None:
     connection = FakeConnection()
     await handle_connection(connection)
 
-    assert len(connection.sent) == 1
-    data = json.loads(connection.sent[0])
-    assert data["type"] == "status"
-    assert data["state"] == "INITIALIZATION"
-    assert "timestamp" in data
+    assert len(connection.sent) == 2
+    pi_data = json.loads(connection.sent[0])
+    status_data = json.loads(connection.sent[1])
+    assert pi_data["type"] == "pi_connection"
+    assert status_data["type"] == "status"
+    assert status_data["state"] == "INITIALIZATION"
+    assert "timestamp" in status_data
 
 
 async def test_handle_connection_sends_runtime_state_on_connect() -> None:
     connection = FakeConnection()
     await handle_connection(connection, state_provider=lambda: State.READY)
 
-    assert len(connection.sent) == 1
-    data = json.loads(connection.sent[0])
-    assert data["type"] == "status"
-    assert data["state"] == "READY"
+    assert len(connection.sent) == 2
+    assert json.loads(connection.sent[0])["type"] == "pi_connection"
+    status_data = json.loads(connection.sent[1])
+    assert status_data["type"] == "status"
+    assert status_data["state"] == "READY"
 
 
 async def test_handle_connection_handles_ping_messages() -> None:
     connection = FakeConnection(incoming=['{"type": "ping"}'])
     await handle_connection(connection)
 
-    assert len(connection.sent) == 2
-    status_data = json.loads(connection.sent[0])
-    pong_data = json.loads(connection.sent[1])
-    assert status_data["type"] == "status"
-    assert pong_data["type"] == "pong"
+    assert len(connection.sent) == 3
+    assert json.loads(connection.sent[0])["type"] == "pi_connection"
+    assert json.loads(connection.sent[1])["type"] == "status"
+    assert json.loads(connection.sent[2])["type"] == "pong"
 
 
 async def test_handle_incoming_acks_valid_command() -> None:
