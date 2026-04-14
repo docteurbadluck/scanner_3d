@@ -110,24 +110,21 @@ class PiResponse:
             pass
         return _parse_plain_text(stripped)
 
-    def to_json(self) -> str:
-        if self.kind == PiResponseKind.STATE:
-            return json.dumps({"type": "state", "state": self.payload})
-
-        if self.kind == PiResponseKind.PICO_STATUS:
-            return json.dumps({"type": "pico_status", "state": self.payload})
-
-        if self.kind == PiResponseKind.INVALID_CMD:
-            return json.dumps({"type": "error", "reason": self.payload})
-
-        data: dict[str, Any] = {
-            "type": "response",
-            "kind": self.kind.value,
-        }
+    def _build_response_data(self) -> dict[str, Any]:
+        data: dict[str, Any] = {"type": "response", "kind": self.kind.value}
         if self.command:
             data["command"] = self.command
         if self.ms is not None:
             data["ms"] = self.ms
         if self.kind == PiResponseKind.UNKNOWN:
             data["payload"] = self.payload
-        return json.dumps(data)
+        return data
+
+    def to_json(self) -> str:
+        if self.kind == PiResponseKind.STATE:
+            return json.dumps({"type": "state", "state": self.payload})
+        if self.kind == PiResponseKind.PICO_STATUS:
+            return json.dumps({"type": "pico_status", "state": self.payload})
+        if self.kind == PiResponseKind.INVALID_CMD:
+            return json.dumps({"type": "error", "reason": self.payload})
+        return json.dumps(self._build_response_data())

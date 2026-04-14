@@ -1,3 +1,4 @@
+#include <cstring>
 #include "3_interface/IPico.hpp"
 #include "3_interface/ICamera.hpp"
 #include "3_interface/IDiskChecker.hpp"
@@ -117,7 +118,7 @@ void test_execute_get_pico_status()
 	System sys;
 
 	run_cmd(exec, sys, "GET_PICO_STATUS");
-	TEST_ASSERT_EQUAL_STRING("{\"type\":\"state\",\"state\":\"READY\"}", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING("{\"type\":\"pico_status\",\"state\":\"READY\"}", sender._lastMsg.c_str());
 }
 
 void test_execute_start_capture_success()
