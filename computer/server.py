@@ -9,7 +9,7 @@ from typing import Any
 import websockets
 from websockets.asyncio.server import ServerConnection
 
-from srcs._1_domain.messages import PiConnectionMessage
+from srcs._1_domain.messages import CommandMessage, PiConnectionMessage, _DebugMessage
 from srcs._1_domain.pi_messages import PiResponse, PiResponseKind
 from srcs._1_domain.system import State
 from srcs._2_usecases.handle_connection_uc import handle_connection
@@ -24,6 +24,7 @@ WS_PI_PORT = 8082
 _browsers: set[ServerConnection] = set()
 _pi_connection: ServerConnection | None = None
 _current_state: State = State.INITIALIZATION
+_pico_state: str | None = None
 
 
 def build_http_handler(www_dir: Path) -> type[SimpleHTTPRequestHandler]:
@@ -53,6 +54,7 @@ async def _handle_browser(websocket: ServerConnection) -> None:
             websocket,
             pi_provider=lambda: _pi_connection,
             state_provider=lambda: _current_state,
+            pico_state_provider=lambda: _pico_state,
         )
     finally:
         _browsers.discard(websocket)
@@ -64,20 +66,25 @@ async def _notify_browsers(msg: str) -> None:
 
 
 async def _handle_pi(websocket: ServerConnection) -> None:
-    global _pi_connection, _current_state
+    global _pi_connection, _current_state, _pico_state
     _pi_connection = websocket
     await _notify_browsers(PiConnectionMessage(connected=True).to_json())
+    await websocket.send(CommandMessage.build("GET_PICO_STATUS").to_json())
     try:
         async for raw in websocket:
+            await _notify_browsers(_DebugMessage(str(raw)).to_json())
             parsed = PiResponse.parse(str(raw))
             if parsed.kind == PiResponseKind.STATE:
                 try:
                     _current_state = State(parsed.payload)
                 except ValueError:
                     pass
+            if parsed.kind == PiResponseKind.PICO_STATUS:
+                _pico_state = parsed.payload
             await handle_pi_message(str(raw), list(_browsers))
     finally:
         _pi_connection = None
+        _pico_state = None
         await _notify_browsers(PiConnectionMessage(connected=False).to_json())
 
 

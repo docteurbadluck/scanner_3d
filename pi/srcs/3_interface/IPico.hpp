@@ -12,4 +12,5 @@ class IPico
 		virtual bool rotatePlateStep() = 0;
 		virtual bool isStable() = 0;
 		virtual std::string getPicoStatus() = 0;
+	virtual std::string pingPico() = 0;
 };

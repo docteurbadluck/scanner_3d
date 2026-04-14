@@ -69,3 +69,19 @@ class PiConnectionMessage:
 
     def to_json(self) -> str:
         return json.dumps({"type": "pi_connection", "connected": self.connected})
+
+
+@dataclass(frozen=True)
+class PicoStatusMessage:
+    state: str
+
+    def to_json(self) -> str:
+        return json.dumps({"type": "pico_status", "state": self.state})
+
+
+@dataclass(frozen=True)
+class _DebugMessage:
+    raw: str
+
+    def to_json(self) -> str:
+        return json.dumps({"type": "debug", "raw": self.raw})

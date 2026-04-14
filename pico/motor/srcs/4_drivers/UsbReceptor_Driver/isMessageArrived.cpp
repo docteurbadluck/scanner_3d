@@ -13,6 +13,8 @@ bool UsbReceptor_Driver::isMessageArrived()
         _buffer.clear();
 
     const char ch = static_cast<char>(c);
+    if (ch == _cfg.delimiter)
+        return true;
     _buffer += ch;
-    return ch == _cfg.delimiter;
+    return false;
 }

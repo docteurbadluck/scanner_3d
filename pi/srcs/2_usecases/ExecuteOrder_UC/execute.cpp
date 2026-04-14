@@ -6,6 +6,6 @@ void ExecuteOrder_UC::execute(System &sys)
     int res = _dispatch(cmd);
     if (res == -1)
         _sender.sendInvalidCmd();
-    else if (cmd != "GET_PICO_STATUS")
+    else if (cmd != "GET_PICO_STATUS" && cmd != "PING_PICO")
         _sender.sendResponse(cmd, res == 0, sys);
 }

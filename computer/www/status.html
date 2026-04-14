@@ -36,6 +36,14 @@
     .ping-btn:hover:not(:disabled) { transform: scale(1.04); }
     .ping-btn:disabled { opacity: 0.45; cursor: not-allowed; }
     .ping-result { margin-top: 0.6rem; font-size: 0.85rem; min-height: 1.1rem; opacity: 0.8; }
+    .ping-section { margin-top: 0.75rem; }
+    .log-panel {
+      margin-top: 1.5rem; text-align: left;
+      background: rgba(0,0,0,0.3); border-radius: 0.5rem;
+      padding: 0.6rem 0.8rem; max-height: 160px; overflow-y: auto;
+      font-size: 0.72rem; font-family: monospace; color: #94a3b8;
+    }
+    .log-panel .log-line { white-space: pre-wrap; word-break: break-all; margin: 0; }
   </style>
 </head>
 <body>
@@ -57,20 +65,35 @@
     </div>
     <button id="ping-btn" class="ping-btn" disabled>Ping Pi</button>
     <div id="ping-result" class="ping-result"></div>
+    <div class="ping-section">
+      <button id="ping-pico-btn" class="ping-btn" disabled>Ping Pico</button>
+      <div id="ping-pico-result" class="ping-result"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:1rem">
+      <button id="clear-log-btn" class="ping-btn" style="width:auto;padding:0.3rem 1rem;font-size:0.8rem">Clear logs</button>
+    </div>
+    <div id="log-panel" class="log-panel"></div>
   </div>
 
   <script>
-    const piBadge    = document.getElementById('pi-badge');
-    const stateBadge = document.getElementById('state-badge');
-    const picoBadge  = document.getElementById('pico-badge');
-    const pingBtn    = document.getElementById('ping-btn');
-    const pingResult = document.getElementById('ping-result');
+    const piBadge       = document.getElementById('pi-badge');
+    const stateBadge    = document.getElementById('state-badge');
+    const picoBadge     = document.getElementById('pico-badge');
+    const pingBtn       = document.getElementById('ping-btn');
+    const pingResult    = document.getElementById('ping-result');
+    const pingPicoBtn    = document.getElementById('ping-pico-btn');
+    const pingPicoResult = document.getElementById('ping-pico-result');
+    const logPanel       = document.getElementById('log-panel');
+    const clearLogBtn    = document.getElementById('clear-log-btn');
+    const MAX_LOG_LINES  = 20;
 
     const PING_TIMEOUT_MS = 5000;
 
-    let pingTs      = null;
-    let pingTimeout = null;
-    let ws          = null;
+    let pingTs          = null;
+    let pingTimeout     = null;
+    let pingPicoTs      = null;
+    let pingPicoTimeout = null;
+    let ws              = null;
 
     function isPingAllowed() {
       const state = stateBadge.textContent;
@@ -79,17 +102,44 @@
           && state !== 'SENDING';
     }
 
+    function isPingPicoAllowed() {
+      return piBadge.textContent === 'connected'
+          && picoBadge.textContent === 'LISTENING';
+    }
+
     function cancelPing(msg) {
       clearTimeout(pingTimeout);
       pingTimeout = null;
       pingTs      = null;
       pingResult.textContent = msg;
+      pingBtn.disabled = !isPingAllowed();
+    }
+
+    function cancelPingPico(msg) {
+      clearTimeout(pingPicoTimeout);
+      pingPicoTimeout = null;
+      pingPicoTs      = null;
+      pingPicoResult.textContent = msg;
+      pingPicoBtn.disabled = !isPingPicoAllowed();
     }
 
     function setBadge(el, ok) {
       if (ok === null) { el.className = 'badge badge-unknown'; el.textContent = 'unknown'; return; }
       el.className = ok ? 'badge badge-ok' : 'badge badge-err';
       el.textContent = ok ? 'connected' : 'disconnected';
+    }
+
+    function setPicoBadge(state) {
+      const cls = { LISTENING: 'badge-ok', INTERPRETING: 'badge-warn', EXECUTING: 'badge-warn' };
+      if (state === null) {
+        picoBadge.className = 'badge badge-unknown'; picoBadge.textContent = 'unknown';
+        pingPicoBtn.disabled = true;
+        return;
+      }
+      picoBadge.className = 'badge ' + (cls[state] ?? 'badge-unknown');
+      picoBadge.textContent = state;
+      if (pingPicoTimeout === null)
+        pingPicoBtn.disabled = !isPingPicoAllowed();
     }
 
     function setStateBadge(el, state) {
@@ -100,21 +150,39 @@
         pingBtn.disabled = !isPingAllowed();
     }
 
+    function appendLog(raw) {
+      const p = document.createElement('p');
+      p.className = 'log-line';
+      p.textContent = raw;
+      logPanel.appendChild(p);
+      while (logPanel.children.length > MAX_LOG_LINES)
+        logPanel.removeChild(logPanel.firstChild);
+      logPanel.scrollTop = logPanel.scrollHeight;
+    }
+
     function onMessage(evt) {
       const data = JSON.parse(evt.data);
+      if (data.type === 'debug') { appendLog(data.raw); return; }
       if (data.type === 'pi_connection') {
         setBadge(piBadge, data.connected);
-        if (!data.connected) { setBadge(picoBadge, null); setStateBadge(stateBadge, null); }
+        if (!data.connected) {
+          setPicoBadge(null); setStateBadge(stateBadge, null);
+          pingPicoBtn.disabled = true;
+        }
       }
+      if (data.type === 'pico_status') { setPicoBadge(data.state); }
       if (data.type === 'status') {
         setStateBadge(stateBadge, data.state);
       }
       if (data.type === 'state') {
         setStateBadge(stateBadge, data.state);
       }
-      if (data.type === 'response' && data.kind === 'PONG') {
+      if (data.type === 'response' && data.kind === 'PONG' && data.command !== 'PING_PICO') {
         const ms = pingTs !== null ? Date.now() - pingTs : null;
         cancelPing(ms !== null ? `PONG — ${ms} ms` : 'PONG');
+      }
+      if (data.type === 'response' && data.command === 'PING_PICO') {
+        cancelPingPico(data.ms !== undefined ? `PONG — ${data.ms} ms (Pi→Pico)` : 'PONG');
       }
     }
 
@@ -123,8 +191,9 @@
       ws.onmessage = onMessage;
       ws.onclose = () => {
         setBadge(piBadge, null);
-        setBadge(picoBadge, null);
+        setPicoBadge(null);
         pingBtn.disabled = true;
+        pingPicoBtn.disabled = true;
         setTimeout(connect, 3000);
       };
     }
@@ -136,6 +205,17 @@
       pingResult.textContent = '…';
       ws.send(JSON.stringify({ type: 'command', command: 'PING' }));
       pingTimeout = setTimeout(() => cancelPing('timeout'), PING_TIMEOUT_MS);
+    });
+
+    clearLogBtn.addEventListener('click', () => { logPanel.innerHTML = ''; });
+
+    pingPicoBtn.addEventListener('click', () => {
+      if (!ws || ws.readyState !== WebSocket.OPEN) return;
+      pingPicoTs = Date.now();
+      pingPicoBtn.disabled = true;
+      pingPicoResult.textContent = '…';
+      ws.send(JSON.stringify({ type: 'command', command: 'PING_PICO' }));
+      pingPicoTimeout = setTimeout(() => cancelPingPico('timeout'), PING_TIMEOUT_MS);
     });
 
     connect();
