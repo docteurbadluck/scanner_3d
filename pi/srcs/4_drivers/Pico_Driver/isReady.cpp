@@ -3,7 +3,5 @@
 
 bool Pico_Driver::isReady()
 {
-	if (!_writeLine(JsonMessage::makeCommand("PING")))
-		return false;
-	return _isSuccess(_readResponse());
+	return sendCommand(JsonMessage::makeCommand("PING"));
 }

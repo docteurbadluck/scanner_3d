@@ -3,5 +3,6 @@
 
 bool Pico_Driver::_isSuccess(const std::string &response)
 {
-	return JsonMessage::extractStringField(response, "kind") == "ok";
+	const std::string kind = JsonMessage::extractStringField(response, "kind");
+	return kind == "DONE" || kind == "PONG";
 }

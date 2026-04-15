@@ -10,6 +10,5 @@ void CommandReceptorUC::checkForNewMessage(System &sys)
         const std::string jsonCommand = JsonMessage::extractStringField(rawMessage, "command");
         _message = jsonCommand.empty() ? rawMessage : jsonCommand;
         sys.commandReceived();
-        _sender.sendState(sys);
     }
 }
