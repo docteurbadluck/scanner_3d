@@ -1,14 +1,14 @@
 {
-  "computed_at": "2026-04-12T17:09:27Z",
+  "computed_at": "2026-04-15T19:22:10Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
   },
   "components": {
     "pico": {
-      "function_count": 90,
-      "nloc": 646,
-      "avg_ccn": 1.8,
+      "function_count": 93,
+      "nloc": 667,
+      "avg_ccn": 1.81,
       "max_ccn": 6,
       "violations_over_5": 2,
       "violations_over_10": 0,
@@ -46,18 +46,18 @@
       ]
     },
     "pi": {
-      "function_count": 97,
-      "nloc": 741,
-      "avg_ccn": 2.04,
-      "max_ccn": 6,
-      "violations_over_5": 1,
+      "function_count": 106,
+      "nloc": 805,
+      "avg_ccn": 2.07,
+      "max_ccn": 5,
+      "violations_over_5": 0,
       "violations_over_10": 0,
       "top_complex": [
         {
           "name": "ExecuteOrder_UC::_dispatch",
           "file": "pi/srcs/2_usecases/ExecuteOrder_UC/internal/_dispatch.cpp",
-          "ccn": 6,
-          "nloc": 13
+          "ccn": 5,
+          "nloc": 8
         },
         {
           "name": "extract_value_from",
@@ -86,24 +86,24 @@
       ]
     },
     "computer": {
-      "function_count": 41,
-      "nloc": 188,
-      "avg_ccn": 1.66,
+      "function_count": 46,
+      "nloc": 214,
+      "avg_ccn": 1.72,
       "max_ccn": 5,
       "violations_over_5": 0,
       "violations_over_10": 0,
       "top_complex": [
         {
-          "name": "to_json",
-          "file": "computer/srcs/_1_domain/pi_messages.py",
-          "ccn": 5,
-          "nloc": 14
-        },
-        {
           "name": "_parse_json_dict",
           "file": "computer/srcs/_1_domain/pi_messages.py",
-          "ccn": 4,
-          "nloc": 9
+          "ccn": 5,
+          "nloc": 11
+        },
+        {
+          "name": "_send_initial_status",
+          "file": "computer/srcs/_2_usecases/handle_connection_uc.py",
+          "ccn": 5,
+          "nloc": 14
         },
         {
           "name": "parse",
@@ -112,16 +112,16 @@
           "nloc": 11
         },
         {
-          "name": "handle_incoming",
-          "file": "computer/srcs/_2_usecases/handle_incoming_uc.py",
+          "name": "_build_response_data",
+          "file": "computer/srcs/_1_domain/pi_messages.py",
           "ccn": 4,
-          "nloc": 14
+          "nloc": 9
         },
         {
-          "name": "handle_connection",
-          "file": "computer/srcs/_2_usecases/handle_connection_uc.py",
+          "name": "to_json",
+          "file": "computer/srcs/_1_domain/pi_messages.py",
           "ccn": 4,
-          "nloc": 12
+          "nloc": 8
         }
       ]
     }
