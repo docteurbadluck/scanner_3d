@@ -43,10 +43,15 @@ test-pi:
 # ── Phase 4 — Remote Pico build ─────────────────────────────────────────────
 
 build-pico:
-	@printf "==> Configuring Pico build on $(PI_HOST)...\n"
-	@$(SSH) "PICO_SDK_PATH=~/pico-sdk cmake -B $(PICO_BUILD) -S $(PI_REPO)/pico/motor -G Ninja 2>&1"
-	@printf "==> Building Pico firmware on $(PI_HOST)...\n"
+	@$(SSH) "[ -f $(PICO_BUILD)/build.ninja ] || \
+		PICO_SDK_PATH=~/pico-sdk PICOTOOL_FETCH_FROM_GIT_PATH=~/picotool_cache \
+		cmake -B $(PICO_BUILD) -S $(PI_REPO)/pico/motor -G Ninja 2>&1" \
+		&& printf "==> Building Pico firmware on $(PI_HOST)...\n"
 	@$(SSH) "cmake --build $(PICO_BUILD)"
+
+fclean-pico:
+	@printf "==> Cleaning Pico build on $(PI_HOST)...\n"
+	@$(SSH) "rm -rf $(PICO_BUILD)"
 
 # ── Phase 5/6 — Flash Pico ──────────────────────────────────────────────────
 
@@ -88,4 +93,4 @@ all-remote:
 	@$(MAKE) run-pi
 
 .PHONY: check-ssh check-prereqs sync sync-dry \
-        build-pi fclean-pi test-pi build-pico flash-pico run-pi log-pi stop-pi re-pi all-remote
+        build-pi fclean-pi test-pi build-pico fclean-pico flash-pico run-pi log-pi stop-pi re-pi all-remote

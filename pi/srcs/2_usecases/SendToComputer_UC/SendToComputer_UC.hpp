@@ -16,4 +16,5 @@ public:
     void sendState(const System &sys);
     void sendInvalidCmd();
     void sendRaw(const std::string &message);
+    void sendPicoStatus(const std::string &rawPicoJson);
 };

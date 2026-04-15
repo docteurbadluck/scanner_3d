@@ -4,7 +4,7 @@
 
 struct Pico_DriverConfig
 {
-	std::string port            = "/dev/ttyACM0";
+	std::string port            = "/dev/serial0";
 	int         read_timeout_ms = 2000;
 };
 
@@ -21,6 +21,7 @@ public:
 	bool        rotatePlateStep()                           override;
 	bool        isStable()                                  override;
 	std::string getPicoStatus()                             override;
+	std::string pingPico()                                  override;
 
 private:
 	Pico_DriverConfig _cfg;

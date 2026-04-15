@@ -12,6 +12,7 @@ class PiResponseKind(Enum):
     FAIL         = "FAIL"
     INVALID_CMD  = "INVALID_CMD"
     STATE        = "STATE"
+    PICO_STATUS  = "PICO_STATUS"
     UNKNOWN      = "UNKNOWN"
 
     @staticmethod
@@ -49,11 +50,18 @@ def _parse_state_message(data: dict[str, Any]) -> PiResponse:
 def _parse_response_message(data: dict[str, Any]) -> PiResponse:
     kind_raw = str(data.get("kind", ""))
     command = str(data.get("command", ""))
+    ms: int | None = int(data["ms"]) if "ms" in data else None
     return PiResponse(
         kind=PiResponseKind.from_raw(kind_raw),
         payload=kind_raw,
         command=command,
+        ms=ms,
     )
+
+
+def _parse_pico_status_message(data: dict[str, Any]) -> PiResponse:
+    state = str(data.get("state", ""))
+    return PiResponse(kind=PiResponseKind.PICO_STATUS, payload=state)
 
 
 def _parse_error_message(data: dict[str, Any]) -> PiResponse:
@@ -65,6 +73,8 @@ def _parse_json_dict(data: dict[str, Any]) -> PiResponse | None:
     msg_type = str(data.get("type", ""))
     if msg_type == "state":
         return _parse_state_message(data)
+    if msg_type == "pico_status":
+        return _parse_pico_status_message(data)
     if msg_type == "response":
         return _parse_response_message(data)
     if msg_type == "error":
@@ -85,6 +95,7 @@ class PiResponse:
     kind:    PiResponseKind
     payload: str
     command: str = ""
+    ms:      int | None = None
 
     @staticmethod
     def parse(raw: str) -> PiResponse:
@@ -99,19 +110,21 @@ class PiResponse:
             pass
         return _parse_plain_text(stripped)
 
+    def _build_response_data(self) -> dict[str, Any]:
+        data: dict[str, Any] = {"type": "response", "kind": self.kind.value}
+        if self.command:
+            data["command"] = self.command
+        if self.ms is not None:
+            data["ms"] = self.ms
+        if self.kind == PiResponseKind.UNKNOWN:
+            data["payload"] = self.payload
+        return data
+
     def to_json(self) -> str:
         if self.kind == PiResponseKind.STATE:
             return json.dumps({"type": "state", "state": self.payload})
-
+        if self.kind == PiResponseKind.PICO_STATUS:
+            return json.dumps({"type": "pico_status", "state": self.payload})
         if self.kind == PiResponseKind.INVALID_CMD:
             return json.dumps({"type": "error", "reason": self.payload})
-
-        data: dict[str, str] = {
-            "type": "response",
-            "kind": self.kind.value,
-        }
-        if self.command:
-            data["command"] = self.command
-        if self.kind == PiResponseKind.UNKNOWN:
-            data["payload"] = self.payload
-        return json.dumps(data)
+        return json.dumps(self._build_response_data())

@@ -1,3 +1,4 @@
+#include <cstring>
 #include "3_interface/IPico.hpp"
 #include "3_interface/ICamera.hpp"
 #include "3_interface/IDiskChecker.hpp"
@@ -24,6 +25,7 @@ public:
 	bool rotatePlateStep() override { return _res; }
 	bool isStable() override { return _res; }
 	std::string getPicoStatus() override { return _status; }
+	std::string pingPico() override { return JsonMessage::makePingPicoResponse(0); }
 };
 
 class mockCamera : public ICamera
@@ -116,7 +118,7 @@ void test_execute_get_pico_status()
 	System sys;
 
 	run_cmd(exec, sys, "GET_PICO_STATUS");
-	TEST_ASSERT_EQUAL_STRING("{\"type\":\"state\",\"state\":\"READY\"}", sender._lastMsg.c_str());
+	TEST_ASSERT_EQUAL_STRING("{\"type\":\"pico_status\",\"state\":\"READY\"}", sender._lastMsg.c_str());
 }
 
 void test_execute_start_capture_success()
@@ -163,6 +165,21 @@ void test_execute_pong_noop()
 	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "PONG").c_str(), sender._lastMsg.c_str());
 }
 
+void test_execute_ping_pico()
+{
+	mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
+	mockHttpUploader uploader; mockSender sender;
+	CaptureData_UC    capture(pico, cam, disk);
+	SendPhotoToComputer_UC       sendData(cam, uploader);
+	SendToComputer_UC sendUC(sender);
+	ExecuteOrder_UC   exec(capture, sendData, sendUC, pico);
+	System sys;
+
+	run_cmd(exec, sys, "PING_PICO");
+	TEST_ASSERT_NOT_NULL(strstr(sender._lastMsg.c_str(), "PING_PICO"));
+	TEST_ASSERT_NOT_NULL(strstr(sender._lastMsg.c_str(), "ms"));
+}
+
 void test_execute_unknown_command()
 {
 	mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
@@ -186,6 +203,7 @@ int main(void)
 	RUN_TEST(test_execute_start_capture_success);
 	RUN_TEST(test_execute_start_capture_fail);
 	RUN_TEST(test_execute_pong_noop);
+	RUN_TEST(test_execute_ping_pico);
 	RUN_TEST(test_execute_unknown_command);
 	return UNITY_END();
 }

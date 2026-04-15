@@ -14,6 +14,7 @@ class mockPicoClient : public IPico
 		bool rotatePlateStep() override { return _res; }
 		bool isStable() override { return _res; }
 		std::string getPicoStatus() override { return "OK"; }
+		std::string pingPico() override { return "{}"; }
 };
 
 class mockHttpUploader : public IComputer

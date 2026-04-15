@@ -62,10 +62,22 @@ std::string makeResponse(const std::string &kind, const std::string &command)
 	       + escape(kind) + "\",\"command\":\"" + escape(command) + "\"}";
 }
 
+std::string makePicoStatus(const std::string &state)
+{
+	return std::string{"{\"type\":\"pico_status\",\"state\":\""}
+	       + escape(state) + "\"}";
+}
+
 std::string makeError(const std::string &reason)
 {
 	return std::string{"{\"type\":\"error\",\"reason\":\""}
 	       + escape(reason) + "\"}";
+}
+
+std::string makePingPicoResponse(long ms)
+{
+	return std::string{"{\"type\":\"response\",\"kind\":\"PONG\",\"command\":\"PING_PICO\",\"ms\":"}
+	       + std::to_string(ms) + "}";
 }
 
 std::string extractStringField(const std::string &json, const std::string &field)

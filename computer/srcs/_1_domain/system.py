@@ -19,6 +19,7 @@ class Commands:
         "GET_STATUS",
         "GET_PICO_STATUS",
         "START_CAPTURE",
+        "PING_PICO",
     ))
 
 
