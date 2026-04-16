@@ -25,6 +25,6 @@ private:
 	bool                _hasPhoto;
 	std::string         _data;
 
-	std::string _buildCommand() const;
+	std::string _createTakePhotoCommand() const;
 	bool        _readFile();
 };
