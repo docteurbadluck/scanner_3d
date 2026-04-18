@@ -14,6 +14,7 @@ from __future__ import annotations
 import datetime
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -146,8 +147,57 @@ def generate_html_report() -> None:
         [sys.executable, "-m", "lizard", "--html", *sources],
         capture_output=True, text=True,
     )
-    out.write_text(result.stdout)
+    out.write_text(_wrap_lizard_html(result.stdout))
     print(f"HTML report → {out}")
+
+
+def _extract_lizard_body(html: str) -> str:
+    match = re.search(r'<body[^>]*>(.*?)</body>', html, re.DOTALL | re.IGNORECASE)
+    if not match:
+        return html
+    body = match.group(1).strip()
+    return re.sub(r'<h2[^>]*>.*?</h2>', '', body, flags=re.DOTALL | re.IGNORECASE).strip()
+
+
+def _wrap_lizard_html(lizard_html: str) -> str:
+    body = _extract_lizard_body(lizard_html)
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Complexity</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <style>
+    table#complexityTable th {{background:#1e293b;color:#facc15;padding:10px;text-align:left;border:1px solid #334155;}}
+    table#complexityTable td {{border:1px solid #334155;color:#e2e8f0;}}
+    table#complexityTable tr:nth-child(even) td {{background:rgba(255,255,255,0.03);}}
+    table#complexityTable tr:hover td {{background:rgba(250,204,21,0.05);}}
+    td.greater-value {{background:rgba(239,68,68,0.2)!important;color:#fca5a5;}}
+    td.lesser-value  {{background:rgba(34,197,94,0.2)!important;color:#86efac;}}
+    td.file-header   {{background:#1e3a5f!important;font-weight:bold;color:#93c5fd;}}
+    td.function-name {{background:#1e293b!important;color:#bae6fd;}}
+    td.footer        {{text-align:center;color:#64748b;}}
+    td.footer a      {{color:#64748b;}}
+    td.value         {{padding:2px 10px;text-align:center;white-space:nowrap;}}
+    .dataTables_wrapper {{color:#94a3b8;}}
+    .dataTables_wrapper input,.dataTables_wrapper select {{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:4px;padding:2px 6px;}}
+    .dataTables_paginate .paginate_button {{color:#94a3b8!important;}}
+    .dataTables_paginate .paginate_button.current {{background:#facc15!important;color:#0f172a!important;border-color:#facc15!important;}}
+  </style>
+</head>
+<body style="margin:0" class="font-sans text-slate-200">
+  <page-card title="Complexity" page="complexity">
+    <div style="width:100%;overflow-x:auto;text-align:left">
+      {body}
+    </div>
+  </page-card>
+  <script type="module" src="/js/PageCard.js"></script>
+</body>
+</html>"""
 
 
 if __name__ == "__main__":

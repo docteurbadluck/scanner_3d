@@ -1,3 +1,4 @@
+import '/js/PageCard.js';
 import './components/MetricsGrid.js';
 import { fetchJson, fmt, pct } from './data.js';
 

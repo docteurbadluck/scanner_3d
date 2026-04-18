@@ -1,3 +1,4 @@
+import '/js/PageCard.js';
 import './components/StatusSection.js';
 import './components/PingSection.js';
 import './components/LogSection.js';
