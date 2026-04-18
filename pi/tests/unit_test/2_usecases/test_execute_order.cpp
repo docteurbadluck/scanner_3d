@@ -133,14 +133,13 @@ void test_execute_start_capture_success()
 
 	run_cmd(exec, sys, "START_CAPTURE");
 	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
-	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeCommand("CAPTURE").c_str(), pico._lastCommand.c_str());
 }
 
 void test_execute_start_capture_fail()
 {
 	mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
 	mockHttpUploader uploader; mockSender sender;
-	pico._res = false;
+	cam._captureRes = false;
 	CaptureData_UC    capture(pico, cam, disk);
 	SendPhotoToComputer_UC       sendData(cam, uploader);
 	SendToComputer_UC sendUC(sender);
