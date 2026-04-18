@@ -3,7 +3,8 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from server import WWW_DIR, build_http_handler
+from server import WWW_DIR
+from srcs._4_framework.http_server import build_http_handler
 from srcs._1_domain.messages import PongMessage, StatusMessage
 from srcs._1_domain.system import State
 

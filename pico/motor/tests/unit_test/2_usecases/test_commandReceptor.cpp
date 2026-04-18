@@ -44,7 +44,6 @@ void test_checkForNewMessage_arrives()
 
 	uc.checkForNewMessage(sys);
 	TEST_ASSERT_EQUAL_INT(INTERPRETING, sys.getState());
-	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("INTERPRETING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_checkForNewMessage_no_message()
@@ -96,7 +95,6 @@ void test_interpreteMessage_valid()
 	TEST_ASSERT_TRUE(res);
 	TEST_ASSERT_EQUAL_INT(EXECUTING, sys.getState());
 	TEST_ASSERT_EQUAL_STRING("ARM_UP", sys.getCommandToExecute().c_str());
-	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeState("EXECUTING").c_str(), sender._lastMsg.c_str());
 }
 
 void test_interpreteMessage_invalid()

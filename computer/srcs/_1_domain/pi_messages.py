@@ -29,8 +29,6 @@ _KNOWN_STATES: frozenset[str] = frozenset(
 
 _STATE_MAPPING: dict[str, str] = {
     "LISTENING": "READY",
-    "INTERPRETING": "PROCESSING",
-    "EXECUTING": "PROCESSING",
     "INITIALIZATION": "INITIALIZATION",
     "READY": "READY",
     "PROCESSING": "PROCESSING",

@@ -5,7 +5,7 @@ import requests
 
 HTTP_URL = "http://localhost:8080"
 
-PAGES: list[str] = ["/", "/index.html", "/metrics.html", "/status.html", "/productivity.html"]
+PAGES: list[str] = ["/", "/index.html", "/metrics/", "/status/", "/productivity/"]
 
 
 @pytest.mark.parametrize("path", PAGES)

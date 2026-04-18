@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style type="text/tailwindcss">
+    .metric-card  { @apply bg-white/5 rounded-xl p-4; }
+    .metric-label { @apply text-xs opacity-60 uppercase tracking-[0.05em] mb-1; }
+    .metric-value { @apply text-[1.6rem] font-bold text-yellow-400; }
+    .meta         { @apply mt-5 text-[0.72rem] opacity-40; }
+  </style>
+</head>
+<body style="margin:0" class="font-sans text-slate-200">
+  <page-card title="Metrics" page="metrics">
+    <p id="status-msg" class="text-sm opacity-60 min-h-[1.2em] mb-4"></p>
+    <metrics-grid id="metrics-grid"></metrics-grid>
+    <div class="meta">Refreshes every 30 s</div>
+  </page-card>
+  <script type="module" src="/js/PageCard.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

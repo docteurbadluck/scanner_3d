@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Status</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style type="text/tailwindcss">
+    .badge         { @apply text-xs font-bold px-3 py-1 rounded-full min-w-[90px] text-center; }
+    .badge-ok      { @apply bg-green-600 text-white; }
+    .badge-warn    { @apply bg-yellow-600 text-white; }
+    .badge-err     { @apply bg-red-600 text-white; }
+    .badge-unknown { @apply bg-slate-600 text-slate-300; }
+    .log-line      { @apply whitespace-pre-wrap break-all m-0; }
+  </style>
+</head>
+<body style="margin:0" class="font-sans text-slate-200">
+  <page-card title="Status" page="status">
+    <status-section id="status-section"></status-section>
+    <ping-section   id="ping-section"></ping-section>
+    <log-section    id="log-section"></log-section>
+  </page-card>
+  <script type="module" src="/js/PageCard.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

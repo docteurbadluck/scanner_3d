@@ -15,7 +15,6 @@ class State(Enum):
 class Commands:
     valid: tuple[str, ...] = field(default=(
         "PING",
-        "PONG",
         "GET_STATUS",
         "GET_PICO_STATUS",
         "START_CAPTURE",
