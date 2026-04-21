@@ -27,10 +27,8 @@ async def test_ws_sends_status_on_connect() -> None:
 
 async def test_ws_responds_to_ping() -> None:
     async with websockets.connect(WS_URL) as ws:
-        await ws.recv()  # skip pi_connection
-        await ws.recv()  # skip status
         await ws.send(json.dumps({"type": "ping"}))
-        response_raw         = await asyncio.wait_for(ws.recv(), timeout=3)
-        response: str        = str(response_raw)
-        data: dict[str, Any] = json.loads(response)
+        data: dict[str, Any] = {}
+        while data.get("type") != "pong":
+            data = json.loads(str(await asyncio.wait_for(ws.recv(), timeout=3)))
         assert data["type"] == "pong"

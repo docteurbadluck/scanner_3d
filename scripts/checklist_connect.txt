@@ -1,0 +1,2 @@
+plug pi,
+run make test_ssh
