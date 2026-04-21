@@ -2,17 +2,28 @@ import '/js/PageCard.js';
 import './components/StatusSection.js';
 import './components/PingSection.js';
 import './components/LogSection.js';
+import './components/TakePhoto.js';
+
 import { isInProgress, isPicoInProgress, start, startPico, cancel, cancelPico } from './ping.js';
 import { createMessageHandler, connect } from './ws.js';
 
-const statusSection = document.getElementById('status-section');
-const pingSection   = document.getElementById('ping-section');
-const logSection    = document.getElementById('log-section');
+const statusSection   = document.getElementById('status-section');
+const pingSection     = document.getElementById('ping-section');
+const logSection      = document.getElementById('log-section');
+const captureButton   = document.getElementById('capture-button');
+captureButton.label   = 'Take Photo';
 
-const piRef   = { set result(v) { pingSection.piResult   = v; } };
-const picoRef = { set result(v) { pingSection.picoResult = v; } };
+const piRef      = { set result(v) { pingSection.piResult   = v; } };
+const picoRef    = { set result(v) { pingSection.picoResult = v; } };
+const captureRef = { set result(v) { captureButton.result   = v; } };
 
-const refs = { statusSection, pingSection, logSection, piRef, picoRef };
+const refs = { statusSection, pingSection, logSection, piRef, picoRef, captureRef };
+
+function isCaptureAllowed() {
+    return statusSection.piState === 'connected'
+        && statusSection.systemState !== 'PROCESSING'
+        && statusSection.systemState !== 'SENDING';
+}
 
 function isPingAllowed() {
     return statusSection.piState === 'connected'
@@ -28,10 +39,12 @@ function updateButtons(piConnected = true) {
     if (!piConnected) {
         statusSection.systemState = statusSection.picoState = null;
         pingSection.piDisabled = pingSection.picoDisabled = true;
+        captureButton.disabled = true;
         return;
     }
     if (!isInProgress())     pingSection.piDisabled   = !isPingAllowed();
     if (!isPicoInProgress()) pingSection.picoDisabled = !isPingPicoAllowed();
+    captureButton.disabled = !isCaptureAllowed();
 }
 
 let ws = null;
@@ -45,6 +58,12 @@ function onWsClose() {
 function reconnect() {
     ws = connect(createMessageHandler(refs, updateButtons), onWsClose);
 }
+
+captureButton.addEventListener('capture', () => {
+    if (!ws || ws.readyState !== WebSocket.OPEN) return;
+    captureButton.disabled = true;
+    ws.send(JSON.stringify({ type: 'command', command: 'START_CAPTURE' }));
+});
 
 pingSection.addEventListener('ping-pi', () => {
     if (!ws || ws.readyState !== WebSocket.OPEN) return;

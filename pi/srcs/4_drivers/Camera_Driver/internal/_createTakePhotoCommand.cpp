@@ -2,9 +2,7 @@
 
 std::string Camera_Driver::_createTakePhotoCommand() const
 {
-	return "rpicam-still --nopreview"
-	       " -t "       + std::to_string(_cfg.timeout_ms) +
-	       " --width "  + std::to_string(_cfg.width) +
-	       " --height " + std::to_string(_cfg.height) +
-	       " -o "       + _cfg.output_path;
+	const std::string cmd = _buildRpicamCommand();
+	return "tmpf=$(mktemp); " + cmd + " 2>\"$tmpf\"; "
+	       "r=$?; [ $r -ne 0 ] && cat \"$tmpf\" >&2; rm -f \"$tmpf\"; exit $r";
 }

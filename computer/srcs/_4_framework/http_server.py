@@ -5,6 +5,8 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from typing import Any
 
+from srcs._4_framework.upload_handler import handle_upload
+
 
 def build_http_handler(www_dir: Path) -> type[SimpleHTTPRequestHandler]:
     class Handler(SimpleHTTPRequestHandler):
@@ -13,6 +15,12 @@ def build_http_handler(www_dir: Path) -> type[SimpleHTTPRequestHandler]:
 
         def log_message(self, *_args: Any) -> None:
             pass
+
+        def do_POST(self) -> None:
+            if self.path != "/upload":
+                self.send_error(404)
+                return
+            handle_upload(self, www_dir)
 
     return Handler
 
