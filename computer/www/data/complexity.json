@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-18T13:16:51Z",
+  "computed_at": "2026-04-21T20:00:56Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
@@ -46,9 +46,9 @@
       ]
     },
     "pi": {
-      "function_count": 106,
-      "nloc": 792,
-      "avg_ccn": 2.02,
+      "function_count": 108,
+      "nloc": 803,
+      "avg_ccn": 2.0,
       "max_ccn": 5,
       "violations_over_5": 0,
       "violations_over_10": 0,
@@ -86,9 +86,9 @@
       ]
     },
     "computer": {
-      "function_count": 65,
-      "nloc": 294,
-      "avg_ccn": 1.62,
+      "function_count": 68,
+      "nloc": 310,
+      "avg_ccn": 1.6,
       "max_ccn": 5,
       "violations_over_5": 0,
       "violations_over_10": 0,
