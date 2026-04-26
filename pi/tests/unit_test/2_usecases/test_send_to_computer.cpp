@@ -70,8 +70,8 @@ void test_sendResponse_done()
 	mockSender sender;
 	SendToComputer_UC uc(sender);
 	System sys;
-	uc.sendResponse("START_CAPTURE", true, sys);
-	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	uc.sendResponse("TAKE_PHOTO", true, sys);
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "TAKE_PHOTO").c_str(), sender._lastMsg.c_str());
 }
 
 void test_sendResponse_fail()
@@ -79,8 +79,8 @@ void test_sendResponse_fail()
 	mockSender sender;
 	SendToComputer_UC uc(sender);
 	System sys;
-	uc.sendResponse("START_CAPTURE", false, sys);
-	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	uc.sendResponse("TAKE_PHOTO", false, sys);
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "TAKE_PHOTO").c_str(), sender._lastMsg.c_str());
 }
 
 int main(void)

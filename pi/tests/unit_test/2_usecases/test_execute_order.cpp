@@ -131,8 +131,8 @@ void test_execute_start_capture_success()
 	ExecuteOrder_UC   exec(capture, sendData, sendUC, pico);
 	System sys;
 
-	run_cmd(exec, sys, "START_CAPTURE");
-	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	run_cmd(exec, sys, "TAKE_PHOTO");
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "TAKE_PHOTO").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_start_capture_fail()
@@ -146,8 +146,8 @@ void test_execute_start_capture_fail()
 	ExecuteOrder_UC   exec(capture, sendData, sendUC, pico);
 	System sys;
 
-	run_cmd(exec, sys, "START_CAPTURE");
-	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "START_CAPTURE").c_str(), sender._lastMsg.c_str());
+	run_cmd(exec, sys, "TAKE_PHOTO");
+	TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "TAKE_PHOTO").c_str(), sender._lastMsg.c_str());
 }
 
 void test_execute_pong_noop()

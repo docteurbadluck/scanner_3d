@@ -10,16 +10,16 @@ import { createMessageHandler, connect } from './ws.js';
 const statusSection   = document.getElementById('status-section');
 const pingSection     = document.getElementById('ping-section');
 const logSection      = document.getElementById('log-section');
-const captureButton   = document.getElementById('capture-button');
-captureButton.label   = 'Take Photo';
+const takePhotoButton   = document.getElementById('take-photo-button');
+takePhotoButton.label   = 'Take Photo';
 
-const piRef      = { set result(v) { pingSection.piResult   = v; } };
-const picoRef    = { set result(v) { pingSection.picoResult = v; } };
-const captureRef = { set result(v) { captureButton.result   = v; } };
+const piRef        = { set result(v) { pingSection.piResult     = v; } };
+const picoRef      = { set result(v) { pingSection.picoResult   = v; } };
+const takePhotoRef = { set result(v) { takePhotoButton.result   = v; } };
 
-const refs = { statusSection, pingSection, logSection, piRef, picoRef, captureRef };
+const refs = { statusSection, pingSection, logSection, piRef, picoRef, takePhotoRef };
 
-function isCaptureAllowed() {
+function isTakePhotoAllowed() {
     return statusSection.piState === 'connected'
         && statusSection.systemState !== 'PROCESSING'
         && statusSection.systemState !== 'SENDING';
@@ -39,12 +39,12 @@ function updateButtons(piConnected = true) {
     if (!piConnected) {
         statusSection.systemState = statusSection.picoState = null;
         pingSection.piDisabled = pingSection.picoDisabled = true;
-        captureButton.disabled = true;
+        takePhotoButton.disabled = true;
         return;
     }
     if (!isInProgress())     pingSection.piDisabled   = !isPingAllowed();
     if (!isPicoInProgress()) pingSection.picoDisabled = !isPingPicoAllowed();
-    captureButton.disabled = !isCaptureAllowed();
+    takePhotoButton.disabled = !isTakePhotoAllowed();
 }
 
 let ws = null;
@@ -59,10 +59,10 @@ function reconnect() {
     ws = connect(createMessageHandler(refs, updateButtons), onWsClose);
 }
 
-captureButton.addEventListener('capture', () => {
+takePhotoButton.addEventListener('take-photo', () => {
     if (!ws || ws.readyState !== WebSocket.OPEN) return;
-    captureButton.disabled = true;
-    ws.send(JSON.stringify({ type: 'command', command: 'START_CAPTURE' }));
+    takePhotoButton.disabled = true;
+    ws.send(JSON.stringify({ type: 'command', command: 'TAKE_PHOTO' }));
 });
 
 pingSection.addEventListener('ping-pi', () => {

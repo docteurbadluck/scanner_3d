@@ -4,18 +4,16 @@
 #include "4_drivers/Accelerometer_Driver/Accelerometer_Driver.hpp"
 #include "4_drivers/MotorDC_Driver/MotorDC_Driver.hpp"
 #include "4_drivers/StepperMotor_Driver/StepperMotor_Driver.hpp"
-#include "4_drivers/UsbReceptor_Driver/UsbReceptor_Driver.hpp"
-#include "4_drivers/UsbSender_Driver/UsbSender_Driver.hpp"
+#include "4_drivers/UartReceptor_Driver/UartReceptor_Driver.hpp"
+#include "4_drivers/UartSender_Driver/UartSender_Driver.hpp"
 
 #include <hardware/i2c.h>
 
-// ── USB CDC  (communication + flashing) ────────────────────────────────────
-//   Pi ↔ Pico via /dev/ttyACM0  (stdio_usb, enabled in CMakeLists.txt)
-//   Flashing via SWD (openocd, no BOOTSEL needed):
-//     Pi GPIO 24 → Pico SWDCLK  (debug header pad)
-//     Pi GPIO 25 → Pico SWDIO   (debug header pad)
-//   GP0 and GP1 are free.
-inline const UsbReceptor_DriverConfig USB_RECEPTOR_CONFIG
+// ── UART0  (Pi ↔ Pico communication) ───────────────────────────────────────
+//   GP0 = TX (physical pin 1)
+//   GP1 = RX (physical pin 2)
+//   Baud rate configured via pico-sdk stdio_uart (115200)
+inline const UartReceptor_DriverConfig UART_RECEPTOR_CONFIG
 {
     100,     // poll_timeout_us
     '\n',    // delimiter

@@ -14,8 +14,8 @@
 
 struct Drivers
 {
-    UsbReceptor_Driver   receptor;
-    UsbSender_Driver     usbSender;
+    UartReceptor_Driver  receptor;
+    UartSender_Driver    uartSender;
     MotorDC_Driver       motorDC;
     ServoMotor_Driver    servo;
     StepperMotor_Driver  stepper;
@@ -23,7 +23,7 @@ struct Drivers
     Accelerometer_Driver acc2;
 
     Drivers() :
-        receptor(USB_RECEPTOR_CONFIG), usbSender(),
+        receptor(UART_RECEPTOR_CONFIG), uartSender(),
         motorDC(MOTOR_DC_CONFIG, MOTOR_DC_PINS),
         servo(SERVO_CONFIG, SERVO_PINS),
         stepper(STEPPER_CONFIG, STEPPER_PINS),
@@ -42,7 +42,7 @@ struct UseCases
     ExecuteCommand_UC   executor;
 
     explicit UseCases(Drivers &drv) :
-        sender(drv.usbSender),
+        sender(drv.uartSender),
         cmdReceptor(drv.receptor, Commands{}, sender),
         arm(drv.motorDC), hand(drv.servo), plate(drv.stepper),
         vibration(drv.acc1, drv.acc2),

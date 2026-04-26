@@ -14,7 +14,7 @@ private:
     IPico       &_pico;
 
     int  _dispatch(const std::string &cmd);
-    int  _handleStartCapture();
+    int  _handleTakePhoto();
     int  _handlePingPico();
     int  _handleGetPicoStatus();
     bool _isNoOp(const std::string &cmd) const;
