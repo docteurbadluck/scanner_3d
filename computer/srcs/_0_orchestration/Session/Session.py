@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from websockets.asyncio.server import ServerConnection
 
-from srcs._1_domain.system import State
+from srcs._1_domain.System import State
 
 
 class Session:

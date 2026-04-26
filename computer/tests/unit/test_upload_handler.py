@@ -3,7 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from srcs._4_framework.upload_handler import PHOTOS_DIR, _save_photo, handle_upload
+from srcs._4_framework.UploadHandler import PHOTOS_DIR, handle_upload
+from srcs._4_framework.UploadHandler.internal._save_photo import _save_photo
 
 
 def test_save_photo_creates_directory(tmp_path: Path) -> None:

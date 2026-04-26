@@ -4,7 +4,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from srcs._1_domain.system import Commands, State
+from srcs._1_domain.System import Commands, State
 
 
 @dataclass(frozen=True)

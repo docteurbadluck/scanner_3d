@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from srcs._1_domain.pi_messages import PiResponse
+from srcs._1_domain.PiMessages import PiResponse
 from srcs._3_interface.IPiTransport import IPiTransport
 
 

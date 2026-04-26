@@ -4,9 +4,9 @@ import json
 from typing import Any
 
 from server import WWW_DIR
-from srcs._4_framework.http_server import build_http_handler
-from srcs._1_domain.messages import PongMessage, StatusMessage
-from srcs._1_domain.system import State
+from srcs._4_framework.HttpServer import build_http_handler
+from srcs._1_domain.Messages import PongMessage, StatusMessage
+from srcs._1_domain.System import State
 
 
 def test_status_message_type() -> None:

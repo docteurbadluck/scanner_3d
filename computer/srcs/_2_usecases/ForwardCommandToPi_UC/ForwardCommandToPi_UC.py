@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from srcs._1_domain.messages import CommandMessage
+from srcs._1_domain.Messages import CommandMessage
 from srcs._3_interface.IPiTransport import IPiTransport
 
 

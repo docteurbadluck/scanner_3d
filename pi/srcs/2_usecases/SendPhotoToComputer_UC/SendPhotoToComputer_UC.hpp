@@ -6,7 +6,7 @@ class SendPhotoToComputer_UC
 {
 	private:
 		ICamera       &_camera;
-		IComputer &_uploader;
+		IComputer &_computer;
 
 	public:
 		SendPhotoToComputer_UC(ICamera &camera, IComputer &uploader);

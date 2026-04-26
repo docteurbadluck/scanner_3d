@@ -76,7 +76,8 @@ def check_py_file(path: Path, layer: str) -> list[dict[str, Any]]:
         match = pattern.search(line)
         if not match:
             continue
-        hit = next((name for name in forbidden if match.group(1).startswith(name.lstrip("_"))), None)
+        imported = match.group(1)
+        hit = next((n for n in forbidden if imported == n or imported.startswith(n + ".")), None)
         if hit:
             violations.append({
                 "file": str(path),

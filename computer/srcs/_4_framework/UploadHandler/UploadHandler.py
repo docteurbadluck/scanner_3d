@@ -1,16 +1,11 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from http.server import SimpleHTTPRequestHandler
 from pathlib import Path
 
+from srcs._4_framework.UploadHandler.internal._save_photo import _save_photo
+
 PHOTOS_DIR = "photos"
-
-
-def _save_photo(photos_dir: Path, data: bytes) -> None:
-    photos_dir.mkdir(exist_ok=True)
-    timestamp: str = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%f")
-    (photos_dir / f"{timestamp}.jpg").write_bytes(data)
 
 
 def handle_upload(handler: SimpleHTTPRequestHandler, www_dir: Path) -> None:

@@ -4,9 +4,9 @@ import json
 
 import pytest
 
-from srcs._1_domain.pi_messages import PiResponse, PiResponseKind
-from srcs._2_usecases.forward_command_to_pi_uc import forward_command_to_pi
-from srcs._2_usecases.handle_pi_message_uc import handle_pi_message
+from srcs._1_domain.PiMessages import PiResponse, PiResponseKind
+from srcs._2_usecases.ForwardCommandToPi_UC import forward_command_to_pi
+from srcs._2_usecases.HandlePiMessage_UC import handle_pi_message
 
 
 class FakePi:

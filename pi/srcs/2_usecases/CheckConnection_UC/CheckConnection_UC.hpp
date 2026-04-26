@@ -8,7 +8,7 @@ class CheckConnection_UC
 {
 	private:
 		IPico   &_pico;
-		IComputer &_uploader;
+		IComputer &_computer;
 
 	public:
 		CheckConnection_UC(IPico &pico, IComputer &uploader);
