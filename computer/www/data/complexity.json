@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-26T13:41:11Z",
+  "computed_at": "2026-04-26T19:21:47Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
@@ -47,12 +47,18 @@
     },
     "pi": {
       "function_count": 108,
-      "nloc": 806,
-      "avg_ccn": 2.0,
+      "nloc": 812,
+      "avg_ccn": 2.03,
       "max_ccn": 5,
       "violations_over_5": 0,
       "violations_over_10": 0,
       "top_complex": [
+        {
+          "name": "Pico_Driver::pingPico",
+          "file": "pi/srcs/4_drivers/Pico_Driver/pingPico.cpp",
+          "ccn": 5,
+          "nloc": 15
+        },
         {
           "name": "ExecuteOrder_UC::_dispatch",
           "file": "pi/srcs/2_usecases/ExecuteOrder_UC/internal/_dispatch.cpp",
@@ -76,12 +82,6 @@
           "file": "pi/srcs/4_drivers/Computer_Driver/internal/_connect.cpp",
           "ccn": 4,
           "nloc": 13
-        },
-        {
-          "name": "Computer_Driver::_tcpConnect",
-          "file": "pi/srcs/4_drivers/Computer_Driver/internal/_tcpConnect.cpp",
-          "ccn": 4,
-          "nloc": 15
         }
       ]
     },
