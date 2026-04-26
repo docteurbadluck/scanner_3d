@@ -1,4 +1,5 @@
 #include "../Pico_Driver.hpp"
+#include <termios.h>
 #include <unistd.h>
 
 bool Pico_Driver::_writeLine(const std::string &line)
@@ -9,5 +10,6 @@ bool Pico_Driver::_writeLine(const std::string &line)
 		return false;
 	const std::string msg     = line + "\n";
 	const ssize_t     written = write(_fd, msg.c_str(), msg.size());
+	tcflush(_fd, TCIFLUSH);
 	return written == static_cast<ssize_t>(msg.size());
 }
