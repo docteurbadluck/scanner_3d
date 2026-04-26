@@ -3,9 +3,9 @@ from __future__ import annotations
 import json
 from typing import AsyncIterator
 
-from srcs._1_domain.system import State
-from srcs._2_usecases.handle_connection_uc import handle_connection
-from srcs._2_usecases.handle_incoming_uc import handle_incoming
+from srcs._1_domain.System import State
+from srcs._2_usecases.HandleConnection_UC import handle_connection
+from srcs._2_usecases.HandleIncoming_UC import handle_incoming
 
 
 class FakeConnection:

@@ -5,7 +5,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from typing import Any
 
-from srcs._4_framework.upload_handler import handle_upload
+from srcs._4_framework.UploadHandler import handle_upload
 
 
 def build_http_handler(www_dir: Path) -> type[SimpleHTTPRequestHandler]:

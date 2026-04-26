@@ -13,10 +13,11 @@ CPP_ROOTS: dict[str, Path] = {
 }
 PY_ROOT = Path("computer/srcs")
 PY_LAYER_ROOTS: dict[str, Path] = {
-    "_1_domain":    PY_ROOT / "_1_domain",
-    "_2_usecases":  PY_ROOT / "_2_usecases",
-    "_3_interface": PY_ROOT / "_3_interface",
-    "_4_framework": PY_ROOT / "_4_framework",
+    "_0_orchestration": PY_ROOT / "_0_orchestration",
+    "_1_domain":        PY_ROOT / "_1_domain",
+    "_2_usecases":      PY_ROOT / "_2_usecases",
+    "_3_interface":     PY_ROOT / "_3_interface",
+    "_4_framework":     PY_ROOT / "_4_framework",
 }
 
 COVERAGE_FILES: dict[str, Path] = {
@@ -33,8 +34,8 @@ CPP_LAYER_RULES: dict[str, list[str]] = {
     "4_framework": ["1_domain", "2_usecases"],
 }
 PY_LAYER_RULES: dict[str, list[str]] = {
-    "_1_domain":    ["_2_usecases", "_3_interface", "_4_framework"],
-    "_2_usecases":  ["_4_framework"],
-    "_3_interface": ["_1_domain", "_2_usecases", "_4_framework"],
-    "_4_framework": ["_1_domain", "_2_usecases"],
+    "_1_domain":    ["_0_orchestration", "_2_usecases", "_3_interface", "_4_framework"],
+    "_2_usecases":  ["_0_orchestration", "_4_framework"],
+    "_3_interface": ["_0_orchestration", "_1_domain", "_2_usecases", "_4_framework"],
+    "_4_framework": ["_0_orchestration", "_1_domain", "_2_usecases"],
 }

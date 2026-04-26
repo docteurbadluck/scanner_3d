@@ -1,6 +1,6 @@
-from srcs._1_domain.messages import AckMessage, CommandMessage, ErrorMessage, PongMessage, StatusMessage
-from srcs._1_domain.pi_messages import PiResponse, PiResponseKind
-from srcs._1_domain.system import Commands, State, System
+from srcs._1_domain.Messages import AckMessage, CommandMessage, ErrorMessage, PongMessage, StatusMessage
+from srcs._1_domain.PiMessages import PiResponse, PiResponseKind
+from srcs._1_domain.System import Commands, State, System
 
 __all__ = [
 	"AckMessage",
