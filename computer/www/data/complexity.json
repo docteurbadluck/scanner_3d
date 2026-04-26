@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-21T20:00:56Z",
+  "computed_at": "2026-04-26T13:41:11Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
@@ -47,7 +47,7 @@
     },
     "pi": {
       "function_count": 108,
-      "nloc": 803,
+      "nloc": 806,
       "avg_ccn": 2.0,
       "max_ccn": 5,
       "violations_over_5": 0,
@@ -86,40 +86,40 @@
       ]
     },
     "computer": {
-      "function_count": 68,
-      "nloc": 310,
-      "avg_ccn": 1.6,
+      "function_count": 69,
+      "nloc": 331,
+      "avg_ccn": 1.59,
       "max_ccn": 5,
       "violations_over_5": 0,
       "violations_over_10": 0,
       "top_complex": [
         {
           "name": "_parse_json_dict",
-          "file": "computer/srcs/_1_domain/pi_messages.py",
+          "file": "computer/srcs/_1_domain/PiMessages/internal/_parse_json_dict.py",
           "ccn": 5,
-          "nloc": 11
+          "nloc": 12
         },
         {
           "name": "_send_initial_status",
-          "file": "computer/srcs/_2_usecases/handle_connection_uc.py",
+          "file": "computer/srcs/_2_usecases/HandleConnection_UC/internal/_send_initial_status.py",
           "ccn": 5,
           "nloc": 14
         },
         {
           "name": "parse",
-          "file": "computer/srcs/_1_domain/pi_messages.py",
+          "file": "computer/srcs/_1_domain/PiMessages/PiMessages.py",
           "ccn": 4,
           "nloc": 11
         },
         {
           "name": "_build_response_data",
-          "file": "computer/srcs/_1_domain/pi_messages.py",
+          "file": "computer/srcs/_1_domain/PiMessages/PiMessages.py",
           "ccn": 4,
           "nloc": 9
         },
         {
           "name": "to_json",
-          "file": "computer/srcs/_1_domain/pi_messages.py",
+          "file": "computer/srcs/_1_domain/PiMessages/PiMessages.py",
           "ccn": 4,
           "nloc": 8
         }
