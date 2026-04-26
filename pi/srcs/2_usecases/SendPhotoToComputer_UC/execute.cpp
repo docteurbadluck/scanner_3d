@@ -4,7 +4,7 @@ bool SendPhotoToComputer_UC::execute()
 {
 	if (!_camera.hasPhoto())
 		return false;
-	if (!_uploader.upload(_camera.getData()))
+	if (!_computer.upload(_camera.getData()))
 		return false;
 	return true;
 }

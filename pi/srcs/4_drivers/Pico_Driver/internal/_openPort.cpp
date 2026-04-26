@@ -24,7 +24,9 @@ static void configurePort(int fd)
 	tty.c_cflag |= (CLOCAL | CREAD | CS8);
 	tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 	tty.c_iflag &= ~(IXON | IXOFF | IXANY);
-	tty.c_oflag &= ~OPOST;
+	tty.c_oflag      &= ~OPOST;
+	tty.c_cc[VMIN]    = 1;
+	tty.c_cc[VTIME]   = 0;
 	tcsetattr(fd, TCSANOW, &tty);
 	tcflush(fd, TCIOFLUSH);
 }
@@ -36,6 +38,7 @@ void Pico_Driver::_openPort()
 		_fd = openFirstAvailable(_cfg.port);
 	if (_fd < 0)
 		return;
+	fcntl(_fd, F_SETFL, 0);
 	configurePort(_fd);
 	usleep(200000);
 }
