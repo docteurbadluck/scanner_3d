@@ -5,7 +5,7 @@
 struct Commands
 {
 	const std::vector<std::string> valid_command = {
-		"PING", "PONG", "GET_STATUS", "GET_PICO_STATUS", "START_CAPTURE", "PING_PICO"
+		"PING", "PONG", "GET_STATUS", "GET_PICO_STATUS", "START_CAPTURE", "TAKE_PHOTO", "PING_PICO"
 	};
 };
 

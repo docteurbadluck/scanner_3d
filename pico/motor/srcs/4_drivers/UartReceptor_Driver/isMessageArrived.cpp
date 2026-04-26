@@ -1,8 +1,8 @@
-#include "UsbReceptor_Driver.hpp"
+#include "UartReceptor_Driver.hpp"
 
 #include <pico/stdlib.h>
 
-bool UsbReceptor_Driver::isMessageArrived()
+bool UartReceptor_Driver::isMessageArrived()
 {
     const int c = getchar_timeout_us(_cfg.poll_timeout_us);
 

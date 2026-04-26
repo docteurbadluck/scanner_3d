@@ -4,11 +4,11 @@
 
 #include <string>
 
-class UsbSender_Driver : public ISender
+class UartSender_Driver : public ISender
 {
 public:
-    UsbSender_Driver();
-    ~UsbSender_Driver() override = default;
+    UartSender_Driver();
+    ~UartSender_Driver() override = default;
 
     void send(const std::string &message) override;
 };

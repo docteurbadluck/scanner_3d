@@ -77,7 +77,7 @@ async def test_handle_connection_handles_ping_messages() -> None:
 
 async def test_handle_incoming_acks_valid_command() -> None:
     pi = FakePi()
-    for command in ("GET_STATUS", "GET_PICO_STATUS", "START_CAPTURE", "PING"):
+    for command in ("GET_STATUS", "GET_PICO_STATUS", "START_CAPTURE", "TAKE_PHOTO", "PING"):
         connection = FakeConnection()
         await handle_incoming(connection, json.dumps({"type": "command", "command": command}), pi)
 

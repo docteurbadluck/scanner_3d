@@ -62,9 +62,12 @@ $(BUILD_DIR)/tests/%: $(TEST_DIR)/%.cpp $(UNITY_OBJ) $(SRC_OBJECTS) $(INTERNAL_O
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
+DEP_FILES := $(SRC_OBJECTS:.o=.d)
+-include $(DEP_FILES)
+
 $(BUILD_DIR)/srcs/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
 
 $(UNITY_OBJ): $(UNITY_SRC)
 	@mkdir -p $(dir $@)

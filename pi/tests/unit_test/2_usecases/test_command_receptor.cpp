@@ -35,15 +35,15 @@ void test_CommandReceptor_valid_command()
 {
 	mockHttpUploader uploader;
 	mockSender       sender;
-	uploader._order = JsonMessage::makeCommand("START_CAPTURE");
+	uploader._order = JsonMessage::makeCommand("TAKE_PHOTO");
 	SendToComputer_UC   sendUC(sender);
 	CommandReceptor_UC  uc(uploader, sendUC);
 	System sys;
 
 	bool res = uc.waitAndInterprete(sys);
 	TEST_ASSERT_TRUE(res);
-	TEST_ASSERT_EQUAL_STRING("START_CAPTURE", sys.getCommandToExecute().c_str());
-	TEST_ASSERT_EQUAL_STRING("START_CAPTURE", uc.getMessage().c_str());
+	TEST_ASSERT_EQUAL_STRING("TAKE_PHOTO", sys.getCommandToExecute().c_str());
+	TEST_ASSERT_EQUAL_STRING("TAKE_PHOTO", uc.getMessage().c_str());
 }
 
 void test_CommandReceptor_invalid_command()
@@ -76,7 +76,7 @@ void test_CommandReceptor_sends_state_on_valid()
 
 void test_CommandReceptor_all_valid_commands()
 {
-	const std::string cmds[] = {"PING", "PONG", "GET_STATUS", "GET_PICO_STATUS", "START_CAPTURE"};
+	const std::string cmds[] = {"PING", "PONG", "GET_STATUS", "GET_PICO_STATUS", "START_CAPTURE", "TAKE_PHOTO"};
 	for (const std::string &cmd : cmds)
 	{
 		mockHttpUploader uploader;

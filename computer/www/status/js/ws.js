@@ -17,12 +17,12 @@ function handlePongPico(data, refs) {
     cancelPico(refs.picoRef, msg);
 }
 
-function handleCaptureAck(refs) {
-    refs.captureRef.result = '…';
+function handleTakePhotoAck(refs) {
+    refs.takePhotoRef.result = '…';
 }
 
-function handleCaptureResponse(data, refs) {
-    refs.captureRef.result = data.kind === 'DONE' ? 'OK ✓' : `FAIL: ${data.kind}`;
+function handleTakePhotoResponse(data, refs) {
+    refs.takePhotoRef.result = data.kind === 'DONE' ? 'OK ✓' : `FAIL: ${data.kind}`;
 }
 
 function handleError(data, refs) {
@@ -37,8 +37,8 @@ function dispatch(data, refs, onUpdate) {
     const isPong = data.type === 'response' && data.kind === 'PONG' && data.command !== 'PING_PICO';
     if (isPong) handlePong(refs);
     if (data.type === 'response' && data.command === 'PING_PICO') handlePongPico(data, refs);
-    if (data.type === 'ack'      && data.command === 'START_CAPTURE') handleCaptureAck(refs);
-    if (data.type === 'response' && data.command === 'START_CAPTURE') handleCaptureResponse(data, refs);
+    if (data.type === 'ack'      && data.command === 'TAKE_PHOTO') handleTakePhotoAck(refs);
+    if (data.type === 'response' && data.command === 'TAKE_PHOTO') handleTakePhotoResponse(data, refs);
     if (data.type === 'error') handleError(data, refs);
     onUpdate(true);
 }
