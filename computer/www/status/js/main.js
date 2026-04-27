@@ -4,12 +4,12 @@ import './components/PingSection.js';
 import './components/LogSection.js';
 import './components/TakePhoto.js';
 
-import { isInProgress, isPicoInProgress, start, startPico, cancel, cancelPico } from './ping.js';
-import { createMessageHandler, connect } from './ws.js';
+import * as Ping from './ping.js';
+import * as Ws from './ws.js';
 
-const statusSection   = document.getElementById('status-section');
-const pingSection     = document.getElementById('ping-section');
-const logSection      = document.getElementById('log-section');
+const statusSection     = document.getElementById('status-section');
+const pingSection       = document.getElementById('ping-section');
+const logSection        = document.getElementById('log-section');
 const takePhotoButton   = document.getElementById('take-photo-button');
 takePhotoButton.label   = 'Take Photo';
 
@@ -21,14 +21,12 @@ const refs = { statusSection, pingSection, logSection, piRef, picoRef, takePhoto
 
 function isTakePhotoAllowed() {
     return statusSection.piState === 'connected'
-        && statusSection.systemState !== 'PROCESSING'
-        && statusSection.systemState !== 'SENDING';
+        && statusSection.systemState === 'READY';
 }
 
 function isPingAllowed() {
     return statusSection.piState === 'connected'
-        && statusSection.systemState !== 'PROCESSING'
-        && statusSection.systemState !== 'SENDING';
+        && statusSection.systemState === 'READY';
 }
 
 function isPingPicoAllowed() {
@@ -42,8 +40,8 @@ function updateButtons(piConnected = true) {
         takePhotoButton.disabled = true;
         return;
     }
-    if (!isInProgress())     pingSection.piDisabled   = !isPingAllowed();
-    if (!isPicoInProgress()) pingSection.picoDisabled = !isPingPicoAllowed();
+    if (!Ping.isInProgress())     pingSection.piDisabled   = !isPingAllowed();
+    if (!Ping.isPicoInProgress()) pingSection.picoDisabled = !isPingPicoAllowed();
     takePhotoButton.disabled = !isTakePhotoAllowed();
 }
 
@@ -56,7 +54,7 @@ function onWsClose() {
 }
 
 function reconnect() {
-    ws = connect(createMessageHandler(refs, updateButtons), onWsClose);
+    ws = Ws.connect(Ws.createMessageHandler(refs, updateButtons), onWsClose);
 }
 
 takePhotoButton.addEventListener('take-photo', () => {
@@ -68,13 +66,13 @@ takePhotoButton.addEventListener('take-photo', () => {
 pingSection.addEventListener('ping-pi', () => {
     if (!ws || ws.readyState !== WebSocket.OPEN) return;
     pingSection.piDisabled = true;
-    start(ws, piRef, () => { cancel(piRef, 'timeout'); updateButtons(); });
+    Ping.start(ws, piRef, () => { Ping.cancel(piRef, 'timeout'); updateButtons(); });
 });
 
 pingSection.addEventListener('ping-pico', () => {
     if (!ws || ws.readyState !== WebSocket.OPEN) return;
     pingSection.picoDisabled = true;
-    startPico(ws, picoRef, () => { cancelPico(picoRef, 'timeout'); updateButtons(); });
+    Ping.startPico(ws, picoRef, () => { Ping.cancelPico(picoRef, 'timeout'); updateButtons(); });
 });
 
 reconnect();
