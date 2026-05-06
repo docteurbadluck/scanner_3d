@@ -1,5 +1,7 @@
 # 3D Scanner
 
+PROJECT IN DEVELOPPMENT !
+
 Automate 360° photo capture of a light object on a turntable, then reconstruct a 3D model with Meshroom.
 
 ## Architecture
