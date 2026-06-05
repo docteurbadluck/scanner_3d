@@ -144,6 +144,56 @@ void test_speed_is_fixed_from_constructor()
 	TEST_ASSERT_EQUAL_INT(33, h.last_speed);
 }
 
+void test_selfTest_ok_when_both_endstops_reachable()
+{
+	Harness h;
+	h.down_trigger_ms = 30;
+	h.up_trigger_ms   = 60;
+
+	MotorDC_DriverConfig cfg;
+	cfg.timeout_ms       = 200;
+	cfg.poll_interval_ms = 5;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_EQUAL_INT(
+		static_cast<int>(SelfTestResult::OK),
+		static_cast<int>(driver.selfTest())
+	);
+}
+
+void test_selfTest_down_unreachable_on_timeout()
+{
+	Harness h;
+	h.down_trigger_ms = 9999;
+
+	MotorDC_DriverConfig cfg;
+	cfg.timeout_ms       = 20;
+	cfg.poll_interval_ms = 5;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_EQUAL_INT(
+		static_cast<int>(SelfTestResult::DOWN_UNREACHABLE),
+		static_cast<int>(driver.selfTest())
+	);
+}
+
+void test_selfTest_up_unreachable_on_timeout()
+{
+	Harness h;
+	h.down_trigger_ms = 10;
+	h.up_trigger_ms   = 9999;
+
+	MotorDC_DriverConfig cfg;
+	cfg.timeout_ms       = 20;
+	cfg.poll_interval_ms = 5;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_EQUAL_INT(
+		static_cast<int>(SelfTestResult::UP_UNREACHABLE),
+		static_cast<int>(driver.selfTest())
+	);
+}
+
 int main(void)
 {
 	UNITY_BEGIN();
@@ -152,5 +202,8 @@ int main(void)
 	RUN_TEST(test_goTo_up_times_out_and_returns_false);
 	RUN_TEST(test_goTo_unknown_returns_false);
 	RUN_TEST(test_speed_is_fixed_from_constructor);
+	RUN_TEST(test_selfTest_ok_when_both_endstops_reachable);
+	RUN_TEST(test_selfTest_down_unreachable_on_timeout);
+	RUN_TEST(test_selfTest_up_unreachable_on_timeout);
 	return UNITY_END();
 }

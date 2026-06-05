@@ -20,10 +20,13 @@ inline const UartReceptor_DriverConfig UART_RECEPTOR_CONFIG
     512,     // max_msg_size
 };
 
-// ── Servo MG995  (GP2 — physical pin 4) ────────────────────────────────────
+// ── Servo MG995  (GP27 — physical pin 32) ──────────────────────────────────
+//   PWM : GP27 (PWM5 B, pin 32) — adjacent au shunt ADC
+//   Shunt 0.5Ω sur ligne VCC servo → GP26 (ADC0, physical pin 31)
 inline const ServoMotor_DriverPins SERVO_PINS
 {
-    2,       // pwm_pin
+    27,      // pwm_pin  (GP27 = PWM5 B, pin 32)
+    26,      // adc_pin  (GP26 = ADC0,   pin 31)
 };
 
 inline const ServoMotor_DriverConfig SERVO_CONFIG
@@ -33,6 +36,7 @@ inline const ServoMotor_DriverConfig SERVO_CONFIG
     90.0f,   // angle_down_a_deg
     135.0f,  // angle_down_b_deg
     400,     // move_delay_ms
+    80,      // current_threshold_adc (~65mV sur 3.3V/12bit)
 };
 
 // ── Accelerometers MPU-6050 × 2  (GP4 / GP5 — physical pins 6, 7) ──────────

@@ -63,19 +63,40 @@ static void init_pwm_slices(uint8_t in1, uint8_t in2, PwmPins &pw)
     init_second_pwm_slice(pw.s1, pw);
 }
 
+static void ramp_to(uint32_t slice, uint32_t channel, uint16_t target)
+{
+    for (uint16_t lvl = 10; lvl < target; lvl += 10)
+    {
+        pwm_set_chan_level(slice, channel, lvl);
+        ::sleep_ms(1);
+    }
+    pwm_set_chan_level(slice, channel, target);
+}
+
+static void ramp_down(uint32_t slice, uint32_t channel)
+{
+    uint16_t lvl = (pwm_hw->slice[slice].cc >> (channel * 16)) & 0xFFFF;
+    for (; lvl >= 10; lvl -= 10)
+    {
+        pwm_set_chan_level(slice, channel, lvl - 10);
+        ::sleep_ms(1);
+    }
+    pwm_set_chan_level(slice, channel, 0);
+}
+
 static void assign_drive_lambdas(MotorDC_DriverIO &io, PwmPins pw)
 {
     io.drive_up = [pw](uint8_t speed) {
         pwm_set_chan_level(pw.s2, pw.c2, 0);
-        pwm_set_chan_level(pw.s1, pw.c1, speed_to_level(speed));
+        ramp_to(pw.s1, pw.c1, speed_to_level(speed));
     };
     io.drive_down = [pw](uint8_t speed) {
         pwm_set_chan_level(pw.s1, pw.c1, 0);
-        pwm_set_chan_level(pw.s2, pw.c2, speed_to_level(speed));
+        ramp_to(pw.s2, pw.c2, speed_to_level(speed));
     };
     io.stop = [pw]() {
-        pwm_set_chan_level(pw.s1, pw.c1, 0);
-        pwm_set_chan_level(pw.s2, pw.c2, 0);
+        ramp_down(pw.s1, pw.c1);
+        ramp_down(pw.s2, pw.c2);
     };
 }
 

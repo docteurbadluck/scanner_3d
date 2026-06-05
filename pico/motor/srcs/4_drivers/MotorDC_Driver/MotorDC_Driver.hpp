@@ -50,6 +50,8 @@ public:
 
     ~MotorDC_Driver() override = default;
 
-    bool goInitialPos() override;
-    bool goTo(Pos pos) override;
+    void           stop() override;
+    bool           goInitialPos() override;
+    bool           goTo(Pos pos) override;
+    SelfTestResult selfTest() override;
 };

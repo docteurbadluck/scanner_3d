@@ -7,16 +7,18 @@
 
 struct ServoMotor_DriverConfig
 {
-    float    angle_up_a_deg   = 0.0f;
-    float    angle_up_b_deg   = 45.0f;
-    float    angle_down_a_deg = 90.0f;
-    float    angle_down_b_deg = 135.0f;
-    uint32_t move_delay_ms    = 400;
+    float    angle_up_a_deg        = 0.0f;
+    float    angle_up_b_deg        = 45.0f;
+    float    angle_down_a_deg      = 90.0f;
+    float    angle_down_b_deg      = 135.0f;
+    uint32_t move_delay_ms         = 400;
+    uint16_t current_threshold_adc = 80;
 };
 
 struct ServoMotor_DriverPins
 {
-    uint8_t pwm_pin = 6;
+    uint8_t pwm_pin = 2;
+    uint8_t adc_pin = 26;
 };
 
 class ServoMotor_Driver : public IServoMotor
@@ -26,8 +28,9 @@ public:
                       const ServoMotor_DriverPins   &pins);
     ~ServoMotor_Driver() override = default;
 
-    bool goInitialPos() override;
-    bool goTo(Pos_hand pos) override;
+    ServoSelfTestResult selfTest() override;
+    bool                goInitialPos() override;
+    bool                goTo(Pos_hand pos) override;
 
 private:
     ServoMotor_DriverConfig _cfg;
@@ -35,9 +38,12 @@ private:
 
     uint32_t _pwm_slice;
     uint32_t _pwm_channel;
+    uint32_t _adc_channel;
 
-    void                   _initPWM();
-    void                   _setPulse(uint16_t pulse_us);
-    [[nodiscard]] float    _angleForPos(Pos_hand pos) const;
-    [[nodiscard]] uint16_t _angleToPulse(float angle_deg) const;
+    void                       _initPWM();
+    void                       _initADC();
+    void                       _setPulse(uint16_t pulse_us);
+    [[nodiscard]] float        _angleForPos(Pos_hand pos) const;
+    [[nodiscard]] uint16_t     _angleToPulse(float angle_deg) const;
+    [[nodiscard]] uint16_t     _readAdcPeak(uint32_t duration_ms) const;
 };

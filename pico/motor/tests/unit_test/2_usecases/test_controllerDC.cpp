@@ -10,8 +10,10 @@ public:
 	mockMotorDC() {};
 	~mockMotorDC() = default;
 	bool _res;
-	bool goInitialPos() override { return _res; }
-	bool goTo(Pos position) override { (void)position; return _res; }
+	void           stop() override {}
+	bool           goInitialPos() override { return _res; }
+	bool           goTo(Pos position) override { (void)position; return _res; }
+	SelfTestResult selfTest() override { return SelfTestResult::OK; }
 };
 
 extern "C"

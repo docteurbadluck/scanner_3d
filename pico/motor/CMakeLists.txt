@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 
 file(GLOB_RECURSE MOTOR_SOURCES
+    srcs/0_orchestration/*.cpp
     srcs/1_domain/*.cpp
     srcs/2_usecases/*.cpp
     srcs/3_interface/*.cpp
@@ -25,7 +26,7 @@ target_include_directories(motor PRIVATE
     srcs/4_drivers/UartReceptor_Driver
     srcs/4_drivers/UartSender_Driver
 )
-target_link_libraries(motor pico_stdlib hardware_pwm hardware_spi hardware_i2c)
+target_link_libraries(motor pico_stdlib hardware_adc hardware_pwm hardware_spi hardware_i2c)
 pico_enable_stdio_usb(motor 1)
-pico_enable_stdio_uart(motor 1)
+pico_enable_stdio_uart(motor 0)
 pico_add_extra_outputs(motor)
