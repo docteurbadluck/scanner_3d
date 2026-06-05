@@ -1,0 +1,23 @@
+- [all] Boot diagnostic sequence visible on dashboard:
+  - Pi drivers (UART, camera, disk) validate themselves in constructor and report status
+  - GET_PICO_STATUS extended to return per-component health: stepper, dc_motor, servo, accel_1, accel_2
+  - [hardware] Wire DM556 ALM pin to a Pico GPIO → allows stepper fault detection without movement
+  - GET_PICO_STATUS tests: accel_1 (I2C WHO_AM_I), accel_2 (I2C WHO_AM_I), stepper (DM556 ALM pin)
+  - dc_motor and servo require RUN_SELF_TEST (small movement + accelerometer check)
+  - Computer dashboard displays all statuses on connect, before allowing scan to start
+  - Only addition: one red LED on Pico for panic/crash case (when Pi can no longer communicate)
+
+- [all] RUN_SELF_TEST command — triggered manually from dashboard before first scan:
+  - Refused if not at initial position → Pico replies NOT_AT_INITIAL_POS
+  - Initial position: stepper step==0, arm==UP, hand==UP_A
+  - Check via: _plate.getPos()==0 && _arm.getPos()==Pos::UP && _hand.getPos()==Pos_hand::UP_A
+  - Stepper: rotate 1° forward + 1° back → accel_1 must detect movement
+  - DC motor: move arm up slightly + back down → accel_2 must detect movement
+  - Servo: tilt slightly + return → accel_2 must detect movement
+  - Each result reported individually: {"stepper": "ok", "dc_motor": "fail", "servo": "ok"}
+  - Dashboard blocks scan start if any RUN_SELF_TEST result is "fail"
+
+- [pi] Refactor ExecuteOrder_UC::_dispatch to return a DispatchResult struct instead of int,
+  so all handlers return their payload and execute() always owns the send logic.
+  Currently PING_PICO and GET_PICO_STATUS send their own response inside the handler,
+  forcing the "else if cmd != ..." guard in execute(). Unify so no handler calls _sender directly.
