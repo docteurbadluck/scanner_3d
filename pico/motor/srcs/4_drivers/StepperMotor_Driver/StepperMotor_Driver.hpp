@@ -26,8 +26,9 @@ public:
                         const StepperMotor_DriverPins   &pins);
     ~StepperMotor_Driver() override = default;
 
-    bool goInitialPos() override;
-    bool stepForward() override;
+    StepperSelfTestResult selfTest()     override;
+    bool                  goInitialPos() override;
+    bool                  stepForward()  override;
 
 private:
     StepperMotor_DriverConfig _cfg;
@@ -36,4 +37,5 @@ private:
     void _initGPIO();
     void _enable();
     void _pulseStep();
+    void _stepBackward();
 };

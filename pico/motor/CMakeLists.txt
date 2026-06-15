@@ -27,6 +27,6 @@ target_include_directories(motor PRIVATE
     srcs/4_drivers/UartSender_Driver
 )
 target_link_libraries(motor pico_stdlib hardware_adc hardware_pwm hardware_spi hardware_i2c)
-pico_enable_stdio_usb(motor 1)
-pico_enable_stdio_uart(motor 0)
+pico_enable_stdio_usb(motor 1) #use for flash
+pico_enable_stdio_uart(motor 1) #use to allow comunication
 pico_add_extra_outputs(motor)

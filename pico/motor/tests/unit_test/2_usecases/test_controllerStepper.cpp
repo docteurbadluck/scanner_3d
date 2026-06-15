@@ -7,8 +7,9 @@ public:
 	mockStepper() {};
 	~mockStepper() = default;
 	bool _res;
-	bool goInitialPos() override { return _res; }
-	bool stepForward()  override { return _res; }
+	StepperSelfTestResult selfTest()     override { return StepperSelfTestResult::OK; }
+	bool                  goInitialPos() override { return _res; }
+	bool                  stepForward()  override { return _res; }
 };
 
 extern "C"

@@ -37,6 +37,7 @@ inline const ServoMotor_DriverConfig SERVO_CONFIG
     135.0f,  // angle_down_b_deg
     400,     // move_delay_ms
     80,      // current_threshold_adc (~65mV sur 3.3V/12bit)
+    0.5f,    // shunt_ohms  (deux 1Ω en parallèle)
 };
 
 // ── Accelerometers MPU-6050 × 2  (GP4 / GP5 — physical pins 6, 7) ──────────
@@ -100,5 +101,5 @@ inline const StepperMotor_DriverConfig STEPPER_CONFIG
 {
     10,      // dir_setup_us
     10,      // step_pulse_us
-    500,     // step_delay_us
+    5000,    // step_delay_us
 };

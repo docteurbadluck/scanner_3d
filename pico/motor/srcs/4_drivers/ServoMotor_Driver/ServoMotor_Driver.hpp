@@ -13,6 +13,7 @@ struct ServoMotor_DriverConfig
     float    angle_down_b_deg      = 135.0f;
     uint32_t move_delay_ms         = 400;
     uint16_t current_threshold_adc = 80;
+    float    shunt_ohms            = 0.5f;
 };
 
 struct ServoMotor_DriverPins

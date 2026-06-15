@@ -49,6 +49,23 @@ Ll# KiCad Components — DC Motor Circuit
 
 ---
 
+### Stepper STEP et DIR — configuration common anode
+
+Pas de composant supplémentaire. Le Pico pilote directement PUL- et DIR-.
+
+**Câblage :**
+```
++5V (VBUS) ──── PUL+   |   +5V (VBUS) ──── DIR+
+GP10       ──── PUL-   |   GP11       ──── DIR-
+```
+
+- GP10 LOW  (0V)   → courant traverse l'optocoupler DM556 → pulse détecté
+- GP10 HIGH (3.3V) → pas de courant → pas de pulse
+- Logique **non inversée** du point de vue du driver Pico (pulse = LOW)
+- Le 5V fournit la tension, le Pico tire seulement le côté GND de l'optocoupler
+
+---
+
 ### Connecteur alimentation 24V
 - **Bibliothèque** : `Connector_Generic`
 - **Symbole** : `Conn_01x02`
