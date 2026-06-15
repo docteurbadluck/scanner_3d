@@ -13,6 +13,7 @@ public:
     ~SendToPi_UC() = default;
 
     void sendResponse(const std::string &cmd, bool success, const System &sys);
+    void sendTestHardwareResult(bool dc_ok, bool servo_ok, bool stepper_ok);
     void sendState(const System &sys);
     void sendInvalidCmd();
 };

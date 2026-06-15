@@ -1,13 +1,13 @@
 import { LitElement, html } from 'https://esm.sh/lit';
 import '/js/YellowButton.js';
 
-class TakePhotoButton extends LitElement {
+class TestHardwareButton extends LitElement {
     static properties = { label: {}, disabled: { type: Boolean }, result: {} };
     createRenderRoot() { return this;}
     constructor() {super(); this.disabled = true; this.result = ''; }
 
     _onAction() {
-        this.dispatchEvent(new CustomEvent('take-photo'));
+        this.dispatchEvent(new CustomEvent('test-hardware'));
     }
 
     render() {
@@ -20,4 +20,4 @@ class TakePhotoButton extends LitElement {
     }
 }
 
-customElements.define('take-photo-button', TakePhotoButton);
+customElements.define('test-hardware-button', TestHardwareButton);

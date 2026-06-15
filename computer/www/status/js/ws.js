@@ -25,8 +25,20 @@ function handleTakePhotoResponse(data, refs) {
     refs.takePhotoRef.result = data.kind === 'DONE' ? 'OK ✓' : `FAIL: ${data.kind}`;
 }
 
+function handleTestHardwareAck(refs) {
+    refs.testHardwareRef.result = '…';
+}
+
+function handleTestHardwareResponse(data, refs) {
+    const failed = [];
+    if (!data.dc)      failed.push('dc motor');
+    if (!data.servo)   failed.push('servo');
+    if (!data.stepper) failed.push('stepper');
+    refs.testHardwareRef.result = failed.length === 0 ? 'All OK ✓' : `FAIL: ${failed.join(', ')}`;
+}
+
 function handleError(data, refs) {
-    refs.captureRef.result = `error: ${data.reason}`;
+    refs.logSection.appendLog(`error: ${data.reason}`);
 }
 
 function dispatch(data, refs, onUpdate) {
@@ -37,8 +49,10 @@ function dispatch(data, refs, onUpdate) {
     const isPong = data.type === 'response' && data.kind === 'PONG' && data.command !== 'PING_PICO';
     if (isPong) handlePong(refs);
     if (data.type === 'response' && data.command === 'PING_PICO') handlePongPico(data, refs);
-    if (data.type === 'ack'      && data.command === 'TAKE_PHOTO') handleTakePhotoAck(refs);
-    if (data.type === 'response' && data.command === 'TAKE_PHOTO') handleTakePhotoResponse(data, refs);
+    if (data.type === 'ack'      && data.command === 'TAKE_PHOTO')    handleTakePhotoAck(refs);
+    if (data.type === 'response' && data.command === 'TAKE_PHOTO')    handleTakePhotoResponse(data, refs);
+    if (data.type === 'ack'      && data.command === 'TEST_HARDWARE') handleTestHardwareAck(refs);
+    if (data.type === 'response' && data.command === 'TEST_HARDWARE') handleTestHardwareResponse(data, refs);
     if (data.type === 'error') handleError(data, refs);
     onUpdate(true);
 }

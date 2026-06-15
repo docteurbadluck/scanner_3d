@@ -1,7 +1,6 @@
 #pragma once
 
 #include "4_drivers/ServoMotor_Driver/ServoMotor_Driver.hpp"
-#include "4_drivers/Accelerometer_Driver/Accelerometer_Driver.hpp"
 #include "4_drivers/MotorDC_Driver/MotorDC_Driver.hpp"
 #include "4_drivers/StepperMotor_Driver/StepperMotor_Driver.hpp"
 #include "4_drivers/UartReceptor_Driver/UartReceptor_Driver.hpp"
@@ -38,30 +37,6 @@ inline const ServoMotor_DriverConfig SERVO_CONFIG
     400,     // move_delay_ms
     80,      // current_threshold_adc (~65mV sur 3.3V/12bit)
     0.5f,    // shunt_ohms  (deux 1Ω en parallèle)
-};
-
-// ── Accelerometers MPU-6050 × 2  (GP4 / GP5 — physical pins 6, 7) ──────────
-//   Both sensors share the same I2C bus (i2c0).
-//   Sensor #1 : AD0 pulled LOW  → address 0x68
-//   Sensor #2 : AD0 pulled HIGH → address 0x69
-inline const Accelerometer_DriverPins ACC_PINS
-{
-    4,       // sda_pin
-    5,       // scl_pin
-};
-
-inline const Accelerometer_DriverConfig ACC1_CONFIG
-{
-    i2c0,    // i2c_port
-    0x68,    // address
-    400000,  // baud_rate
-};
-
-inline const Accelerometer_DriverConfig ACC2_CONFIG
-{
-    i2c0,    // i2c_port
-    0x69,    // address
-    400000,  // baud_rate
 };
 
 // ── DC Motor JGB37  (GP6–GP9 — physical pins 9–12) ─────────────────────────

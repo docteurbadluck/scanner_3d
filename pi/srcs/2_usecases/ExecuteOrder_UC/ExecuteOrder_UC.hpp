@@ -17,6 +17,7 @@ private:
     int  _handleTakePhoto();
     int  _handlePingPico();
     int  _handleGetPicoStatus();
+	int	 _handleTestHardware();
     bool _isNoOp(const std::string &cmd) const;
 
 public:

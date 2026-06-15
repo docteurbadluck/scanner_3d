@@ -38,8 +38,8 @@ t_test_result runSelfTests(Drivers &drv)
     results.dc_is_ok = test_motor_dc(drv);
     results.stepper_is_ok = test_stepper(drv);
     results.servo_is_ok = test_servo(drv);
-	results.are_tests_failed = (results.dc_is_ok && 
-			results.stepper_is_ok && 
-			result.servo_is_ok)
-	return results
+	results.are_tests_failed = !(results.dc_is_ok &&
+			results.stepper_is_ok &&
+			results.servo_is_ok);
+	return results;
 }

@@ -19,9 +19,9 @@ public:
 	bool        setCameraPosition(const std::string &pose)  override;
 	bool        setArmPosition(const std::string &pose)     override;
 	bool        rotatePlateStep()                           override;
-	bool        isStable()                                  override;
 	std::string getPicoStatus()                             override;
 	std::string pingPico()                                  override;
+	std::string testHardware()                              override;
 
 private:
 	Pico_DriverConfig _cfg;

@@ -7,14 +7,14 @@ class mockPicoClient : public IPico
 		mockPicoClient() {}
 		~mockPicoClient() = default;
 		bool _res;
-		bool isReady() override { return _res; }
-		bool sendCommand(const std::string &) override { return _res; }
-		bool setCameraPosition(const std::string &) override { return _res; }
-		bool setArmPosition(const std::string &) override { return _res; }
-		bool rotatePlateStep() override { return _res; }
-		bool isStable() override { return _res; }
-		std::string getPicoStatus() override { return "OK"; }
-		std::string pingPico() override { return "{}"; }
+		bool        isReady()                              override { return _res; }
+		bool        sendCommand(const std::string &)       override { return _res; }
+		bool        setCameraPosition(const std::string &) override { return _res; }
+		bool        setArmPosition(const std::string &)    override { return _res; }
+		bool        rotatePlateStep()                      override { return _res; }
+		std::string getPicoStatus()                        override { return "OK"; }
+		std::string pingPico()                             override { return "{}"; }
+		std::string testHardware()                         override { return "{}"; }
 };
 
 class mockHttpUploader : public IComputer

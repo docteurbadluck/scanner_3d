@@ -20,6 +20,7 @@ class Commands:
         "START_CAPTURE",
         "TAKE_PHOTO",
         "PING_PICO",
+		"TEST_HARDWARE",
     ))
 
 

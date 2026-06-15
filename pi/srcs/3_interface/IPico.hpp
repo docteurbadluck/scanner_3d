@@ -10,7 +10,7 @@ class IPico
 		virtual bool setCameraPosition(const std::string &pose) = 0;
 		virtual bool setArmPosition(const std::string &pose) = 0;
 		virtual bool rotatePlateStep() = 0;
-		virtual bool isStable() = 0;
 		virtual std::string getPicoStatus() = 0;
 	virtual std::string pingPico() = 0;
+	virtual std::string testHardware() = 0;
 };
