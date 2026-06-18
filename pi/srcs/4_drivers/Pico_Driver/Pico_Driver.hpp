@@ -32,4 +32,6 @@ private:
 	bool        _readChar(char &ch);
 	std::string _readResponse();
 	bool        _isSuccess(const std::string &response);
+	bool        _isIntermediateState(const std::string &response);
+	std::string _pollHardwareTest();
 };

@@ -27,6 +27,11 @@ static Computer_DriverConfig buildConfig(int argc, char *argv[])
     return cfg;
 }
 
+static void sleep_ms(uint32_t ms)
+{
+    usleep(ms * 1000);
+}
+
 static void runLoop(
     System &sys, CommandReceptor_UC &receptor,
     ExecuteOrder_UC &executor, SendToComputer_UC &sender);
@@ -37,7 +42,7 @@ static void runSession(Computer_Driver &computer, Pico_Driver &pico,
 {
     SendToComputer_UC      sender(computer);
     CommandReceptor_UC     receptor(computer, sender);
-    VibrationMonitor_UC    vibration(acc1, acc2);
+    VibrationMonitor_UC    vibration(acc1, acc2, sleep_ms);
     CaptureData_UC         capture(camera, disk, vibration);
     SendPhotoToComputer_UC sendPhoto(camera, computer);
     ExecuteOrder_UC        executor(capture, sendPhoto, sender, pico);

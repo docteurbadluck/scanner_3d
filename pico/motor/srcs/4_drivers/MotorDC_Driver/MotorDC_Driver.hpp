@@ -7,20 +7,21 @@
 
 struct MotorDC_DriverConfig
 {
-    uint8_t  speed_percent = 60; // fixed once at construction
-    uint32_t timeout_ms = 3000;
-    uint32_t poll_interval_ms = 5;
+    uint8_t  speed_percent       = 60;
+    uint32_t timeout_ms          = 3000;
+    uint32_t poll_interval_ms    = 5;
+    uint16_t stall_threshold_adc = 500;
 };
 
 struct MotorDC_DriverPins
 {
-    uint8_t in1_pin = 0;
-    uint8_t in2_pin = 1;
-    uint8_t btn_up_pin = 2;
-    uint8_t btn_down_pin = 3;
-
-    // true for endstops wired with pull-up and active low (common case)
+    uint8_t in1_pin            = 0;
+    uint8_t in2_pin            = 1;
+    uint8_t btn_up_pin         = 2;
+    uint8_t btn_down_pin       = 3;
     bool    buttons_active_low = true;
+    uint8_t adc_pin            = 28;
+    uint8_t adc_pin_2          = 27;
 };
 
 struct MotorDC_DriverIO
@@ -32,6 +33,7 @@ struct MotorDC_DriverIO
     std::function<bool()>         is_down_pressed;
     std::function<uint32_t()>     now_ms;
     std::function<void(uint32_t)> sleep_ms;
+    std::function<uint16_t()>     read_current;
 };
 
 class MotorDC_Driver : public IMotorDC
@@ -39,7 +41,11 @@ class MotorDC_Driver : public IMotorDC
 private:
     MotorDC_DriverConfig _cfg;
     MotorDC_DriverIO     _io;
+    uint8_t              _adc_channel   = 0;
+    uint8_t              _adc_channel_2 = 1;
 
+    void _initADC(uint8_t adc_pin, uint8_t adc_pin_2);
+    bool _isTargetPressed(Pos pos) const;
     bool _wait_until_pressed(Pos pos) const;
     bool _goUp();
     bool _goDown();

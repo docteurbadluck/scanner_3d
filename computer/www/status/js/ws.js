@@ -31,9 +31,9 @@ function handleTestHardwareAck(refs) {
 
 function handleTestHardwareResponse(data, refs) {
     const failed = [];
-    if (!data.dc)      failed.push('dc motor');
-    if (!data.servo)   failed.push('servo');
-    if (!data.stepper) failed.push('stepper');
+    if (data.dc      !== 'OK') failed.push(`dc (${data.dc})`);
+    if (data.servo   !== 'OK') failed.push(`servo (${data.servo})`);
+    if (data.stepper !== 'OK') failed.push('stepper');
     refs.testHardwareRef.result = failed.length === 0 ? 'All OK ✓' : `FAIL: ${failed.join(', ')}`;
 }
 

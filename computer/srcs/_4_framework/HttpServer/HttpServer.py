@@ -16,6 +16,11 @@ def build_http_handler(www_dir: Path) -> type[SimpleHTTPRequestHandler]:
         def log_message(self, *_args: Any) -> None:
             pass
 
+        def end_headers(self) -> None:
+            if self.path.endswith(".js") or self.path.endswith(".css"):
+                self.send_header("Cache-Control", "no-store")
+            super().end_headers()
+
         def do_POST(self) -> None:
             if self.path != "/upload":
                 self.send_error(404)

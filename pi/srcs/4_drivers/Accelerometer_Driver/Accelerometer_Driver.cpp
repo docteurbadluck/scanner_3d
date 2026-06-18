@@ -5,7 +5,8 @@ Accelerometer_Driver::Accelerometer_Driver(const Accelerometer_DriverConfig &cfg
     : _cfg(cfg), _fd(-1)
 {
     _initI2C();
-    _wakeUp();
+    if (_fd >= 0)
+        _wakeUp();
 }
 
 Accelerometer_Driver::~Accelerometer_Driver()

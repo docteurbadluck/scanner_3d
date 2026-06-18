@@ -16,6 +16,7 @@ public:
     ~Accelerometer_Driver() override;
 
     float readMagnitude() override;
+    void  readGyro(float &gx, float &gy, float &gz);
 
 private:
     Accelerometer_DriverConfig _cfg;
@@ -24,5 +25,6 @@ private:
     void    _initI2C();
     void    _wakeUp();
     void    _readRawAccel(int16_t &x, int16_t &y, int16_t &z) const;
+    void    _readRawGyro(int16_t &x, int16_t &y, int16_t &z) const;
     float   _toMagnitude(int16_t x, int16_t y, int16_t z) const;
 };

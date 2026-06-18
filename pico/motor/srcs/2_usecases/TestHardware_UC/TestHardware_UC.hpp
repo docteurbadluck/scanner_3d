@@ -5,9 +5,9 @@
 
 struct HardwareTestResult
 {
-    bool dc_ok;
-    bool servo_ok;
-    bool stepper_ok;
+    SelfTestResult        dc;
+    ServoSelfTestResult   servo;
+    StepperSelfTestResult stepper;
 };
 
 class TestHardware_UC

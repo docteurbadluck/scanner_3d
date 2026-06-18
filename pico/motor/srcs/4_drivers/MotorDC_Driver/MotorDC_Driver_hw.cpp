@@ -2,6 +2,7 @@
 
 #include <pico/stdlib.h>
 #include <hardware/pwm.h>
+#include <hardware/adc.h>
 #include <pico/time.h>
 
 #include <algorithm>
@@ -114,6 +115,19 @@ static void assign_button_lambdas(MotorDC_DriverIO &io, const MotorDC_DriverPins
         return active_low ? !raw : raw;
     };
 }
+
+static uint16_t read_adc_channel(uint8_t channel)
+{
+    adc_select_input(channel);
+    return adc_read();
+}
+
+static void assign_adc_lambda(MotorDC_DriverIO &io, uint8_t ch1, uint8_t ch2)
+{
+    io.read_current = [ch1, ch2]() -> uint16_t {
+        return std::max(read_adc_channel(ch1), read_adc_channel(ch2));
+    };
+}
 }
 
 MotorDC_Driver::MotorDC_Driver(const MotorDC_DriverConfig &cfg, const MotorDC_DriverPins &pins)
@@ -121,9 +135,11 @@ MotorDC_Driver::MotorDC_Driver(const MotorDC_DriverConfig &cfg, const MotorDC_Dr
 {
     PwmPins pw;
     init_buttons(pins);
+    _initADC(pins.adc_pin, pins.adc_pin_2);
     init_pwm_slices(pins.in1_pin, pins.in2_pin, pw);
     assign_drive_lambdas(_io, pw);
     assign_button_lambdas(_io, pins);
+    assign_adc_lambda(_io, _adc_channel, _adc_channel_2);
     _io.now_ms   = []() { return to_ms_since_boot(get_absolute_time()); };
     _io.sleep_ms = [](uint32_t ms) { ::sleep_ms(ms); };
 }

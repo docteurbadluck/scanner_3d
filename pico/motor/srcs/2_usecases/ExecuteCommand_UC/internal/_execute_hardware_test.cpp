@@ -3,6 +3,8 @@
 int ExecuteCommand_UC::_execute_hardware_test()
 {
     const HardwareTestResult res = _testHardware.execute();
-    _sender.sendTestHardwareResult(res.dc_ok, res.servo_ok, res.stepper_ok);
-    return res.dc_ok && res.servo_ok && res.stepper_ok ? 0 : 1;
+    _sender.sendTestHardwareResult(res.dc, res.servo, res.stepper);
+    return (res.dc == SelfTestResult::OK
+         && res.servo == ServoSelfTestResult::OK
+         && res.stepper == StepperSelfTestResult::OK) ? 0 : 1;
 }

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
@@ -32,6 +32,7 @@ class PiResponse:
     payload: str
     command: str = ""
     ms:      int | None = None
+    extras:  dict[str, Any] = field(default_factory=dict)
 
     @staticmethod
     def parse(raw: str) -> PiResponse:
@@ -54,6 +55,7 @@ class PiResponse:
             data["ms"] = self.ms
         if self.kind == PiResponseKind.UNKNOWN:
             data["payload"] = self.payload
+        data.update(self.extras)
         return data
 
     def to_json(self) -> str:

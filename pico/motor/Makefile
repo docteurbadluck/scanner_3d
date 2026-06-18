@@ -12,7 +12,7 @@ CXXFLAGS := -std=c++17 -Wall -Wextra -Wpedantic -I$(UNITY_INC) -I$(SRC_DIR)
 CFLAGS   := -std=c11   -Wall -Wextra -Wpedantic -I$(UNITY_INC)
 COV_FLAGS := --coverage -O0
 
-SRC_SOURCES := $(shell find $(SRC_DIR) -name '*.cpp' 2>/dev/null | grep -v 'main\.cpp' | grep -v '/4_drivers/' | grep -v 'SelfTest\.cpp')
+SRC_SOURCES := $(shell find $(SRC_DIR) -name '*.cpp' 2>/dev/null | grep -v 'main\.cpp' | grep -v '/4_drivers/')
 PORTABLE_DRIVER_SOURCES := \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/goInitialPos.cpp \
@@ -20,6 +20,7 @@ PORTABLE_DRIVER_SOURCES := \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/stop.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/selfTest.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_wait_until_pressed.cpp \
+	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_isTargetPressed.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_goUp.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_goDown.cpp
 SRC_SOURCES := $(SRC_SOURCES) $(PORTABLE_DRIVER_SOURCES)

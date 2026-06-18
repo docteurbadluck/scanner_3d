@@ -2,7 +2,6 @@
 #include <pico/stdlib.h>
 #include "0_orchestration/Drivers.hpp"
 #include "0_orchestration/UseCases.hpp"
-#include "0_orchestration/SelfTest.hpp"
 
 static void run_loop(UseCases &uc, System &sys)
 {
@@ -16,34 +15,18 @@ static void run_loop(UseCases &uc, System &sys)
     }
 }
 
-static void halt_with_led()
-{
-    gpio_put(PICO_DEFAULT_LED_PIN, true);
-	printf("[pico] DRIVERS TEST FAILED\n");
-    while (true) {}
-}
-
 static void init_hardware()
 {
     stdio_init_all();
     gpio_init(PICO_DEFAULT_LED_PIN);
     gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
     gpio_put(PICO_DEFAULT_LED_PIN, false);
-    /*while (!stdio_usb_connected())
-        sleep_ms(100);
-    printf("[pico] Welcome on pico!\n");*/
 }
 
 int main()
 {
     init_hardware();
     Drivers drv;
-	/*
-    t_result_tests res = runSelfTests(drv)
-	if (!res.are_tests_failed)
-        halt_with_led();
-    printf("[pico] all Drivers test passed.\n");
-    return 1;*/
     UseCases uc(drv);
     System   sys;
     run_loop(uc, sys);

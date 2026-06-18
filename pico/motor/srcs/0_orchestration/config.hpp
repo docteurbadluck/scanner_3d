@@ -19,12 +19,12 @@ inline const UartReceptor_DriverConfig UART_RECEPTOR_CONFIG
     512,     // max_msg_size
 };
 
-// ── Servo MG995  (GP27 — physical pin 32) ──────────────────────────────────
-//   PWM : GP27 (PWM5 B, pin 32) — adjacent au shunt ADC
+// ── Servo MG995  (GP21, GP26) ───────────────────────────────────────────────
+//   PWM : GP21 (PWM2 B, pin 27)
 //   Shunt 0.5Ω sur ligne VCC servo → GP26 (ADC0, physical pin 31)
 inline const ServoMotor_DriverPins SERVO_PINS
 {
-    27,      // pwm_pin  (GP27 = PWM5 B, pin 32)
+    21,      // pwm_pin  (GP21 = PWM2 B, pin 27)
     26,      // adc_pin  (GP26 = ADC0,   pin 31)
 };
 
@@ -39,18 +39,22 @@ inline const ServoMotor_DriverConfig SERVO_CONFIG
     0.5f,    // shunt_ohms  (deux 1Ω en parallèle)
 };
 
-// ── DC Motor JGB37  (GP6–GP9 — physical pins 9–12) ─────────────────────────
+// ── DC Motor JGB37  (GP6, GP8, GP16, GP18, GP27, GP28) ─────────────────────
 //   IN1 PWM : GP6  (PWM slice 3A)
-//   IN2 PWM : GP7  (PWM slice 3B)
-//   BTN_UP  : GP8  (active-low endstop)
-//   BTN_DOWN: GP9  (active-low endstop)
+//   IN2 PWM : GP8  (PWM slice 4A)
+//   BTN_UP  : GP16 (active-low endstop, pin 21)
+//   BTN_DOWN: GP18 (active-low endstop, pin 24)
+//   R_IS1   : GP28 (ADC2, pin 34) — chip 1, sens montée
+//   R_IS2   : GP27 (ADC1, pin 32) — chip 2, sens descente
 inline const MotorDC_DriverPins MOTOR_DC_PINS
 {
     6,       // in1_pin
-    7,       // in2_pin
-    8,       // btn_up_pin
-    9,       // btn_down_pin
+    8,       // in2_pin
+    16,      // btn_up_pin
+    18,      // btn_down_pin
     true,    // buttons_active_low
+    28,      // adc_pin   (R_IS1 → GP28 = ADC2, pin 34)
+    27,      // adc_pin_2 (R_IS2 → GP27 = ADC1, pin 32)
 };
 
 inline const MotorDC_DriverConfig MOTOR_DC_CONFIG
@@ -58,6 +62,7 @@ inline const MotorDC_DriverConfig MOTOR_DC_CONFIG
     60,      // speed_percent
     3000,    // timeout_ms
     1,       // poll_interval_ms
+    300,     // stall_threshold_adc (2.2kΩ, calibrer entre ~96 libre et ~1600 bloqué)
 };
 
 // ── Stepper NEMA23 + DM556  (GP10–GP12 — physical pins 14–16) ──────────────
