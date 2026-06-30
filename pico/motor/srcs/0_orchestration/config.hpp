@@ -30,10 +30,10 @@ inline const ServoMotor_DriverPins SERVO_PINS
 
 inline const ServoMotor_DriverConfig SERVO_CONFIG
 {
-    0.0f,    // angle_up_a_deg
-    45.0f,   // angle_up_b_deg
-    90.0f,   // angle_down_a_deg
-    135.0f,  // angle_down_b_deg
+    180.0f,    // angle_up_a_deg
+    165.0f,   // angle_up_b_deg
+    0.0f,   // angle_down_a_deg
+    15.0f,  // angle_down_b_deg
     400,     // move_delay_ms
     80,      // current_threshold_adc (~65mV sur 3.3V/12bit)
     0.5f,    // shunt_ohms  (deux 1Ω en parallèle)
@@ -79,5 +79,5 @@ inline const StepperMotor_DriverConfig STEPPER_CONFIG
 {
     10,      // dir_setup_us
     10,      // step_pulse_us
-    5000,    // step_delay_us
+    15000,    // step_delay_us
 };

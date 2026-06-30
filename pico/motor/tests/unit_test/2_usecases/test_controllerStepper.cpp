@@ -7,9 +7,10 @@ public:
 	mockStepper() {};
 	~mockStepper() = default;
 	bool _res;
+	int  _stepForwardCalls = 0;
 	StepperSelfTestResult selfTest()     override { return StepperSelfTestResult::OK; }
 	bool                  goInitialPos() override { return _res; }
-	bool                  stepForward()  override { return _res; }
+	bool                  stepForward()  override { _stepForwardCalls++; return _res; }
 };
 
 extern "C"
@@ -74,7 +75,7 @@ void test_PlateController_UC_rotate_wraps_around()
 	PlateController_UC ctrl(mock);
 	ctrl.joinInitialPos();
 
-	ctrl.rotateTo(35);
+	ctrl.rotateTo(39);
 	bool res = ctrl.rotateTo(2);
 	TEST_ASSERT_TRUE(res);
 	TEST_ASSERT_EQUAL_INT(2, ctrl.getPos());
@@ -104,6 +105,17 @@ void test_PlateController_UC_rotate_before_init()
 	TEST_ASSERT_EQUAL_INT(-1, ctrl.getPos());
 }
 
+void test_PlateController_UC_one_step_pulses_40_times()
+{
+	mockStepper mock;
+	mock._res = true;
+	PlateController_UC ctrl(mock);
+	ctrl.joinInitialPos();
+
+	ctrl.rotateTo(ctrl.getPos() + 1);
+	TEST_ASSERT_EQUAL_INT(40, mock._stepForwardCalls);
+}
+
 int main(void)
 {
 	UNITY_BEGIN();
@@ -114,5 +126,6 @@ int main(void)
 	RUN_TEST(test_PlateController_UC_rotate_wraps_around);
 	RUN_TEST(test_PlateController_UC_rotate_fails_mid_way);
 	RUN_TEST(test_PlateController_UC_rotate_before_init);
+	RUN_TEST(test_PlateController_UC_one_step_pulses_40_times);
 	return UNITY_END();
 }

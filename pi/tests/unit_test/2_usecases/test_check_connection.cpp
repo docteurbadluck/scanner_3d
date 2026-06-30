@@ -12,6 +12,7 @@ class mockPicoClient : public IPico
 		bool        setCameraPosition(const std::string &) override { return _res; }
 		bool        setArmPosition(const std::string &)    override { return _res; }
 		bool        rotatePlateStep()                      override { return _res; }
+		bool        goInitialPos()                         override { return _res; }
 		std::string getPicoStatus()                        override { return "OK"; }
 		std::string pingPico()                             override { return "{}"; }
 		std::string testHardware()                         override { return "{}"; }

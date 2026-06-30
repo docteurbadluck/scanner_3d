@@ -13,11 +13,22 @@ private:
     SendToComputer_UC &_sender;
     IPico       &_pico;
 
+    using Handler = int (ExecuteOrder_UC::*)();
+    struct DispatchEntry { const char *cmd; Handler handler; };
+    static const DispatchEntry DISPATCH_TABLE[];
+
     int  _dispatch(const std::string &cmd);
     int  _handleTakePhoto();
     int  _handlePingPico();
     int  _handleGetPicoStatus();
 	int	 _handleTestHardware();
+    int  _handlePlateNext();
+    int  _handlePosition(const std::string &armPose, const std::string &camPose);
+    int  _handlePositionA();
+    int  _handlePositionB();
+    int  _handlePositionC();
+    int  _handlePositionD();
+    int  _handleInitialPos();
     bool _isNoOp(const std::string &cmd) const;
 
 public:

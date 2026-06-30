@@ -21,6 +21,12 @@ class Commands:
         "TAKE_PHOTO",
         "PING_PICO",
 		"TEST_HARDWARE",
+        "POSITION_A",
+        "POSITION_B",
+        "POSITION_C",
+        "POSITION_D",
+        "PLATE_NEXT",
+        "INITIAL_POS",
     ))
 
 
