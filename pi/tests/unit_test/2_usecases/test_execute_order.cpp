@@ -88,8 +88,8 @@ void test_execute_ping()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
-    CaptureData_UC    capture(cam, disk, vib);
+    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
+    CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
@@ -102,8 +102,8 @@ void test_execute_get_status()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
-    CaptureData_UC    capture(cam, disk, vib);
+    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
+    CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
@@ -117,9 +117,9 @@ void test_execute_get_pico_status()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
+    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
     pico._status = "{\"type\":\"state\",\"state\":\"READY\"}";
-    CaptureData_UC    capture(cam, disk, vib);
+    CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
@@ -132,8 +132,8 @@ void test_execute_start_capture_success()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
-    CaptureData_UC    capture(cam, disk, vib);
+    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
+    CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
@@ -146,9 +146,9 @@ void test_execute_start_capture_fail()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
+    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
     cam._captureRes = false;
-    CaptureData_UC    capture(cam, disk, vib);
+    CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
@@ -161,8 +161,8 @@ void test_execute_pong_noop()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
-    CaptureData_UC    capture(cam, disk, vib);
+    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
+    CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
@@ -175,8 +175,8 @@ void test_execute_ping_pico()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
-    CaptureData_UC    capture(cam, disk, vib);
+    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
+    CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
@@ -190,8 +190,8 @@ void test_execute_unknown_command()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
-    CaptureData_UC    capture(cam, disk, vib);
+    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
+    CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
