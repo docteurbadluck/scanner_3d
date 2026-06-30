@@ -23,6 +23,7 @@ Three independent binaries, each on a separate device:
 | Camera | OV5647 | Photo capture |
 | Stepper motor | NEMA 23 + DM556 (20–50V) | Rotates object platform |
 | DC motor | JGB37 24V 45RPM | Moves camera arm (up/down) |
+| DC motor driver | IBT-2 (2× BTS7960) | H-bridge for JGB37 — 27V max, 43A, integrated flyback diodes |
 | Servo | MG995 | Tilts camera |
 | Accelerometers | MPU-6050 × 2 | Stability check |
 | Power | 24V PSU + LM2596 DC-DC | Motors at 24V; Pi/Pico at 5V |

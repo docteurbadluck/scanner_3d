@@ -68,6 +68,16 @@ std::string makeError(const std::string &reason)
 	       + escape(reason) + "\"}";
 }
 
+std::string makeTestHardwareResponse(const std::string &dc, const std::string &servo,
+    const std::string &stepper)
+{
+    return std::string{"{\"type\":\"response\",\"command\":\"TEST_HARDWARE\","
+                       "\"dc\":\""}
+           + dc + "\",\"servo\":\""
+           + servo + "\",\"stepper\":\""
+           + stepper + "\"}";
+}
+
 std::string extractStringField(const std::string &json, const std::string &field)
 {
 	const std::string key   = std::string{"\""} + field + "\"";

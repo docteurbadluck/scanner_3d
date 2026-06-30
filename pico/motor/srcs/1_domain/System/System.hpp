@@ -12,6 +12,7 @@ enum state
 struct Commands
 {
     const std::vector<std::string> valid_command = {"PING", "PONG", "GET_STATUS",
+													"TEST_HARDWARE",
                                                     "ARM_UP", "ARM_DOWN",
                                                     "CAM_A", "CAM_B", "CAM_C", "CAM_D",
                                                     "PLATE_NEXT", "INITIAL_POS"};

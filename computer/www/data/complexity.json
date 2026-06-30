@@ -1,35 +1,23 @@
 {
-  "computed_at": "2026-06-05T14:42:36Z",
+  "computed_at": "2026-06-15T20:42:50Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
   },
   "components": {
     "pico": {
-      "function_count": 93,
-      "nloc": 665,
-      "avg_ccn": 1.81,
+      "function_count": 108,
+      "nloc": 799,
+      "avg_ccn": 1.89,
       "max_ccn": 6,
-      "violations_over_5": 2,
+      "violations_over_5": 1,
       "violations_over_10": 0,
       "top_complex": [
-        {
-          "name": "ExecuteCommand_UC::_dispatch",
-          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/internal/_dispatch.cpp",
-          "ccn": 6,
-          "nloc": 10
-        },
         {
           "name": "MotorDC_Driver::_wait_until_pressed",
           "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/internal/_wait_until_pressed.cpp",
           "ccn": 6,
           "nloc": 13
-        },
-        {
-          "name": "ExecuteCommand_UC::_dispatchHand",
-          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/internal/_dispatchHand.cpp",
-          "ccn": 5,
-          "nloc": 8
         },
         {
           "name": "extract_value_from",
@@ -38,26 +26,38 @@
           "nloc": 14
         },
         {
-          "name": "ExecuteCommand_UC::_goInitialPos",
-          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/internal/_goInitialPos.cpp",
+          "name": "ExecuteCommand_UC::_dispatchSystem",
+          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/internal/_dispatchSystem.cpp",
+          "ccn": 5,
+          "nloc": 10
+        },
+        {
+          "name": "ExecuteCommand_UC::_dispatchHand",
+          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/internal/_dispatchHand.cpp",
+          "ccn": 5,
+          "nloc": 8
+        },
+        {
+          "name": "JsonMessage::escape",
+          "file": "pico/motor/srcs/3_interface/JsonMessage/JsonMessage.cpp",
           "ccn": 4,
-          "nloc": 7
+          "nloc": 12
         }
       ]
     },
     "pi": {
-      "function_count": 108,
-      "nloc": 812,
-      "avg_ccn": 2.03,
-      "max_ccn": 5,
-      "violations_over_5": 0,
+      "function_count": 119,
+      "nloc": 890,
+      "avg_ccn": 2.01,
+      "max_ccn": 6,
+      "violations_over_5": 1,
       "violations_over_10": 0,
       "top_complex": [
         {
           "name": "ExecuteOrder_UC::_dispatch",
           "file": "pi/srcs/2_usecases/ExecuteOrder_UC/internal/_dispatch.cpp",
-          "ccn": 5,
-          "nloc": 8
+          "ccn": 6,
+          "nloc": 9
         },
         {
           "name": "extract_value_from",
@@ -66,22 +66,22 @@
           "nloc": 14
         },
         {
+          "name": "Pico_Driver::testHardware",
+          "file": "pi/srcs/4_drivers/Pico_Driver/testHardware.cpp",
+          "ccn": 5,
+          "nloc": 12
+        },
+        {
           "name": "Pico_Driver::pingPico",
           "file": "pi/srcs/4_drivers/Pico_Driver/pingPico.cpp",
           "ccn": 5,
           "nloc": 15
         },
         {
-          "name": "SendToComputer_UC::sendResponse",
-          "file": "pi/srcs/2_usecases/SendToComputer_UC/sendResponse.cpp",
+          "name": "System::getStateString",
+          "file": "pi/srcs/1_domain/System/accessors/getters.cpp",
           "ccn": 4,
-          "nloc": 11
-        },
-        {
-          "name": "ExecuteOrder_UC::execute",
-          "file": "pi/srcs/2_usecases/ExecuteOrder_UC/execute.cpp",
-          "ccn": 4,
-          "nloc": 9
+          "nloc": 7
         }
       ]
     },

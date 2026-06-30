@@ -37,4 +37,11 @@ doxygen:
 doxygen-clean:
 	rm -rf computer/www/docs
 
-.PHONY: server-test server-typecheck pico-test pico-coverage pi-test pi-coverage complexity fitness doxygen doxygen-clean
+pico-debug:
+	@$(MAKE) sync
+	@$(MAKE) build-pico
+	@$(MAKE) flash-pico
+	@sleep 3
+	clear; ssh -t $(PI_HOST) "cat /dev/ttyACM0"
+
+.PHONY: server-test server-typecheck pico-test pico-coverage pi-test pi-coverage complexity fitness doxygen doxygen-clean pico-debug

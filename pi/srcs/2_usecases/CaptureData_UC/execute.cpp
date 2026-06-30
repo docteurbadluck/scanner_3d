@@ -3,9 +3,11 @@
 
 bool CaptureData_UC::execute()
 {
-	if (!_diskChecker.hasEnoughSpace())
-		return false;
-	if (!_camera.capture())
-		return false;
-	return true;
+    if (!_diskChecker.hasEnoughSpace())
+        return false;
+    if (!_waitForStability())
+        return false;
+    if (!_camera.capture())
+        return false;
+    return true;
 }

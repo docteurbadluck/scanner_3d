@@ -17,7 +17,12 @@ PORTABLE_DRIVER_SOURCES := \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/MotorDC_Driver.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/goInitialPos.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/goTo.cpp \
+	$(SRC_DIR)/4_drivers/MotorDC_Driver/stop.cpp \
+	$(SRC_DIR)/4_drivers/MotorDC_Driver/selfTest.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_wait_until_pressed.cpp \
+	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_isTargetPressed.cpp \
+	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_isStalled.cpp \
+	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_measureBaseline.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_goUp.cpp \
 	$(SRC_DIR)/4_drivers/MotorDC_Driver/internal/_goDown.cpp
 SRC_SOURCES := $(SRC_SOURCES) $(PORTABLE_DRIVER_SOURCES)
@@ -28,7 +33,7 @@ UNITY_SRC := $(UNITY_DIR)/unity.c
 UNITY_OBJ := $(BUILD_DIR)/unity/unity.o
 COV_UNITY_OBJ := $(COV_BUILD)/unity/unity.o
 
-TEST_SOURCES  := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep -v '/internal/' | grep -v '/4_drivers/')
+TEST_SOURCES  := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep -v '/internal/')
 TEST_BINS     := $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/tests/%, $(TEST_SOURCES))
 COV_TEST_BINS := $(patsubst $(TEST_DIR)/%.cpp, $(COV_BUILD)/tests/%, $(TEST_SOURCES))
 INTERNAL_SOURCES := $(shell find $(TEST_DIR) -name '*.cpp' 2>/dev/null | grep '/internal/')

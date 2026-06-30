@@ -13,10 +13,8 @@ struct StepperMotor_DriverConfig
 
 struct StepperMotor_DriverPins
 {
-    uint8_t step_pin   = 10;
-    uint8_t dir_pin    = 11;
-    uint8_t enable_pin = 12;
-    bool    has_enable = true;
+    uint8_t step_pin = 10;
+    uint8_t dir_pin  = 11;
 };
 
 class StepperMotor_Driver : public IStepperMotor
@@ -26,14 +24,15 @@ public:
                         const StepperMotor_DriverPins   &pins);
     ~StepperMotor_Driver() override = default;
 
-    bool goInitialPos() override;
-    bool stepForward() override;
+    StepperSelfTestResult selfTest()     override;
+    bool                  goInitialPos() override;
+    bool                  stepForward()  override;
 
 private:
     StepperMotor_DriverConfig _cfg;
     StepperMotor_DriverPins   _pins;
 
     void _initGPIO();
-    void _enable();
     void _pulseStep();
+    void _stepBackward();
 };

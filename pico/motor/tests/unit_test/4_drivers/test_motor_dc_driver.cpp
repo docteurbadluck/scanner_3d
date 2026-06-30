@@ -21,6 +21,8 @@ struct Harness
 	uint32_t down_trigger_ms = 0;
 	bool     force_up_pressed = false;
 	bool     force_down_pressed = false;
+	uint16_t idle_adc = 100;
+	uint16_t active_adc = 100;
 
 	MotorDC_DriverIO io()
 	{
@@ -49,6 +51,7 @@ struct Harness
 			},
 			[this]() { return now; },
 			[this](uint32_t ms) { now += ms; },
+			[this]() -> uint16_t { return dir == Dir::STOP ? idle_adc : active_adc; },
 		};
 	}
 };
@@ -144,6 +147,134 @@ void test_speed_is_fixed_from_constructor()
 	TEST_ASSERT_EQUAL_INT(33, h.last_speed);
 }
 
+void test_selfTest_ok_when_both_endstops_reachable()
+{
+	Harness h;
+	h.down_trigger_ms = 30;
+	h.up_trigger_ms   = 60;
+
+	MotorDC_DriverConfig cfg;
+	cfg.timeout_ms       = 200;
+	cfg.poll_interval_ms = 5;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_EQUAL_INT(
+		static_cast<int>(SelfTestResult::OK),
+		static_cast<int>(driver.selfTest())
+	);
+}
+
+void test_selfTest_down_unreachable_on_timeout()
+{
+	Harness h;
+	h.down_trigger_ms = 9999;
+
+	MotorDC_DriverConfig cfg;
+	cfg.timeout_ms       = 20;
+	cfg.poll_interval_ms = 5;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_EQUAL_INT(
+		static_cast<int>(SelfTestResult::DOWN_UNREACHABLE),
+		static_cast<int>(driver.selfTest())
+	);
+}
+
+void test_selfTest_up_unreachable_on_timeout()
+{
+	Harness h;
+	h.down_trigger_ms = 10;
+	h.up_trigger_ms   = 9999;
+
+	MotorDC_DriverConfig cfg;
+	cfg.timeout_ms       = 20;
+	cfg.poll_interval_ms = 5;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_EQUAL_INT(
+		static_cast<int>(SelfTestResult::UP_UNREACHABLE),
+		static_cast<int>(driver.selfTest())
+	);
+}
+
+void test_selfTest_down_stalled_is_reported()
+{
+	Harness h;
+	h.down_trigger_ms = 9999;
+	h.idle_adc        = 100;
+	h.active_adc      = 500;
+
+	MotorDC_DriverConfig cfg;
+	cfg.timeout_ms           = 200;
+	cfg.poll_interval_ms     = 5;
+	cfg.stall_threshold_adc  = 50;
+	cfg.stall_debounce_polls = 1;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_EQUAL_INT(
+		static_cast<int>(SelfTestResult::DOWN_STALLED),
+		static_cast<int>(driver.selfTest())
+	);
+}
+
+void test_selfTest_up_stalled_is_reported()
+{
+	Harness h;
+	h.force_down_pressed = true;
+	h.up_trigger_ms       = 9999;
+	h.idle_adc            = 100;
+	h.active_adc          = 500;
+
+	MotorDC_DriverConfig cfg;
+	cfg.timeout_ms           = 200;
+	cfg.poll_interval_ms     = 5;
+	cfg.stall_threshold_adc  = 50;
+	cfg.stall_debounce_polls = 1;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_EQUAL_INT(
+		static_cast<int>(SelfTestResult::UP_STALLED),
+		static_cast<int>(driver.selfTest())
+	);
+}
+
+void test_goTo_up_stalls_and_returns_false()
+{
+	Harness h;
+	h.up_trigger_ms = 9999;
+	h.idle_adc      = 100;
+	h.active_adc    = 500;
+
+	MotorDC_DriverConfig cfg;
+	cfg.speed_percent        = 40;
+	cfg.timeout_ms           = 200;
+	cfg.poll_interval_ms     = 5;
+	cfg.stall_threshold_adc  = 50;
+	cfg.stall_debounce_polls = 1;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_FALSE(driver.goTo(Pos::UP));
+	TEST_ASSERT_EQUAL_INT(Dir::STOP, static_cast<int>(h.dir));
+}
+
+void test_goTo_up_uses_fresh_baseline_avoids_false_stall()
+{
+	Harness h;
+	h.up_trigger_ms = 30;
+	h.idle_adc      = 1700;
+	h.active_adc    = 1715;
+
+	MotorDC_DriverConfig cfg;
+	cfg.speed_percent        = 40;
+	cfg.timeout_ms           = 200;
+	cfg.poll_interval_ms     = 5;
+	cfg.stall_threshold_adc  = 50;
+	cfg.stall_debounce_polls = 1;
+
+	MotorDC_Driver driver(cfg, h.io());
+	TEST_ASSERT_TRUE(driver.goTo(Pos::UP));
+}
+
 int main(void)
 {
 	UNITY_BEGIN();
@@ -152,5 +283,12 @@ int main(void)
 	RUN_TEST(test_goTo_up_times_out_and_returns_false);
 	RUN_TEST(test_goTo_unknown_returns_false);
 	RUN_TEST(test_speed_is_fixed_from_constructor);
+	RUN_TEST(test_selfTest_ok_when_both_endstops_reachable);
+	RUN_TEST(test_selfTest_down_unreachable_on_timeout);
+	RUN_TEST(test_selfTest_up_unreachable_on_timeout);
+	RUN_TEST(test_selfTest_down_stalled_is_reported);
+	RUN_TEST(test_selfTest_up_stalled_is_reported);
+	RUN_TEST(test_goTo_up_stalls_and_returns_false);
+	RUN_TEST(test_goTo_up_uses_fresh_baseline_avoids_false_stall);
 	return UNITY_END();
 }

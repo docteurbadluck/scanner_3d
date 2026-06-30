@@ -2,6 +2,7 @@
 
 #include <pico/stdlib.h>
 #include <hardware/pwm.h>
+#include <hardware/adc.h>
 #include <pico/time.h>
 
 #include <algorithm>
@@ -63,19 +64,40 @@ static void init_pwm_slices(uint8_t in1, uint8_t in2, PwmPins &pw)
     init_second_pwm_slice(pw.s1, pw);
 }
 
+static void ramp_to(uint32_t slice, uint32_t channel, uint16_t target)
+{
+    for (uint16_t lvl = 10; lvl < target; lvl += 10)
+    {
+        pwm_set_chan_level(slice, channel, lvl);
+        ::sleep_ms(1);
+    }
+    pwm_set_chan_level(slice, channel, target);
+}
+
+static void ramp_down(uint32_t slice, uint32_t channel)
+{
+    uint16_t lvl = (pwm_hw->slice[slice].cc >> (channel * 16)) & 0xFFFF;
+    for (; lvl >= 10; lvl -= 10)
+    {
+        pwm_set_chan_level(slice, channel, lvl - 10);
+        ::sleep_ms(1);
+    }
+    pwm_set_chan_level(slice, channel, 0);
+}
+
 static void assign_drive_lambdas(MotorDC_DriverIO &io, PwmPins pw)
 {
     io.drive_up = [pw](uint8_t speed) {
         pwm_set_chan_level(pw.s2, pw.c2, 0);
-        pwm_set_chan_level(pw.s1, pw.c1, speed_to_level(speed));
+        ramp_to(pw.s1, pw.c1, speed_to_level(speed));
     };
     io.drive_down = [pw](uint8_t speed) {
         pwm_set_chan_level(pw.s1, pw.c1, 0);
-        pwm_set_chan_level(pw.s2, pw.c2, speed_to_level(speed));
+        ramp_to(pw.s2, pw.c2, speed_to_level(speed));
     };
     io.stop = [pw]() {
-        pwm_set_chan_level(pw.s1, pw.c1, 0);
-        pwm_set_chan_level(pw.s2, pw.c2, 0);
+        ramp_down(pw.s1, pw.c1);
+        ramp_down(pw.s2, pw.c2);
     };
 }
 
@@ -93,6 +115,19 @@ static void assign_button_lambdas(MotorDC_DriverIO &io, const MotorDC_DriverPins
         return active_low ? !raw : raw;
     };
 }
+
+static uint16_t read_adc_channel(uint8_t channel)
+{
+    adc_select_input(channel);
+    return adc_read();
+}
+
+static void assign_adc_lambda(MotorDC_DriverIO &io, uint8_t channel)
+{
+    io.read_raw_adc = [channel]() -> uint16_t {
+        return read_adc_channel(channel);
+    };
+}
 }
 
 MotorDC_Driver::MotorDC_Driver(const MotorDC_DriverConfig &cfg, const MotorDC_DriverPins &pins)
@@ -100,9 +135,11 @@ MotorDC_Driver::MotorDC_Driver(const MotorDC_DriverConfig &cfg, const MotorDC_Dr
 {
     PwmPins pw;
     init_buttons(pins);
+    _initADC(pins.acs712_pin);
     init_pwm_slices(pins.in1_pin, pins.in2_pin, pw);
     assign_drive_lambdas(_io, pw);
     assign_button_lambdas(_io, pins);
+    assign_adc_lambda(_io, _adc_channel);
     _io.now_ms   = []() { return to_ms_since_boot(get_absolute_time()); };
     _io.sleep_ms = [](uint32_t ms) { ::sleep_ms(ms); };
 }

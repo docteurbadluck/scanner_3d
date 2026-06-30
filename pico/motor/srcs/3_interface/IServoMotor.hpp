@@ -9,10 +9,13 @@ enum class Pos_hand
     UNKNOWN,
 };
 
+enum class ServoSelfTestResult { OK, NO_CURRENT };
+
 class IServoMotor
 {
 public:
     virtual ~IServoMotor() = default;
-    virtual bool goInitialPos() = 0;
-    virtual bool goTo(Pos_hand pos) = 0;
+    virtual bool               goInitialPos() = 0;
+    virtual bool               goTo(Pos_hand pos) = 0;
+    virtual ServoSelfTestResult selfTest() = 0;
 };

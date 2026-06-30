@@ -1,3 +1,10 @@
+problem, with stdio, if the usb is uncommented, i belive that the command ping pico arrive to
+early and is not managed. which let the command without answer. 
+
+if ping pico fail with timeout, everything is block 
+my theory is that whatever is printf, it is send on the uart. and then create problem for the communication between pico and pi.
+
+
 - [all] Boot diagnostic sequence visible on dashboard:
   - Pi drivers (UART, camera, disk) validate themselves in constructor and report status
   - GET_PICO_STATUS extended to return per-component health: stepper, dc_motor, servo, accel_1, accel_2

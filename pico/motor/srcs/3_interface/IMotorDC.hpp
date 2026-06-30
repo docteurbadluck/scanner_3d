@@ -7,10 +7,21 @@ enum class Pos
     UNKNOWN,
 };
 
+enum class SelfTestResult
+{
+    OK,
+    DOWN_UNREACHABLE,
+    UP_UNREACHABLE,
+    DOWN_STALLED,
+    UP_STALLED,
+};
+
 class IMotorDC
 {
 public:
     virtual ~IMotorDC() = default;
-    virtual bool goInitialPos() = 0;
-    virtual bool goTo(Pos pos) = 0;
+    virtual void           stop() = 0;
+    virtual bool           goInitialPos() = 0;
+    virtual bool           goTo(Pos pos) = 0;
+    virtual SelfTestResult selfTest() = 0;
 };

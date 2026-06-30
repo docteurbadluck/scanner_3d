@@ -43,10 +43,10 @@ test-pi:
 # ── Phase 4 — Remote Pico build ─────────────────────────────────────────────
 
 build-pico:
-	@$(SSH) "[ -f $(PICO_BUILD)/build.ninja ] || \
-		PICO_SDK_PATH=~/pico-sdk PICOTOOL_FETCH_FROM_GIT_PATH=~/picotool_cache \
-		cmake -B $(PICO_BUILD) -S $(PI_REPO)/pico/motor -G Ninja 2>&1" \
-		&& printf "==> Building Pico firmware on $(PI_HOST)...\n"
+	@printf "==> Configuring Pico firmware on $(PI_HOST)...\n"
+	@$(SSH) "PICO_SDK_PATH=~/pico-sdk PICOTOOL_FETCH_FROM_GIT_PATH=~/picotool_cache \
+		cmake -B $(PICO_BUILD) -S $(PI_REPO)/pico/motor -G Ninja -Wno-dev 2>&1 | tail -3"
+	@printf "==> Building Pico firmware on $(PI_HOST)...\n"
 	@$(SSH) "cmake --build $(PICO_BUILD)"
 
 fclean-pico:

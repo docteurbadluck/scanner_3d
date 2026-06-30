@@ -4,9 +4,10 @@
 class mockServoMotor : public IServoMotor
 {
 public:
-	bool _res;
-	bool goInitialPos() override { return _res; }
-	bool goTo(Pos_hand pos) override { (void)pos; return _res; }
+	bool                _res;
+	ServoSelfTestResult selfTest()    override { return ServoSelfTestResult::OK; }
+	bool                goInitialPos() override { return _res; }
+	bool                goTo(Pos_hand pos) override { (void)pos; return _res; }
 };
 
 extern "C"
