@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-06-30T16:30:22Z",
+  "computed_at": "2026-06-30T16:40:36Z",
   "thresholds": {
     "warn": 5,
     "critical": 10
@@ -26,22 +26,22 @@
           "nloc": 14
         },
         {
-          "name": "ServoMotor_Driver::_angleForPos",
-          "file": "pico/motor/srcs/4_drivers/ServoMotor_Driver/internal/_angleForPos.cpp",
-          "ccn": 5,
-          "nloc": 8
-        },
-        {
           "name": "MotorDC_Driver::_wait_until_pressed",
           "file": "pico/motor/srcs/4_drivers/MotorDC_Driver/internal/_wait_until_pressed.cpp",
           "ccn": 5,
           "nloc": 15
         },
         {
-          "name": "ExecuteCommand_UC::_goInitialPos",
-          "file": "pico/motor/srcs/2_usecases/ExecuteCommand_UC/internal/_goInitialPos.cpp",
+          "name": "ServoMotor_Driver::_angleForPos",
+          "file": "pico/motor/srcs/4_drivers/ServoMotor_Driver/internal/_angleForPos.cpp",
           "ccn": 5,
-          "nloc": 6
+          "nloc": 8
+        },
+        {
+          "name": "dc_to_str",
+          "file": "pico/motor/srcs/2_usecases/SendToPi_UC/sendTestHardwareResult.cpp",
+          "ccn": 5,
+          "nloc": 8
         }
       ]
     },
@@ -72,16 +72,16 @@
           "nloc": 9
         },
         {
-          "name": "System::getStateString",
-          "file": "pi/srcs/1_domain/System/accessors/getters.cpp",
-          "ccn": 4,
-          "nloc": 7
-        },
-        {
           "name": "JsonMessage::escape",
           "file": "pi/srcs/3_interface/JsonMessage/JsonMessage.cpp",
           "ccn": 4,
           "nloc": 12
+        },
+        {
+          "name": "JsonMessage::normalizeMessage",
+          "file": "pi/srcs/3_interface/JsonMessage/JsonMessage.cpp",
+          "ccn": 4,
+          "nloc": 13
         }
       ]
     },
@@ -106,6 +106,12 @@
           "nloc": 14
         },
         {
+          "name": "_update_session",
+          "file": "computer/srcs/_0_orchestration/ScanOrchestrator/internal/_update_session.py",
+          "ccn": 4,
+          "nloc": 8
+        },
+        {
           "name": "_parse_response_message",
           "file": "computer/srcs/_1_domain/PiMessages/internal/_parse_response_message.py",
           "ccn": 4,
@@ -116,12 +122,6 @@
           "file": "computer/srcs/_1_domain/PiMessages/PiMessages.py",
           "ccn": 4,
           "nloc": 11
-        },
-        {
-          "name": "_build_response_data",
-          "file": "computer/srcs/_1_domain/PiMessages/PiMessages.py",
-          "ccn": 4,
-          "nloc": 10
         }
       ]
     }
