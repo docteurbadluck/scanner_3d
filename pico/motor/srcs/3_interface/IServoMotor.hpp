@@ -6,6 +6,7 @@ enum class Pos_hand
     UP_B,
     DOWN_A,
     DOWN_B,
+    SAFE,
     UNKNOWN,
 };
 

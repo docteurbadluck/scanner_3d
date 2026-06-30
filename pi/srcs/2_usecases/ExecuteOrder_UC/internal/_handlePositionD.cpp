@@ -2,5 +2,5 @@
 
 int ExecuteOrder_UC::_handlePositionD()
 {
-    return _handlePosition("ARM_DOWN", "CAM_D");
+    return _pico.goToPosition("POSITION_D") ? 0 : 1;
 }

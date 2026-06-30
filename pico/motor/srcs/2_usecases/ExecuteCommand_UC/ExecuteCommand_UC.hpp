@@ -19,8 +19,10 @@ private:
     int _dispatchArm(const std::string &cmd);
     int _dispatchHand(const std::string &cmd);
     int _dispatchSystem(const std::string &cmd);
+    int _dispatchPosition(const std::string &cmd);
     int _moveArmTo(Pos pos);
     int _moveCamTo(Pos_hand pos);
+    int _moveToPosition(Pos armPos, Pos_hand camPos);
     int _goInitialPos();
     int _execute_hardware_test();
 
