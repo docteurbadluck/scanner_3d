@@ -37,6 +37,7 @@ inline const ServoMotor_DriverConfig SERVO_CONFIG
     400,     // move_delay_ms
     80,      // current_threshold_adc (~65mV sur 3.3V/12bit)
     0.5f,    // shunt_ohms  (deux 1Ω en parallèle)
+    90.0f,   // angle_safe_deg (milieu des 4 angles, passage sûr pour le bras)
 };
 
 // ── DC Motor JGB37  (GP6, GP8, GP17, GP18, GP27) ───────────────────────────
