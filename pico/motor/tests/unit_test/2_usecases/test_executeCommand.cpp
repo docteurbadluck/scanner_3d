@@ -74,7 +74,7 @@ void test_execute_arm_up()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -87,7 +87,7 @@ void test_execute_arm_down()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -100,7 +100,7 @@ void test_execute_cam_a()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -112,7 +112,7 @@ void test_execute_cam_b()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -125,7 +125,7 @@ void test_execute_cam_c()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -138,7 +138,7 @@ void test_execute_cam_d()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -151,7 +151,7 @@ void test_execute_plate_next()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -164,7 +164,7 @@ void test_execute_initial_pos()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -177,7 +177,7 @@ void test_execute_initial_pos_fail()
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     motor._res = false;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;
@@ -189,7 +189,7 @@ void test_execute_ping()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
     ArmController_UC arm(motor); HandController_UC hand(servo);
-    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
     SendToPi_UC sendUC(sender);
     ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
     System sys;

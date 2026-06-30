@@ -1,5 +1,7 @@
 #pragma once
 
+#include <pico/stdlib.h>
+
 #include "0_orchestration/Drivers.hpp"
 #include "1_domain/System/System.hpp"
 #include "2_usecases/ArmController_UC/ArmController_UC.hpp"
@@ -24,7 +26,7 @@ struct UseCases
         sender(drv.uartSender),
         cmdReceptor(drv.receptor, Commands{}, sender),
         arm(drv.motorDC), hand(drv.servo), plate(drv.stepper),
-        testHardware(drv.motorDC, drv.servo, drv.stepper),
+        testHardware(drv.motorDC, drv.servo, drv.stepper, [](uint32_t ms) { sleep_ms(ms); }),
         executor(arm, hand, plate, sender, testHardware)
     {}
 };

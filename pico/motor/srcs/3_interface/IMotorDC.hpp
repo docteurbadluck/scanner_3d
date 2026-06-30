@@ -12,6 +12,8 @@ enum class SelfTestResult
     OK,
     DOWN_UNREACHABLE,
     UP_UNREACHABLE,
+    DOWN_STALLED,
+    UP_STALLED,
 };
 
 class IMotorDC

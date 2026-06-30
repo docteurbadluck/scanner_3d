@@ -43,7 +43,7 @@ static void runSession(Computer_Driver &computer, Pico_Driver &pico,
     SendToComputer_UC      sender(computer);
     CommandReceptor_UC     receptor(computer, sender);
     VibrationMonitor_UC    vibration(acc1, acc2, sleep_ms);
-    CaptureData_UC         capture(camera, disk, vibration);
+    CaptureData_UC         capture(camera, disk, vibration, sleep_ms);
     SendPhotoToComputer_UC sendPhoto(camera, computer);
     ExecuteOrder_UC        executor(capture, sendPhoto, sender, pico);
     System sys;

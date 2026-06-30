@@ -8,7 +8,8 @@
 class mockAccelerometer : public IAccelerometer
 {
 public:
-    float readMagnitude() override { return 0.0f; }
+    float _magnitude = 0.0f;
+    float readMagnitude() override { return _magnitude; }
 };
 
 class mockCamera : public ICamera
@@ -37,27 +38,42 @@ extern "C"
 void test_CaptureData_success()
 {
     mockCamera cam; mockDiskChecker disk;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
-    CaptureData_UC uc(cam, disk, vib);
+    mockAccelerometer acc1, acc2;
+    VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
+    CaptureData_UC uc(cam, disk, vib, [](uint32_t) {});
     TEST_ASSERT_TRUE(uc.execute());
 }
 
 void test_CaptureData_no_disk_space()
 {
     mockCamera cam; mockDiskChecker disk;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
+    mockAccelerometer acc1, acc2;
+    VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
     disk._res = false;
-    CaptureData_UC uc(cam, disk, vib);
+    CaptureData_UC uc(cam, disk, vib, [](uint32_t) {});
     TEST_ASSERT_FALSE(uc.execute());
 }
 
 void test_CaptureData_camera_fails()
 {
     mockCamera cam; mockDiskChecker disk;
-    mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2);
+    mockAccelerometer acc1, acc2;
+    VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
     cam._res = false;
-    CaptureData_UC uc(cam, disk, vib);
+    CaptureData_UC uc(cam, disk, vib, [](uint32_t) {});
     TEST_ASSERT_FALSE(uc.execute());
+}
+
+void test_CaptureData_unstable_never_blocks_forever()
+{
+    mockCamera cam; mockDiskChecker disk;
+    mockAccelerometer acc1, acc2;
+    acc1._magnitude = 1.0f;
+    int sleepCalls = 0;
+    VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
+    CaptureData_UC uc(cam, disk, vib, [&sleepCalls](uint32_t) { ++sleepCalls; });
+    TEST_ASSERT_FALSE(uc.execute());
+    TEST_ASSERT_GREATER_THAN(0, sleepCalls);
 }
 
 int main(void)
@@ -66,5 +82,6 @@ int main(void)
     RUN_TEST(test_CaptureData_success);
     RUN_TEST(test_CaptureData_no_disk_space);
     RUN_TEST(test_CaptureData_camera_fails);
+    RUN_TEST(test_CaptureData_unstable_never_blocks_forever);
     return UNITY_END();
 }

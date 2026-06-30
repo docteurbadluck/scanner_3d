@@ -19,13 +19,13 @@ inline const UartReceptor_DriverConfig UART_RECEPTOR_CONFIG
     512,     // max_msg_size
 };
 
-// ── Servo MG995  (GP21, GP26) ───────────────────────────────────────────────
+// ── Servo MG995  (GP21, GP28) ───────────────────────────────────────────────
 //   PWM : GP21 (PWM2 B, pin 27)
-//   Shunt 0.5Ω sur ligne VCC servo → GP26 (ADC0, physical pin 31)
+//   Shunt 0.5Ω sur ligne VCC servo → GP28
 inline const ServoMotor_DriverPins SERVO_PINS
 {
     21,      // pwm_pin  (GP21 = PWM2 B, pin 27)
-    26,      // adc_pin  (GP26 = ADC0,   pin 31)
+    28,      // adc_pin  (GP28 = ADC2,   pin 34)
 };
 
 inline const ServoMotor_DriverConfig SERVO_CONFIG
@@ -39,42 +39,40 @@ inline const ServoMotor_DriverConfig SERVO_CONFIG
     0.5f,    // shunt_ohms  (deux 1Ω en parallèle)
 };
 
-// ── DC Motor JGB37  (GP6, GP8, GP16, GP18, GP27, GP28) ─────────────────────
+// ── DC Motor JGB37  (GP6, GP8, GP17, GP18, GP27) ───────────────────────────
 //   IN1 PWM : GP6  (PWM slice 3A)
 //   IN2 PWM : GP8  (PWM slice 4A)
-//   BTN_UP  : GP16 (active-low endstop, pin 21)
-//   BTN_DOWN: GP18 (active-low endstop, pin 24)
-//   R_IS1   : GP28 (ADC2, pin 34) — chip 1, sens montée
-//   R_IS2   : GP27 (ADC1, pin 32) — chip 2, sens descente
+//   BTN_UP  : GP18 (active-low endstop, pin 24)
+//   BTN_DOWN: GP17 (active-low endstop, pin 22)
+//   ACS712  : GP26 (ADC1, pin 32) — OUT du module, en série sur l'alim moteur,
+//             VCC=5V, sensibilité 185mV/A, sortie ~2.5V au repos
 inline const MotorDC_DriverPins MOTOR_DC_PINS
 {
     6,       // in1_pin
     8,       // in2_pin
-    16,      // btn_up_pin
-    18,      // btn_down_pin
+    18,      // btn_up_pin
+    17,      // btn_down_pin
     true,    // buttons_active_low
-    28,      // adc_pin   (R_IS1 → GP28 = ADC2, pin 34)
-    27,      // adc_pin_2 (R_IS2 → GP27 = ADC1, pin 32)
+    26,      // acs712_pin (OUT → GP26)
 };
 
 inline const MotorDC_DriverConfig MOTOR_DC_CONFIG
 {
-    60,      // speed_percent
+    40,      // speed_percent
     3000,    // timeout_ms
     1,       // poll_interval_ms
-    300,     // stall_threshold_adc (2.2kΩ, calibrer entre ~96 libre et ~1600 bloqué)
+    35,      // stall_threshold_adc (mesuré: bruit repos ±15-20, pic blocage ~41-55, à affiner)
+    8,       // stall_debounce_polls (8 polls à 1ms = 8ms soutenus, filtre le bruit de commutation PWM)
+    500,     // stall_grace_ms (laisse le temps de dépasser l'inertie/inrush au démarrage)
 };
 
-// ── Stepper NEMA23 + DM556  (GP10–GP12 — physical pins 14–16) ──────────────
+// ── Stepper NEMA23 + DM556  (GP10, GP12 — physical pins 14, 16) ────────────
 //   STEP : GP10
-//   DIR  : GP11
-//   ENA  : GP12  (active-low)
+//   DIR  : GP12
 inline const StepperMotor_DriverPins STEPPER_PINS
 {
     10,      // step_pin
-    11,      // dir_pin
-    12,      // enable_pin
-    true,    // has_enable
+    12,      // dir_pin
 };
 
 inline const StepperMotor_DriverConfig STEPPER_CONFIG

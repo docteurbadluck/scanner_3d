@@ -5,6 +5,8 @@ static std::string dc_to_str(SelfTestResult r)
 {
     if (r == SelfTestResult::DOWN_UNREACHABLE) return "DOWN_UNREACHABLE";
     if (r == SelfTestResult::UP_UNREACHABLE)   return "UP_UNREACHABLE";
+    if (r == SelfTestResult::DOWN_STALLED)     return "DOWN_STALLED";
+    if (r == SelfTestResult::UP_STALLED)       return "UP_STALLED";
     return "OK";
 }
 
