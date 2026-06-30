@@ -20,6 +20,7 @@ public:
 	bool        setArmPosition(const std::string &pose)     override;
 	bool        rotatePlateStep()                           override;
 	bool        goInitialPos()                              override;
+	bool        goToPosition(const std::string &cmd)        override;
 	std::string getPicoStatus()                             override;
 	std::string pingPico()                                  override;
 	std::string testHardware()                              override;

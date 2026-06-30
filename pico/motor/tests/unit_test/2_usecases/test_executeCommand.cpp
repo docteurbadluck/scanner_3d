@@ -11,6 +11,7 @@
 #include "1_domain/System/System.hpp"
 #include "3_interface/JsonMessage/JsonMessage.hpp"
 #include <string>
+#include <vector>
 
 class mockMotorDC : public IMotorDC
 {
@@ -26,8 +27,9 @@ class mockServo : public IServoMotor
 {
 public:
     bool _res = true;
+    std::vector<Pos_hand> _calls;
     bool                goInitialPos()         override { return _res; }
-    bool                goTo(Pos_hand pos)     override { (void)pos; return _res; }
+    bool                goTo(Pos_hand pos)     override { _calls.push_back(pos); return _res; }
     ServoSelfTestResult selfTest()             override { return ServoSelfTestResult::OK; }
 };
 
@@ -185,6 +187,19 @@ void test_execute_initial_pos_fail()
     TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "INITIAL_POS").c_str(), sender._lastMsg.c_str());
 }
 
+void test_execute_initial_pos_passes_through_safe()
+{
+    mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
+    ArmController_UC arm(motor); HandController_UC hand(servo);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
+    SendToPi_UC sendUC(sender);
+    ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
+    System sys;
+    run_cmd(exec, sys, "INITIAL_POS");
+    TEST_ASSERT_TRUE(servo._calls.size() >= 1);
+    TEST_ASSERT_TRUE(servo._calls[0] == Pos_hand::SAFE);
+}
+
 void test_execute_ping()
 {
     mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
@@ -195,6 +210,64 @@ void test_execute_ping()
     System sys;
     run_cmd(exec, sys, "PING");
     TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("PONG", "PING").c_str(), sender._lastMsg.c_str());
+}
+
+void test_execute_position_c_passes_through_safe_when_arm_changes_height()
+{
+    mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
+    ArmController_UC arm(motor); HandController_UC hand(servo);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
+    SendToPi_UC sendUC(sender);
+    ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
+    System sys;
+    arm.joinPos(Pos::UP);
+    run_cmd(exec, sys, "POSITION_C");
+    TEST_ASSERT_EQUAL(2, servo._calls.size());
+    TEST_ASSERT_TRUE(servo._calls[0] == Pos_hand::SAFE);
+    TEST_ASSERT_TRUE(servo._calls[1] == Pos_hand::DOWN_A);
+    TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "POSITION_C").c_str(), sender._lastMsg.c_str());
+}
+
+void test_execute_position_b_skips_safe_when_no_height_change()
+{
+    mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
+    ArmController_UC arm(motor); HandController_UC hand(servo);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
+    SendToPi_UC sendUC(sender);
+    ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
+    System sys;
+    arm.joinPos(Pos::UP);
+    run_cmd(exec, sys, "POSITION_B");
+    TEST_ASSERT_EQUAL(1, servo._calls.size());
+    TEST_ASSERT_TRUE(servo._calls[0] == Pos_hand::UP_B);
+    TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", "POSITION_B").c_str(), sender._lastMsg.c_str());
+}
+
+void test_execute_position_a_from_unknown_passes_through_safe()
+{
+    mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
+    ArmController_UC arm(motor); HandController_UC hand(servo);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
+    SendToPi_UC sendUC(sender);
+    ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
+    System sys;
+    run_cmd(exec, sys, "POSITION_A");
+    TEST_ASSERT_EQUAL(2, servo._calls.size());
+    TEST_ASSERT_TRUE(servo._calls[0] == Pos_hand::SAFE);
+    TEST_ASSERT_TRUE(servo._calls[1] == Pos_hand::UP_A);
+}
+
+void test_execute_position_fail_when_arm_fails()
+{
+    mockMotorDC motor; mockServo servo; mockStepper stepper; mockSender sender;
+    motor._res = false;
+    ArmController_UC arm(motor); HandController_UC hand(servo);
+    PlateController_UC plate(stepper); TestHardware_UC hw(motor, servo, stepper, [](uint32_t) {});
+    SendToPi_UC sendUC(sender);
+    ExecuteCommand_UC exec(arm, hand, plate, sendUC, hw);
+    System sys;
+    run_cmd(exec, sys, "POSITION_A");
+    TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("FAIL", "POSITION_A").c_str(), sender._lastMsg.c_str());
 }
 
 int main(void)
@@ -209,6 +282,11 @@ int main(void)
     RUN_TEST(test_execute_plate_next);
     RUN_TEST(test_execute_initial_pos);
     RUN_TEST(test_execute_initial_pos_fail);
+    RUN_TEST(test_execute_initial_pos_passes_through_safe);
     RUN_TEST(test_execute_ping);
+    RUN_TEST(test_execute_position_c_passes_through_safe_when_arm_changes_height);
+    RUN_TEST(test_execute_position_b_skips_safe_when_no_height_change);
+    RUN_TEST(test_execute_position_a_from_unknown_passes_through_safe);
+    RUN_TEST(test_execute_position_fail_when_arm_fails);
     return UNITY_END();
 }

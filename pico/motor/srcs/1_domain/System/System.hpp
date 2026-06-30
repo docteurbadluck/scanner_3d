@@ -15,7 +15,8 @@ struct Commands
 													"TEST_HARDWARE",
                                                     "ARM_UP", "ARM_DOWN",
                                                     "CAM_A", "CAM_B", "CAM_C", "CAM_D",
-                                                    "PLATE_NEXT", "INITIAL_POS"};
+                                                    "PLATE_NEXT", "INITIAL_POS",
+	                                                "POSITION_A", "POSITION_B", "POSITION_C", "POSITION_D"};
 };
 
 

@@ -18,21 +18,20 @@ class mockPicoClient : public IPico
 {
 public:
     bool        _res = true;
-    bool        _armRes = true;
-    bool        _camRes = true;
+    bool        _positionRes = true;
     std::string _status = "{\"type\":\"state\",\"state\":\"READY\"}";
     std::string _lastCommand;
-    std::string _lastArmPose;
-    std::string _lastCamPose;
+    std::string _lastPositionCmd;
     int         _rotateCalls = 0;
     bool        _initialPosRes = true;
     int         _initialPosCalls = 0;
     bool        isReady()                               override { return _res; }
     bool        sendCommand(const std::string &cmd)     override { _lastCommand = cmd; return _res; }
-    bool        setCameraPosition(const std::string &p) override { _lastCamPose = p; return _camRes; }
-    bool        setArmPosition(const std::string &p)    override { _lastArmPose = p; return _armRes; }
+    bool        setCameraPosition(const std::string &)  override { return _res; }
+    bool        setArmPosition(const std::string &)     override { return _res; }
     bool        rotatePlateStep()                       override { _rotateCalls++; return _res; }
     bool        goInitialPos()                          override { _initialPosCalls++; return _initialPosRes; }
+    bool        goToPosition(const std::string &cmd)    override { _lastPositionCmd = cmd; return _positionRes; }
     std::string getPicoStatus()                         override { return _status; }
     std::string pingPico()                              override { return JsonMessage::makePingPicoResponse(0); }
     std::string testHardware()                          override { return "{}"; }
@@ -208,7 +207,7 @@ void test_execute_unknown_command()
     TEST_ASSERT_EQUAL_STRING(JsonMessage::makeError("INVALID_CMD").c_str(), sender._lastMsg.c_str());
 }
 
-static void run_position_test(const std::string &cmd, const char *armPose, const char *camPose)
+static void run_position_test(const std::string &cmd)
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
@@ -219,22 +218,21 @@ static void run_position_test(const std::string &cmd, const char *armPose, const
     ExecuteOrder_UC exec(capture, sendData, sendUC, pico);
     System sys;
     run_cmd(exec, sys, cmd);
-    TEST_ASSERT_EQUAL_STRING(armPose, pico._lastArmPose.c_str());
-    TEST_ASSERT_EQUAL_STRING(camPose, pico._lastCamPose.c_str());
+    TEST_ASSERT_EQUAL_STRING(cmd.c_str(), pico._lastPositionCmd.c_str());
     TEST_ASSERT_EQUAL_STRING(JsonMessage::makeResponse("DONE", cmd).c_str(), sender._lastMsg.c_str());
 }
 
-void test_execute_position_a() { run_position_test("POSITION_A", "ARM_UP", "CAM_A"); }
-void test_execute_position_b() { run_position_test("POSITION_B", "ARM_UP", "CAM_B"); }
-void test_execute_position_c() { run_position_test("POSITION_C", "ARM_DOWN", "CAM_C"); }
-void test_execute_position_d() { run_position_test("POSITION_D", "ARM_DOWN", "CAM_D"); }
+void test_execute_position_a() { run_position_test("POSITION_A"); }
+void test_execute_position_b() { run_position_test("POSITION_B"); }
+void test_execute_position_c() { run_position_test("POSITION_C"); }
+void test_execute_position_d() { run_position_test("POSITION_D"); }
 
-void test_execute_position_fail_when_arm_fails()
+void test_execute_position_fail()
 {
     mockPicoClient pico; mockCamera cam; mockDiskChecker disk;
     mockHttpUploader uploader; mockSender sender;
     mockAccelerometer acc1, acc2; VibrationMonitor_UC vib(acc1, acc2, [](uint32_t) {});
-    pico._armRes = false;
+    pico._positionRes = false;
     CaptureData_UC    capture(cam, disk, vib, [](uint32_t) {});
     SendPhotoToComputer_UC sendData(cam, uploader);
     SendToComputer_UC sendUC(sender);
@@ -319,7 +317,7 @@ int main(void)
     RUN_TEST(test_execute_position_b);
     RUN_TEST(test_execute_position_c);
     RUN_TEST(test_execute_position_d);
-    RUN_TEST(test_execute_position_fail_when_arm_fails);
+    RUN_TEST(test_execute_position_fail);
     RUN_TEST(test_execute_plate_next);
     RUN_TEST(test_execute_plate_next_fail);
     RUN_TEST(test_execute_initial_pos);
