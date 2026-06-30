@@ -7,8 +7,10 @@ private:
     IStepperMotor &_stepper;
     int            _current_step;
 
-    static constexpr int STEPS_PER_REVOLUTION = 36;
+    static constexpr int STEPS_PER_REVOLUTION = 10;
+    static constexpr int PULSES_PER_STEP      = 40;
 
+    bool _pulseOneStep();
     bool _rotateSteps(int steps);
 
 public:

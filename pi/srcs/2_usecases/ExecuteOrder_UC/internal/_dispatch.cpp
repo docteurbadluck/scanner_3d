@@ -6,6 +6,12 @@ int ExecuteOrder_UC::_dispatch(const std::string &cmd)
     if (cmd == "PING_PICO")       return _handlePingPico();
     if (cmd == "GET_PICO_STATUS") return _handleGetPicoStatus();
 	if (cmd == "TEST_HARDWARE")   return _handleTestHardware();
+    if (cmd == "PLATE_NEXT")      return _handlePlateNext();
+    if (cmd == "POSITION_A")      return _handlePositionA();
+    if (cmd == "POSITION_B")      return _handlePositionB();
+    if (cmd == "POSITION_C")      return _handlePositionC();
+    if (cmd == "POSITION_D")      return _handlePositionD();
+    if (cmd == "INITIAL_POS")     return _handleInitialPos();
     if (_isNoOp(cmd))             return 0;
     return -1;
 }

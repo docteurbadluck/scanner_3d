@@ -25,6 +25,16 @@ function handleTakePhotoResponse(data, refs) {
     refs.takePhotoRef.result = data.kind === 'DONE' ? 'OK ✓' : `FAIL: ${data.kind}`;
 }
 
+function handlePositionAck(data, refs) {
+    const ref = refs.positionRefs[data.command];
+    if (ref) ref.result = '…';
+}
+
+function handlePositionResponse(data, refs) {
+    const ref = refs.positionRefs[data.command];
+    if (ref) ref.result = data.kind === 'DONE' ? 'OK ✓' : `FAIL: ${data.kind}`;
+}
+
 function handleTestHardwareAck(refs) {
     refs.testHardwareRef.result = '…';
 }
@@ -53,6 +63,8 @@ function dispatch(data, refs, onUpdate) {
     if (data.type === 'response' && data.command === 'TAKE_PHOTO')    handleTakePhotoResponse(data, refs);
     if (data.type === 'ack'      && data.command === 'TEST_HARDWARE') handleTestHardwareAck(refs);
     if (data.type === 'response' && data.command === 'TEST_HARDWARE') handleTestHardwareResponse(data, refs);
+    if (data.type === 'ack'      && data.command in refs.positionRefs) handlePositionAck(data, refs);
+    if (data.type === 'response' && data.command in refs.positionRefs) handlePositionResponse(data, refs);
     if (data.type === 'error') handleError(data, refs);
     onUpdate(true);
 }

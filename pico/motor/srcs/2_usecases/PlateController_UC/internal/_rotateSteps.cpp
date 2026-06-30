@@ -4,7 +4,7 @@ bool PlateController_UC::_rotateSteps(int steps)
 {
     for (int i = 0; i < steps; i++)
     {
-        if (!_stepper.stepForward())
+        if (!_pulseOneStep())
         {
             _current_step = -1;
             return false;

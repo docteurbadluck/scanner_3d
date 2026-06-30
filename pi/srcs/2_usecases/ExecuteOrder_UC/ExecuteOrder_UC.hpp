@@ -18,6 +18,13 @@ private:
     int  _handlePingPico();
     int  _handleGetPicoStatus();
 	int	 _handleTestHardware();
+    int  _handlePlateNext();
+    int  _handlePosition(const std::string &armPose, const std::string &camPose);
+    int  _handlePositionA();
+    int  _handlePositionB();
+    int  _handlePositionC();
+    int  _handlePositionD();
+    int  _handleInitialPos();
     bool _isNoOp(const std::string &cmd) const;
 
 public:
