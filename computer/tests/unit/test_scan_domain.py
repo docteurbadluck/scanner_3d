@@ -3,7 +3,8 @@ from __future__ import annotations
 import pytest
 
 from srcs._1_domain.Scan.Scan import (
-    POSITIONS, SHOTS_PER_POSITION, ScanState, ScanStatus,
+    POSITIONS, SHOTS_PER_POSITION, POSITION_PAIRS, STEPS_PER_PAIR,
+    ScanState, ScanStatus,
     is_valid_scan_name, photo_filename, scan_state_from_dict, scan_state_to_dict,
 )
 
@@ -45,3 +46,5 @@ def test_scan_state_to_dict_fields() -> None:
 def test_constants() -> None:
     assert POSITIONS == ("A", "B", "C", "D")
     assert SHOTS_PER_POSITION == 10
+    assert POSITION_PAIRS == (("A", "B"), ("C", "D"))
+    assert STEPS_PER_PAIR == 10

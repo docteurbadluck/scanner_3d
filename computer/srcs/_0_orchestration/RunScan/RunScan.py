@@ -3,11 +3,11 @@ from __future__ import annotations
 import time
 
 from srcs._0_orchestration.RunScan.internal._broadcast_scan_state import _broadcast_scan_state
-from srcs._0_orchestration.RunScan.internal._run_position import _run_position
+from srcs._0_orchestration.RunScan.internal._run_position import _run_pair
 from srcs._0_orchestration.ScanOrchestrator.internal._send_and_await import send_and_await
 from srcs._0_orchestration.Session import Session
 from srcs._1_domain.Scan.Scan import (
-    POSITIONS, ScanState, ScanStatus,
+    POSITION_PAIRS, ScanState, ScanStatus,
     is_valid_scan_name, scan_state_from_dict, scan_state_to_dict,
 )
 from srcs._3_interface.IPiTransport import IPiTransport
@@ -40,12 +40,12 @@ class RunScan:
         try:
             await send_and_await(self._session, pi, "INITIAL_POS", 10.0)
             start_pos = state.position_index
-            for i in range(start_pos, len(POSITIONS)):
+            for i in range(start_pos, len(POSITION_PAIRS)):
                 state.position_index = i
                 if i > start_pos:
                     state.shot_index = 0
                 await _broadcast_scan_state(self._session, state)
-                await _run_position(state, pi, self._session, self._store)
+                await _run_pair(state, pi, self._session, self._store)
             await self._finish_ok(state, pi, round(time.monotonic() - started, 1))
         except Exception as exc:
             await self._handle_error(state, exc)

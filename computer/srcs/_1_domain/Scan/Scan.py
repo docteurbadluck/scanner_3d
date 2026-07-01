@@ -7,6 +7,8 @@ from typing import Any
 
 POSITIONS: tuple[str, ...] = ("A", "B", "C", "D")
 SHOTS_PER_POSITION: int = 10
+POSITION_PAIRS: tuple[tuple[str, str], ...] = (("A", "B"), ("C", "D"))
+STEPS_PER_PAIR: int = 10
 
 
 class ScanStatus(Enum):

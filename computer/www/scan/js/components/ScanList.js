@@ -18,7 +18,7 @@ class ScanList extends LitElement {
 
     _renderScan(scan) {
         const badge = STATUS_BADGE[scan.status] ?? html`<span class="badge badge-unknown">${scan.status}</span>`;
-        const progress = `${scan.position_index * 10 + scan.shot_index}/40`;
+        const progress = `${scan.position_index * 20 + scan.shot_index * 2}/40`;
         return html`
             <div class="flex items-center justify-between gap-3 py-2 border-b border-slate-700">
                 <span class="font-mono text-sm flex-1 text-left">${scan.name}</span>

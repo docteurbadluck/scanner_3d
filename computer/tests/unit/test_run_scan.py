@@ -9,7 +9,7 @@ from srcs._0_orchestration.RunScan import RunScan
 from srcs._0_orchestration.Session import Session
 from srcs._1_domain.PiMessages.PiMessages import PiResponse, PiResponseKind
 from srcs._1_domain.Scan.Scan import (
-    POSITIONS, SHOTS_PER_POSITION, ScanState, ScanStatus,
+    ScanState, ScanStatus,
     scan_state_from_dict, scan_state_to_dict,
 )
 from srcs._4_framework.ScanStore import ScanStore
@@ -45,9 +45,9 @@ async def test_happy_path_command_counts(tmp_path: Path) -> None:
     session = Session()
     pi = ScriptedPi(session)
     await RunScan(session, ScanStore(tmp_path)).start("scan", pi)
-    assert pi.sent.count("TAKE_PHOTO") == len(POSITIONS) * SHOTS_PER_POSITION
-    assert pi.sent.count("PLATE_NEXT") == len(POSITIONS) * (SHOTS_PER_POSITION - 1)
-    assert sum(1 for c in pi.sent if c.startswith("POSITION_")) == len(POSITIONS)
+    assert pi.sent.count("TAKE_PHOTO") == 40
+    assert pi.sent.count("PLATE_NEXT") == 18
+    assert sum(1 for c in pi.sent if c.startswith("POSITION_")) == 22
 
 
 async def test_happy_path_final_state_is_done(tmp_path: Path) -> None:
@@ -60,29 +60,29 @@ async def test_happy_path_final_state_is_done(tmp_path: Path) -> None:
 async def test_fail_on_take_photo_stores_failed_state(tmp_path: Path) -> None:
     session = Session()
     store = ScanStore(tmp_path)
-    # shots 1-10 of A succeed (1..10), shot 4 of B = the 14th TAKE_PHOTO
+    # Pair AB: step 7 (odd) → first=A (photo 13), second=B (photo 14) fails
     pi = ScriptedPi(session, fail_at_take_photo=14)
     await RunScan(session, store).start("scan", pi)
     state = scan_state_from_dict(store.load("scan"))
     assert state.status == ScanStatus.FAILED
-    assert state.position_index == 1
-    assert state.shot_index == 4
+    assert state.position_index == 0
+    assert state.shot_index == 7
 
 
 async def test_resume_from_failed_state(tmp_path: Path) -> None:
     session = Session()
     store = ScanStore(tmp_path)
-    failed = ScanState(name="scan", status=ScanStatus.FAILED, position_index=1, shot_index=4)
+    failed = ScanState(name="scan", status=ScanStatus.FAILED, position_index=0, shot_index=7)
     store.ensure_folders("scan")
     store.save("scan", scan_state_to_dict(failed))
 
     pi = ScriptedPi(session)
     await RunScan(session, store).resume("scan", pi)
 
-    # B shots 4-10 = 7, C = 10, D = 10
-    assert pi.sent.count("TAKE_PHOTO") == 7 + SHOTS_PER_POSITION * 2
-    assert "POSITION_B" in pi.sent
-    assert "POSITION_A" not in pi.sent
+    # Pair AB steps 7-10 = 8 photos, pair CD steps 1-10 = 20 photos
+    assert pi.sent.count("TAKE_PHOTO") == 28
+    assert "POSITION_A" in pi.sent
+    assert "POSITION_C" in pi.sent
     assert scan_state_from_dict(store.load("scan")).status == ScanStatus.DONE
 
 
