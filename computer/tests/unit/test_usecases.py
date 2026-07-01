@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import json
 from typing import AsyncIterator
 
@@ -30,6 +31,18 @@ class FakePi:
 
     async def send(self, message: str) -> None:
         self.sent.append(message)
+
+
+class FakeRunScan:
+    def __init__(self) -> None:
+        self.started: list[str] = []
+        self.resumed: list[str] = []
+
+    async def start(self, name: str, pi: object) -> None:
+        self.started.append(name)
+
+    async def resume(self, name: str, pi: object) -> None:
+        self.resumed.append(name)
 
 
 async def test_handle_incoming_replies_pong_on_ping() -> None:
@@ -131,3 +144,60 @@ async def test_handle_incoming_errors_on_invalid_shape() -> None:
     data = json.loads(connection.sent[0])
     assert data["type"] == "error"
     assert data["reason"] == "Invalid message shape"
+
+
+async def test_handle_incoming_start_scan_acks() -> None:
+    connection = FakeConnection()
+    run_scan = FakeRunScan()
+    pi = FakePi()
+    await handle_incoming(
+        connection,
+        '{"type": "start_scan", "name": "my-scan"}',
+        pi=pi,
+        run_scan=run_scan,
+    )
+    await asyncio.sleep(0)
+    assert any(json.loads(m)["type"] == "ack" for m in connection.sent)
+    assert "my-scan" in run_scan.started
+
+
+async def test_handle_incoming_start_scan_errors_without_pi() -> None:
+    connection = FakeConnection()
+    await handle_incoming(connection, '{"type": "start_scan", "name": "my-scan"}')
+    data = json.loads(connection.sent[0])
+    assert data["type"] == "error"
+
+
+async def test_handle_incoming_start_scan_errors_on_invalid_name() -> None:
+    connection = FakeConnection()
+    await handle_incoming(
+        connection,
+        '{"type": "start_scan", "name": "bad name!"}',
+        pi=FakePi(),
+        run_scan=FakeRunScan(),
+    )
+    data = json.loads(connection.sent[0])
+    assert data["type"] == "error"
+
+
+async def test_handle_incoming_continue_scan_acks() -> None:
+    connection = FakeConnection()
+    run_scan = FakeRunScan()
+    pi = FakePi()
+    await handle_incoming(
+        connection,
+        '{"type": "continue_scan", "name": "my-scan"}',
+        pi=pi,
+        run_scan=run_scan,
+    )
+    await asyncio.sleep(0)
+    assert any(json.loads(m)["type"] == "ack" for m in connection.sent)
+    assert "my-scan" in run_scan.resumed
+
+
+async def test_handle_connection_sends_scan_list_on_connect() -> None:
+    connection = FakeConnection()
+    scan_list_provider = lambda: [{"name": "s1", "status": "done", "position_index": 3, "shot_index": 10, "error": ""}]
+    await handle_connection(connection, scan_list_provider=scan_list_provider)
+    types = [json.loads(m)["type"] for m in connection.sent]
+    assert "scan_list" in types

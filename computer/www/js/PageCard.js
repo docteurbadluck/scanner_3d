@@ -4,6 +4,7 @@ import './YellowButton.js';
 const NAV_PAGES = [
     { id: 'home',         name: 'Home',         href: '/' },
     { id: 'status',       name: 'Status',       href: '/status/' },
+    { id: 'scan',         name: 'Scan',         href: '/scan/' },
     { id: 'metrics',      name: 'Metrics',      href: '/metrics/' },
     { id: 'productivity', name: 'Productivity', href: '/productivity/' },
     { id: 'complexity',   name: 'Complexity',   href: '/complexity/' },

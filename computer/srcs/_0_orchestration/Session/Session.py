@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from websockets.asyncio.server import ServerConnection
 
+from srcs._0_orchestration.Session.internal._pending_command import PendingCommand
 from srcs._1_domain.System import State
 
 
@@ -11,6 +12,8 @@ class Session:
         self._pi: ServerConnection | None = None
         self._state: State = State.INITIALIZATION
         self._pico_state: str | None = None
+        self._pending: PendingCommand = PendingCommand()
+        self._pending_upload: tuple[str, str, str] | None = None
 
     def add_browser(self, ws: ServerConnection) -> None:
         self._browsers.add(ws)
@@ -38,3 +41,14 @@ class Session:
 
     def pico_state(self) -> str | None:
         return self._pico_state
+
+    def pending(self) -> PendingCommand:
+        return self._pending
+
+    def set_pending_upload_target(self, scan: str, position: str, filename: str) -> None:
+        self._pending_upload = (scan, position, filename)
+
+    def take_pending_upload_target(self) -> tuple[str, str, str] | None:
+        target = self._pending_upload
+        self._pending_upload = None
+        return target

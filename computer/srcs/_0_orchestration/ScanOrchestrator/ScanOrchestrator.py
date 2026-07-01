@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any, Callable
+
 from websockets.asyncio.server import ServerConnection
 
 from srcs._1_domain.Messages import CommandMessage, PiConnectionMessage, _DebugMessage
@@ -8,6 +10,7 @@ from srcs._0_orchestration.ScanOrchestrator.internal._notify_browsers import _no
 from srcs._0_orchestration.ScanOrchestrator.internal._update_session import _update_session
 from srcs._3_interface.IHandleConnection import IHandleConnection
 from srcs._3_interface.IHandlePiMessage import IHandlePiMessage
+from srcs._3_interface.IRunScan import IRunScan
 from srcs._0_orchestration.Session import Session
 
 
@@ -17,10 +20,14 @@ class ScanOrchestrator:
         session: Session,
         handle_connection: IHandleConnection,
         handle_pi_message: IHandlePiMessage,
+        run_scan: IRunScan | None = None,
+        scan_list_provider: Callable[[], list[Any]] | None = None,
     ) -> None:
         self._session = session
         self._handle_connection = handle_connection
         self._handle_pi_message = handle_pi_message
+        self._run_scan = run_scan
+        self._scan_list_provider = scan_list_provider
 
     async def handle_browser(self, websocket: ServerConnection) -> None:
         self._session.add_browser(websocket)
@@ -30,6 +37,8 @@ class ScanOrchestrator:
                 pi_provider=self._session.pi,
                 state_provider=self._session.state,
                 pico_state_provider=self._session.pico_state,
+                run_scan=self._run_scan,
+                scan_list_provider=self._scan_list_provider,
             )
         finally:
             self._session.remove_browser(websocket)

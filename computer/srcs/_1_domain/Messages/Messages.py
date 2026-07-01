@@ -3,8 +3,10 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from typing import Any
 
 from srcs._1_domain.System import Commands, State
+from srcs._1_domain.Scan.Scan import ScanState, scan_state_to_dict
 
 
 @dataclass(frozen=True)
@@ -85,3 +87,22 @@ class _DebugMessage:
 
     def to_json(self) -> str:
         return json.dumps({"type": "debug", "raw": self.raw})
+
+
+@dataclass(frozen=True)
+class ScanStateMessage:
+    scan: ScanState
+
+    def to_json(self) -> str:
+        return json.dumps({"type": "scan_state", **scan_state_to_dict(self.scan)})
+
+
+@dataclass(frozen=True)
+class ScanListMessage:
+    scans: list[ScanState]
+
+    def to_json(self) -> str:
+        return json.dumps({
+            "type":  "scan_list",
+            "scans": [scan_state_to_dict(s) for s in self.scans],
+        })

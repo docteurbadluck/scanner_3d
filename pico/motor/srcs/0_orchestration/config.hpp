@@ -31,9 +31,9 @@ inline const ServoMotor_DriverPins SERVO_PINS
 inline const ServoMotor_DriverConfig SERVO_CONFIG
 {
     180.0f,    // angle_up_a_deg
-    165.0f,   // angle_up_b_deg
+    170.0f,   // angle_up_b_deg
     0.0f,   // angle_down_a_deg
-    15.0f,  // angle_down_b_deg
+    10.0f,  // angle_down_b_deg
     400,     // move_delay_ms
     80,      // current_threshold_adc (~65mV sur 3.3V/12bit)
     0.5f,    // shunt_ohms  (deux 1Ω en parallèle)

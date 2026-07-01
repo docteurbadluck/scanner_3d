@@ -6,6 +6,7 @@ from srcs._0_orchestration.Session import Session
 
 
 async def _update_session(session: Session, parsed: PiResponse) -> None:
+    session.pending().resolve_if_match(parsed)
     if parsed.kind == PiResponseKind.STATE:
         try:
             session.set_state(State(parsed.payload))
